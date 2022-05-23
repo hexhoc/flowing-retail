@@ -1,2 +1,4 @@
 rootProject.name = 'flowing-retail'
 include 'checkout'
+include 'inventory'
+include 'order-zeebe'

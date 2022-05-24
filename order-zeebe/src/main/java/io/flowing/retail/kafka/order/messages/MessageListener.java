@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
@@ -29,7 +28,7 @@ public class MessageListener {
 
   private final OrderRepository repository;
 
-  private final ZeebeClient zeebe;
+  private final ZeebeClient zeebeClient;
 
   private final ObjectMapper objectMapper;
 
@@ -67,8 +66,8 @@ public class MessageListener {
 
     // and kick of a new flow instance
     System.out.println("New order placed, start flow with " + context);
-    zeebe.newCreateInstanceCommand() //
-        .bpmnProcessId("order-kafka") //
+    zeebeClient.newCreateInstanceCommand() //
+        .bpmnProcessId("order-kafka") // run process in file ./resources/order-kafka.bpmn
         .latestVersion() // 
         .variables(context.asMap()) //
         .send().join();
@@ -79,11 +78,11 @@ public class MessageListener {
      // Here you would maybe we should read something from the payload:
     message.getData();
 
-    zeebe.newPublishMessageCommand() //
+    zeebeClient.newPublishMessageCommand() //
       .messageName(message.getType())
       .correlationKey(message.getCorrelationid())
       .variables(Collections.singletonMap("paymentInfo", "YeahWeCouldAddSomething"))
-      .send().join();  
+      .send().join();
 
     System.out.println("Correlated " + message);
   }
@@ -92,7 +91,7 @@ public class MessageListener {
   public void goodsFetchedReceived(Message<GoodsFetchedEventPayload> message) throws Exception {
     String pickId = message.getData().getPickId();     
 
-    zeebe.newPublishMessageCommand() //
+    zeebeClient.newPublishMessageCommand() //
         .messageName(message.getType()) //
         .correlationKey(message.getCorrelationid()) // 
         .variables(Collections.singletonMap("pickId", pickId)) //
@@ -106,7 +105,7 @@ public class MessageListener {
   public void goodsShippedReceived(Message<GoodsShippedEventPayload> message) throws Exception {
     String shipmentId = message.getData().getShipmentId();     
 
-    zeebe.newPublishMessageCommand() //
+    zeebeClient.newPublishMessageCommand() //
         .messageName(message.getType()) //
         .correlationKey(message.getCorrelationid()) //
         .variables(Collections.singletonMap("shipmentId", shipmentId)) //

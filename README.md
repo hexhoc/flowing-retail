@@ -4,12 +4,28 @@ This folder contains services written in Java that connect to Apache Kafka as me
 
 Tech stack:
 
-* Java 8
-* Spring Boot 2.6.x
+* Java 17
+* Spring Boot 2.7.x
 * Apache Kafka (and Spring Kafka)
 * Camunda Zeebe 8.x (and Spring Zeebe)
 
-![Microservices](../../docs/kafka-services.png)
+![Microservices](/docs/kafka-services.png)
+
+<!-- TODO If I have a business process running for several orders, how do I identify the specific business process that I need -->
+# How it is work (step by step)
+1. After everything has started up you are ready to visit the overview page [http://localhost:8099](http://localhost:8089)
+2. You can place an order via [http://localhost:8091](http://localhost:8091)
+3. **checkout** service. Rest api controller get query, create new order and send this order in topic **"flowing-retail"**
+4. **order-zeebe** service. Listen **flowing-retail** topic and get order message, check type of message, and save order in db
+5. **order-zeebe** service. Start bussines process with name "order-kafka" (/resource/order-kafka.bpmn). Send start proccess to using zeebe client to zeebe contatiner (zeebe:26500).
+6. **order-zeebe** service. BPMN start new event **Retrieve payment** @ZeebeWorker in **RetrievePaymentAdapter** class get control, create instance of **RetrievePaymentCommandPayload** with order id and sum and send it to topic **flowing-retail**
+7. **order-zeebe** service. Listen **flowing-retail** topic and get **RetrievePaymentCommandPayload** message. Send message to BPM **"order-kafka"**, with messageName: **"RetrievePaymentCommand"** that payment receive. 
+8. **order-zeebe** service. BPM start next event **fetch-goods**.  @ZeebeWorker in **FetchGoodsAdapter** class get control, create instance of **FetchGoodsCommandPayload** class set message type **FetchGoodsCommand** and send to **flowing-retail** topic
+9. **order-zeebe** service. Listen **flowing-retail** topic and get **FetchGoodsCommandPayload** message. Send message to BPM **"order-kafka"**, with messageName: **"FetchGoodsCommand"**
+10. **order-zeebe** service. BPM start next event **ship-goods**.  @ZeebeWorker in **ShipGoodsAdapter** class get control, create instance of **ShipGoodsCommandPayload** class set message type **ShipGoodsCommand** and send to **flowing-retail** topic
+11. **order-zeebe** service. Listen **flowing-retail** topic and get **ShipGoodsCommandPayload** message. Send message to BPM **"order-kafka"**, with messageName: **"ShipGoodsCommand"**
+
+
 
 # Run the application
 
@@ -95,3 +111,4 @@ checkout/io.flowing.retail.java.CheckoutApplication
 * Now you can place an order via [http://localhost:8091](http://localhost:8091)
 * You can inspect processes via Camunda Operate on [http://localhost:8081](http://localhost:8081)
 * You can inspect all events going on via [http://localhost:8095](http://localhost:8095)
+

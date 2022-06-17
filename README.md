@@ -1,15 +1,35 @@
-# Flowing Retail / Apache Kafka / Java
+# Flowing Retail / Apache Kafka
 
-This folder contains services written in Java that connect to Apache Kafka as means of communication between the services.
+This folder contains services that connect to Apache Kafka as means of communication between the services.
 
-Tech stack:
+![Microservices](docs/kafka-services.png)
 
-* Java 17
-* Spring Boot 2.7.x
-* Apache Kafka (and Spring Kafka)
-* Camunda Zeebe 8.x (and Spring Zeebe)
+The nice thing about this architecture is, that Kafka is the only common denominator. For every service you can freely decide for
 
-![Microservices](/docs/kafka-services.png)
+* **programming language** and
+* **workflow engine**.
+
+## Concrete technologies/frameworks:
+
+### Java
+
+* Java 11
+* Spring Boot 2.1.x
+* Spring Cloud Streams
+
+And of course
+* Apache Kafka
+* Camunda or Zeebe
+
+## Communication of services
+
+The services have to collaborate in order to implement the overall business capability of order fulfillment. This example focues on:
+
+* *Asynchronous* communication via Apache Kafka
+* *Event-driven* wherever appropriate
+* Sending *Commands* in cases you want somebody to do something, which involves that events need to be transformed into events from the component responsible for, which in our case is the Order service:
+
+![Events and Commands](docs/event-command-transformation.png)
 
 <!-- TODO If I have a business process running for several orders, how do I identify the specific business process that I need -->
 # How it is work (step by step)
@@ -19,12 +39,11 @@ Tech stack:
 4. **order-zeebe** service. Listen **flowing-retail** topic and get order message, check type of message, and save order in db
 5. **order-zeebe** service. Start bussines process with name "order-kafka" (/resource/order-kafka.bpmn). Send start proccess to using zeebe client to zeebe contatiner (zeebe:26500).
 6. **order-zeebe** service. BPMN start new event **Retrieve payment** @ZeebeWorker in **RetrievePaymentAdapter** class get control, create instance of **RetrievePaymentCommandPayload** with order id and sum and send it to topic **flowing-retail**
-7. **order-zeebe** service. Listen **flowing-retail** topic and get **RetrievePaymentCommandPayload** message. Send message to BPM **"order-kafka"**, with messageName: **"RetrievePaymentCommand"** that payment receive. 
+7. **order-zeebe** service. Listen **flowing-retail** topic and get **RetrievePaymentCommandPayload** message. Send message to BPM **"order-kafka"**, with messageName: **"RetrievePaymentCommand"** that payment receive.
 8. **order-zeebe** service. BPM start next event **fetch-goods**.  @ZeebeWorker in **FetchGoodsAdapter** class get control, create instance of **FetchGoodsCommandPayload** class set message type **FetchGoodsCommand** and send to **flowing-retail** topic
 9. **order-zeebe** service. Listen **flowing-retail** topic and get **FetchGoodsCommandPayload** message. Send message to BPM **"order-kafka"**, with messageName: **"FetchGoodsCommand"**
 10. **order-zeebe** service. BPM start next event **ship-goods**.  @ZeebeWorker in **ShipGoodsAdapter** class get control, create instance of **ShipGoodsCommandPayload** class set message type **ShipGoodsCommand** and send to **flowing-retail** topic
 11. **order-zeebe** service. Listen **flowing-retail** topic and get **ShipGoodsCommandPayload** message. Send message to BPM **"order-kafka"**, with messageName: **"ShipGoodsCommand"**
-
 
 
 # Run the application
@@ -60,7 +79,7 @@ docker-compose -f docker-compose-kafka-java-orchestrated.yml up
 * You can inspect processes via Camunda Operate on [http://localhost:8081](http://localhost:8081)
 * You can inspect all events going on via [http://localhost:8095](http://localhost:8095)
 
-If you like you can connect to Kafka from your local Docker host machine too. 
+If you like you can connect to Kafka from your local Docker host machine too.
 
 Note that there are a couple of other docker-compose files available too, e.g. to play around with the choreography.
 

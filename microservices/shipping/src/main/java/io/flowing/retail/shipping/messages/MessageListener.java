@@ -33,6 +33,8 @@ public class MessageListener {
               message.getData().getRecipientAddress(), //
               message.getData().getLogisticsProvider());
 
+      Thread.sleep(20_000);
+
       messageSender.send( //
               new Message<GoodsShippedEventPayload>( //
                       "GoodsShippedEvent", //

@@ -29,7 +29,9 @@ public class MessageListener {
     RetrievePaymentCommandPayload retrievePaymentCommand = message.getData();
     
     System.out.println("Retrieve payment: " + retrievePaymentCommand.getAmount() + " for " + retrievePaymentCommand.getRefId());
-    
+
+    Thread.sleep(20_000);
+
     messageSender.send( //
         new Message<PaymentReceivedEventPayload>( //
             "PaymentReceivedEvent", //

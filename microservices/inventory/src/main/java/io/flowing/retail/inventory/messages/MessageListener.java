@@ -31,6 +31,8 @@ public class MessageListener {
       String pickId = inventoryService.pickItems( //
               fetchGoodsCommand.getItems(), fetchGoodsCommand.getReason(), fetchGoodsCommand.getRefId());
 
+      Thread.sleep(20_000);
+
       messageSender.send( //
               new Message<GoodsFetchedEventPayload>( //
                       "GoodsFetchedEvent", //

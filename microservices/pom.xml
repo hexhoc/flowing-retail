@@ -12,7 +12,6 @@
 	</build>
 
 	<modules>
-		<module>checkout</module>
 		<module>order-zeebe</module>
 		<module>payment</module>
 		<!--		<module>payment-camunda</module>-->

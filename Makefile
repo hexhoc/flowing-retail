@@ -48,7 +48,6 @@ status:
 	cd docker-compose && docker compose -p ${IMAGE_PREFIX} ps
 
 build-images:
-	cd microservices/checkout && docker build -t ${REPOSITORY}/flowing-retail-kafka-checkout .
 	cd microservices/inventory && docker build -t ${REPOSITORY}/flowing-retail-kafka-inventory .
 	cd microservices/monitor && docker build -t ${REPOSITORY}/flowing-retail-kafka-monitor .
 	cd microservices/order-zeebe && docker build -t ${REPOSITORY}/flowing-retail-kafka-order-zeebe .

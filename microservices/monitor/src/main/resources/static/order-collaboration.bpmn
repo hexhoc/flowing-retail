@@ -52,7 +52,7 @@
       <bpmn:incoming>SequenceFlow_1ve1quz</bpmn:incoming>
       <bpmn:messageEventDefinition />
     </bpmn:endEvent>
-    <bpmn:task id="CustomerCreditUsedEvent" name="Deduct from customer credit">
+    <bpmn:task id="CustomerCreditUsedEvent" name="Deduct from customerDto credit">
       <bpmn:incoming>SequenceFlow_1f6v63w</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1jyisns</bpmn:outgoing>
     </bpmn:task>

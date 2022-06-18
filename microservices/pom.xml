@@ -7,22 +7,20 @@
 	<packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<build>
+		<defaultGoal>clean install</defaultGoal>
+	</build>
+
 	<modules>
 		<module>checkout</module>
 		<module>order-zeebe</module>
 		<module>payment</module>
-<!--		<module>payment-camunda</module>-->
+		<!--		<module>payment-camunda</module>-->
 		<module>inventory</module>
-<!--		<module>shipping</module>-->
-
-<!--		<module>choreography-alternative</module>-->
-<!--		<module>camunda-optimize-ingest</module>-->
-
-<!--		<module>monitor</module>-->
+		<module>shipping</module>
+		<!--		<module>camunda-optimize-ingest</module>-->
+		<!--		<module>choreography-alternative</module>-->
+		<module>monitor</module>
 	</modules>
-
-	<build>
-		<defaultGoal>clean install</defaultGoal>		
-	</build>
 
 </project>

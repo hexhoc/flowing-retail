@@ -10,8 +10,8 @@ import java.util.UUID;
 public class OrderDto {
   
   private String orderId = "checkout-generated-" + UUID.randomUUID().toString();
-  private CustomerDto customerDto;
-  private List<OrderItemDto> itemDtoList = new ArrayList<>();
+  private CustomerDto customer;
+  private List<OrderItemDto> items = new ArrayList<>();
   
   public void addItem(String articleId, int amount) {
     // keep only one item, but increase amount accordingly
@@ -23,13 +23,13 @@ public class OrderDto {
     OrderItemDto itemDto = new OrderItemDto();
     itemDto.setAmount(amount);
     itemDto.setArticleId(articleId);
-    itemDtoList.add(itemDto);
+    items.add(itemDto);
   }
 
   public OrderItemDto removeItem(String articleId) {
-    for (OrderItemDto itemDto : itemDtoList) {
+    for (OrderItemDto itemDto : items) {
       if (articleId.equals(itemDto.getArticleId())) {
-        itemDtoList.remove(itemDto);
+        items.remove(itemDto);
         return itemDto;
       }
     }

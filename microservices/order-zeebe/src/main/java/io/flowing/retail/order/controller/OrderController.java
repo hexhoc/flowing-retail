@@ -10,11 +10,16 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class OrderController {
 
   private final OrderService  orderService;
   private final OrderMapper orderMapper;
 
+  @GetMapping("/api/test")
+  public ResponseEntity<String> testGet() {
+    return ResponseEntity.ok("HELLO");
+  }
   @PostMapping(path = "/api/cart/order")
   public ResponseEntity<Order> OrderPost(@RequestBody OrderDto orderDto) {
     Order order = orderService.createOrder(orderMapper.toModel(orderDto));

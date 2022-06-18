@@ -53,11 +53,11 @@ Place your order: <br />
     var count = 0;
     var order = {
         "orderId": null,
-        "customerDto": {
+        "customer": {
             "name": "John Tompson",
             "address": "Germany, seasam street, 21"
         },
-        "itemDtoList": [
+        "items": [
             {
                 "articleId": "article_1",
                 "amount": 5
@@ -70,14 +70,14 @@ Place your order: <br />
     }
     function placeOrder() {
         $.ajax({
-            url: "http://order:8091/api/cart/order",
+            url: "http://localhost:8091/api/cart/order",
             type: "post",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(order)
         }).done(function(result) {
             count = count+1;
-            $('#thanks').html('Thank you for order #' + count + '.<br>Result: <b>' + JSON.parse(result) + '</b>');
+            $('#thanks').html('Thank you for order #' + count + '.<br>Order id: <b>' + result.orderId + '</b>');
         })
     }
 </script>

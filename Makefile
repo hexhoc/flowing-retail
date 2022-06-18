@@ -3,7 +3,7 @@
 # Author: Vladislav Zhuravskiy <hexhoc@gmail.com>
 #
 .DEFAULT_GOAL:=help
-IMAGE_PREFIX=frz
+IMAGE_PREFIX=flowing-retail
 REPOSITORY=hexhoc
 DOCKER_NETWORK=flowing-retail-network
 
@@ -38,7 +38,7 @@ build:
 	cd microservices && mvn clean install
 
 run:
-	cd docker-compose && docker compose -p ${IMAGE_PREFIX} up
+	cd docker-compose && docker compose -p ${IMAGE_PREFIX} up -d --build
 
 up: build run
 

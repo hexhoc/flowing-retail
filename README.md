@@ -14,8 +14,8 @@ The nice thing about this architecture is, that Kafka is the only common denomin
 ### Java
 
 * Java 11
-* Spring Boot 2.1.x
-* Spring Cloud Streams
+* Spring Boot 2.6.x
+* Maven
 
 And of course
 * Apache Kafka
@@ -31,8 +31,8 @@ The services have to collaborate in order to implement the overall business capa
 
 ![Events and Commands](docs/event-command-transformation.png)
 
-<!-- TODO If I have a business process running for several orders, how do I identify the specific business process that I need -->
 # How it is work (step by step)
+![Workflow](docs/architecture-flowing-retail.png)
 1. After everything has started up you are ready to visit the overview page [http://localhost:8099](http://localhost:8089)
 2. You can place an order via [http://localhost:8091](http://localhost:8091)
 3. **checkout** service. Rest api controller get query, create new order and send this order in topic **"flowing-retail"**
@@ -74,53 +74,6 @@ After that:
 If you like you can connect to Kafka from your local Docker host machine too.
 
 Note that there are a couple of other docker-compose files available too, e.g. to play around with the choreography.
-
-## Manual start (Kafka, mvn exec:java)
-
-* Download or clone the source code
-* Run a full maven build
-
-```
-cd kafka/java
-mvn install
-```
-
-* Install and start Kafka on the standard port
-* Create topic *"flowing-retail"*
-
-```
-kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic flowing-retail
-```
-
-* You can check & query all topics by:
-
-```
-kafka-topics.sh --list --zookeeper localhost:2181
-```
-
-* Startup your Zeebe broker as described in [Install Zeebe](https://docs.camunda.io/docs/self-managed/platform-deployment/). As an alternative you could also use [Camunda Platform 8 SaaS](https://camunda.com/get-started/)
-
-* Start the different microservices components by Spring Boot one by one, e.g.
-
-```
-mvn -f checkout exec:java
-mvn -f order-zeebe exec:java
-...
-```
-
-Here you could easily switch to use order-zeebe instead.
-
-You can also import the projects into your favorite IDE and start the following class yourself:
-
-```
-checkout/io.flowing.retail.java.CheckoutApplication
-...
-```
-
-* Now you can place an order via [http://localhost:8091](http://localhost:8091)
-* You can inspect processes via Camunda Operate on [http://localhost:8081](http://localhost:8081)
-* You can inspect all events going on via [http://localhost:8095](http://localhost:8095)
-
 
 ## Hint on using Camunda License
 

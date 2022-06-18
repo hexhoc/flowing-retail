@@ -48,7 +48,7 @@ services:
       - zeebe
     environment:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-      - ZEEBE_CLIENT_BROKER_GATEWAY-ADDRESS=zeebe:26500
+      - ZEEBE_CLIENT_BROKER_GATEWAY_ADDRESS=zeebe:26500
 
   payment:
     image: hexhoc/flowing-retail-kafka-payment

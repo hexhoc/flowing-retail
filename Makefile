@@ -13,19 +13,18 @@ help:
 	@echo '  Usage:'
 	@echo '    make <target>'
 	@echo ''
-	@echo '  Common Targets:'
-	@echo ' 	create-network 		Create the Docker network for the containers'
-	@echo ' 	build 				Build all images from Dockerfiles'
-	@echo ' 	run 				Start all containers needed to run the system'
-	@echo '		up 					build + run'
-	@echo ' 	stop 				for containers'
-	@echo '		restart				stop + run'
-	@echo ' 	status 				Retrieve the status of the containers'
+	@echo 'Common Targets:'
+	@echo '	create-network		Create the Docker network for the containers'
+	@echo '	build-images		Build all images from Dockerfiles'
+	@echo '	up			Start all containers needed to run the system'
+	@echo '	stop			Stop all containers'
+	@echo '	restart			Stop + run'
+	@echo '	status			Retrieve the status of the containers'
 	@echo ''
-	@echo '	Clean Targets:'
-	@echo '		clean-network 		Delete the Docker network'
-	@echo '		clean-images 		Deletes the created images'
-	@echo '		clean-orphan-images Removes orphan images'
+	@echo 'Clean Targets:'
+	@echo '	clean-network		Delete the Docker network'
+	@echo '	clean-images		Deletes the created containers and images'
+	@echo '	clean-orphan-images	Removes orphan images'
 	@echo ''
 
 create-network:
@@ -37,10 +36,8 @@ endif
 build:
 	cd microservices && mvn clean install
 
-run:
+up:
 	cd docker-compose && docker compose -p ${IMAGE_PREFIX} up -d --build
-
-up: build run
 
 stop:
 	cd docker-compose && docker compose -p ${IMAGE_PREFIX} stop

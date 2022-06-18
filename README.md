@@ -63,7 +63,7 @@ In root of project start run next command:
 ```make build build-images run```
 * **build** - create artifact (jar files) for each service
 * **build-images** - packing all artifact in docker image
-* **run** - start docker-compose build
+* **up** - start docker-compose build
 
 After that:
 * After everything has started up you are ready to visit the overview page [http://localhost:8099](http://localhost:8089)

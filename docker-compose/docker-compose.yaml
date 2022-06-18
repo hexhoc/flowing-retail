@@ -1,4 +1,4 @@
-version: "2"
+version: '3.8'
 
 services:
   zookeeper:
@@ -14,6 +14,8 @@ services:
   kafka:
     image: "confluentinc/cp-kafka:latest"
     hostname: kafka
+    depends_on:
+      - zookeeper
     networks:
       - flowing
     ports:
@@ -27,7 +29,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   checkout:
-    image: flowingretail/kafka-java-checkout
+    image: hexhoc/flowing-retail-kafka-checkout
     networks:
       - flowing
     ports:
@@ -38,7 +40,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
   order:
-    image: flowingretail/kafka-java-order-zeebe
+    image: hexhoc/flowing-retail-kafka-order-zeebe
     networks:
       - flowing
     depends_on:
@@ -49,7 +51,7 @@ services:
       - ZEEBE_CLIENT_BROKER_GATEWAY-ADDRESS=zeebe:26500
 
   payment:
-    image: flowingretail/kafka-java-payment
+    image: hexhoc/flowing-retail-kafka-payment
     networks:
       - flowing
     depends_on:
@@ -58,7 +60,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
   inventory:
-    image: flowingretail/kafka-java-inventory
+    image: hexhoc/flowing-retail-kafka-inventory
     networks:
       - flowing
     depends_on:
@@ -67,7 +69,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
   shipping:
-    image: flowingretail/kafka-java-shipping
+    image: hexhoc/flowing-retail-kafka-shipping
     networks:
       - flowing
     depends_on:
@@ -76,7 +78,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
   monitor:
-    image: flowingretail/kafka-java-monitor
+    image: hexhoc/flowing-retail-kafka-monitor
     networks:
       - flowing
     ports:
@@ -86,8 +88,8 @@ services:
     environment:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
-  docs:
-    image: flowingretail/docs
+  frontend:
+    image: hexhoc/flowing-retail-kafka-frontend
     networks:
       - flowing
     ports:

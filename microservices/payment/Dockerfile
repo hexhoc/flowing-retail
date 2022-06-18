@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk-alpine
+FROM adoptopenjdk:11
 VOLUME /tmp
 ADD target/*.jar app.jar
 ENV JAVA_OPTS=""

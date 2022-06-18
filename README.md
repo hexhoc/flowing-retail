@@ -56,27 +56,16 @@ You can either
 * Docker Compose with pre-built images from Docker Hub (simplest)
 * Build (Maven) and start manually (including Zookeeper, Kafka)
 
+## Docker Compose
 
-## Hint on using Camunda License
+In root of project start run next command:
 
-The core components of Camunda are source available and free to use, but the operations tool Camunda Operate is only free for non-production use.
+```make build build-images run```
+* **build** - create artifact (jar files) for each service
+* **build-images** - packing all artifact in docker image
+* **run** - start docker-compose build
 
-
-## Docker Compose with pre-build Docker images
-
-* Download [docker-compose-kafka-java-order-camunda.yml](../../runner/docker-compose/docker-compose-kafka-java-orchestrated.yml) or clone this repo and goto [docker-compose/](../../runner/docker-compose/)
-* Goto directory where you downloaded this file
-
-```
-cd docker-compose
-```
-
-* Start using docker compose:
-
-```
-docker-compose -f docker-compose-kafka-java-orchestrated.yml up
-```
-
+After that:
 * After everything has started up you are ready to visit the overview page [http://localhost:8099](http://localhost:8089)
 * You can place an order via [http://localhost:8091](http://localhost:8091)
 * You can inspect processes via Camunda Operate on [http://localhost:8081](http://localhost:8081)
@@ -85,8 +74,6 @@ docker-compose -f docker-compose-kafka-java-orchestrated.yml up
 If you like you can connect to Kafka from your local Docker host machine too.
 
 Note that there are a couple of other docker-compose files available too, e.g. to play around with the choreography.
-
-
 
 ## Manual start (Kafka, mvn exec:java)
 
@@ -134,3 +121,7 @@ checkout/io.flowing.retail.java.CheckoutApplication
 * You can inspect processes via Camunda Operate on [http://localhost:8081](http://localhost:8081)
 * You can inspect all events going on via [http://localhost:8095](http://localhost:8095)
 
+
+## Hint on using Camunda License
+
+The core components of Camunda are source available and free to use, but the operations tool Camunda Operate is only free for non-production use.

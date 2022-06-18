@@ -4,6 +4,7 @@
 #
 .DEFAULT_GOAL:=help
 IMAGE_PREFIX=frz
+REPOSITORY=hexhoc
 DOCKER_NETWORK=flowing-retail-network
 
 # show some help
@@ -13,18 +14,18 @@ help:
 	@echo '    make <target>'
 	@echo ''
 	@echo '  Common Targets:'
-	@echo '    create-network       Crea la red de Docker para los contenedores'
-	@echo '    build                Construye todas las imágenes a partir de los Dockerfiles'
-	@echo '    run                  Arranca todos los contenedores necesarios para ejecutar el sistema'
-	@echo '    up                   build + run'
-	@echo '    stop                 Para los contenedores'
-	@echo '    restart              stop + run'
-	@echo '    status               Recupera el estado de los contenedores'
+	@echo ' 	create-network 		Create the Docker network for the containers'
+	@echo ' 	build 				Build all images from Dockerfiles'
+	@echo ' 	run 				Start all containers needed to run the system'
+	@echo '		up 					build + run'
+	@echo ' 	stop 				for containers'
+	@echo '		restart				stop + run'
+	@echo ' 	status 				Retrieve the status of the containers'
 	@echo ''
-	@echo '  Clean Targets:'
-	@echo '    clean-network        Borra la red Docker'
-	@echo '    clean-images         Borra las imágenes creadas'
-	@echo '    clean-orphan-images  Elimina las imágenes huérfanas'
+	@echo '	Clean Targets:'
+	@echo '		clean-network 		Delete the Docker network'
+	@echo '		clean-images 		Deletes the created images'
+	@echo '		clean-orphan-images Removes orphan images'
 	@echo ''
 
 create-network:
@@ -35,23 +36,31 @@ endif
 
 build:
 	cd microservices && mvn clean install
-	cd microservices/checkout && docker build -t hexhoc/kbe-coffeehouse-coffee-service .
 
 run:
-	@docker-compose -p ${IMAGE_PREFIX} up
+	cd docker-compose && docker compose -p ${IMAGE_PREFIX} up
 
 up: build run
 
 stop:
-	@docker-compose -p ${IMAGE_PREFIX} stop
+	cd docker-compose && docker compose -p ${IMAGE_PREFIX} stop
 
 restart: stop run
 
 status:
-	@docker-compose -p ${IMAGE_PREFIX} ps
+	cd docker-compose && docker compose -p ${IMAGE_PREFIX} ps
+
+build-images:
+	cd microservices/checkout && docker build -t ${REPOSITORY}/flowing-retail-kafka-checkout .
+	cd microservices/inventory && docker build -t ${REPOSITORY}/flowing-retail-kafka-inventory .
+	cd microservices/monitor && docker build -t ${REPOSITORY}/flowing-retail-kafka-monitor .
+	cd microservices/order-zeebe && docker build -t ${REPOSITORY}/flowing-retail-kafka-order-zeebe .
+	cd microservices/payment && docker build -t ${REPOSITORY}/flowing-retail-kafka-payment .
+	cd microservices/shipping && docker build -t ${REPOSITORY}/flowing-retail-kafka-shipping .
+	cd microservices/frontend && docker build -t ${REPOSITORY}/flowing-retail-kafka-frontend .
 
 clean-images:
-	@docker-compose -p ${IMAGE_PREFIX} down --rmi local
+	cd docker-compose && docker compose -p ${IMAGE_PREFIX} down --rmi local
 
 clean-orphan-images:
 	@docker rmi $(docker images --quiet --filter "dangling=true")

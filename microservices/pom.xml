@@ -14,7 +14,7 @@
 	<modules>
 		<module>order-zeebe</module>
 		<module>payment</module>
-		<!--		<module>payment-camunda</module>-->
+		<module>gateway-service</module>
 		<module>inventory</module>
 		<module>shipping</module>
 		<!--		<module>camunda-optimize-ingest</module>-->

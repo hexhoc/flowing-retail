@@ -48,12 +48,13 @@ status:
 	cd docker-compose && docker compose -p ${IMAGE_PREFIX} ps
 
 build-images:
-	cd microservices/inventory && docker build -t ${REPOSITORY}/flowing-retail-kafka-inventory .
-	cd microservices/monitor && docker build -t ${REPOSITORY}/flowing-retail-kafka-monitor .
-	cd microservices/order-zeebe && docker build -t ${REPOSITORY}/flowing-retail-kafka-order-zeebe .
-	cd microservices/payment && docker build -t ${REPOSITORY}/flowing-retail-kafka-payment .
-	cd microservices/shipping && docker build -t ${REPOSITORY}/flowing-retail-kafka-shipping .
-	cd microservices/frontend && docker build -t ${REPOSITORY}/flowing-retail-kafka-frontend .
+	cd microservices/gateway-service && docker build -t ${REPOSITORY}/flowing-retail-gateway-service .
+	cd microservices/inventory && docker build -t ${REPOSITORY}/flowing-retail-inventory .
+	cd microservices/monitor && docker build -t ${REPOSITORY}/flowing-retail-monitor .
+	cd microservices/order-zeebe && docker build -t ${REPOSITORY}/flowing-retail-order-zeebe .
+	cd microservices/payment && docker build -t ${REPOSITORY}/flowing-retail-payment .
+	cd microservices/shipping && docker build -t ${REPOSITORY}/flowing-retail-shipping .
+	cd microservices/frontend && docker build -t ${REPOSITORY}/flowing-retail-frontend .
 
 clean-images:
 	cd docker-compose && docker compose -p ${IMAGE_PREFIX} down --rmi local

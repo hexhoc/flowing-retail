@@ -28,8 +28,15 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
+  gateway-service:
+    image: hexhoc/flowing-retail-gateway-service
+    networks:
+      - flowing
+    ports:
+      - "8072:8072"
+
   order:
-    image: hexhoc/flowing-retail-kafka-order-zeebe
+    image: hexhoc/flowing-retail-order-zeebe
     networks:
       - flowing
     ports:
@@ -42,7 +49,7 @@ services:
       - ZEEBE_CLIENT_BROKER_GATEWAY_ADDRESS=zeebe:26500
 
   payment:
-    image: hexhoc/flowing-retail-kafka-payment
+    image: hexhoc/flowing-retail-payment
     networks:
       - flowing
     depends_on:
@@ -51,7 +58,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
   inventory:
-    image: hexhoc/flowing-retail-kafka-inventory
+    image: hexhoc/flowing-retail-inventory
     networks:
       - flowing
     depends_on:
@@ -60,7 +67,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
   shipping:
-    image: hexhoc/flowing-retail-kafka-shipping
+    image: hexhoc/flowing-retail-shipping
     networks:
       - flowing
     depends_on:
@@ -69,7 +76,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
   monitor:
-    image: hexhoc/flowing-retail-kafka-monitor
+    image: hexhoc/flowing-retail-monitor
     networks:
       - flowing
     ports:
@@ -80,7 +87,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
   frontend:
-    image: hexhoc/flowing-retail-kafka-frontend
+    image: hexhoc/flowing-retail-frontend
     networks:
       - flowing
     ports:

@@ -49,11 +49,11 @@ status:
 
 build-images:
 	cd microservices/gateway-service && docker build -t ${REPOSITORY}/flowing-retail-gateway-service .
-	cd microservices/inventory && docker build -t ${REPOSITORY}/flowing-retail-inventory .
-	cd microservices/monitor && docker build -t ${REPOSITORY}/flowing-retail-monitor .
-	cd microservices/order-zeebe && docker build -t ${REPOSITORY}/flowing-retail-order-zeebe .
-	cd microservices/payment && docker build -t ${REPOSITORY}/flowing-retail-payment .
-	cd microservices/shipping && docker build -t ${REPOSITORY}/flowing-retail-shipping .
+	cd microservices/inventory-service && docker build -t ${REPOSITORY}/flowing-retail-inventory-service .
+	cd microservices/monitor-service && docker build -t ${REPOSITORY}/flowing-retail-monitor-service .
+	cd microservices/order-service && docker build -t ${REPOSITORY}/flowing-retail-order-service .
+	cd microservices/payment-service && docker build -t ${REPOSITORY}/flowing-retail-payment-service .
+	cd microservices/shipping-service && docker build -t ${REPOSITORY}/flowing-retail-shipping-service .
 	cd microservices/frontend && docker build -t ${REPOSITORY}/flowing-retail-frontend .
 
 clean-images:

@@ -3,6 +3,7 @@ version: '3.8'
 services:
   zookeeper:
     image: "confluentinc/cp-zookeeper:latest"
+    container_name: zookeeper
     hostname: zookeeper
     networks:
       - flowing
@@ -13,6 +14,7 @@ services:
 
   kafka:
     image: "confluentinc/cp-kafka:latest"
+    container_name: kafka
     hostname: kafka
     depends_on:
       - zookeeper
@@ -30,13 +32,15 @@ services:
 
   gateway-service:
     image: hexhoc/flowing-retail-gateway-service
+    container_name: gateway-service
     networks:
       - flowing
     ports:
       - "8072:8072"
 
-  order:
-    image: hexhoc/flowing-retail-order-zeebe
+  order-service:
+    image: hexhoc/flowing-retail-order-service
+    container_name: order-service
     networks:
       - flowing
     ports:
@@ -48,8 +52,9 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       - ZEEBE_CLIENT_BROKER_GATEWAY_ADDRESS=zeebe:26500
 
-  payment:
-    image: hexhoc/flowing-retail-payment
+  payment-service:
+    image: hexhoc/flowing-retail-payment-service
+    container_name: payment-service
     networks:
       - flowing
     depends_on:
@@ -57,8 +62,9 @@ services:
     environment:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
-  inventory:
-    image: hexhoc/flowing-retail-inventory
+  inventory-service:
+    image: hexhoc/flowing-retail-inventory-service
+    container_name: inventory-service
     networks:
       - flowing
     depends_on:
@@ -68,6 +74,7 @@ services:
 
   shipping:
     image: hexhoc/flowing-retail-shipping
+    container_name: shipping-service
     networks:
       - flowing
     depends_on:
@@ -75,8 +82,9 @@ services:
     environment:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
-  monitor:
-    image: hexhoc/flowing-retail-monitor
+  monitor-service:
+    image: hexhoc/flowing-retail-monitor-service
+    container_name: monitor-service
     networks:
       - flowing
     ports:
@@ -88,6 +96,7 @@ services:
 
   frontend:
     image: hexhoc/flowing-retail-frontend
+    container_name: frontend
     networks:
       - flowing
     ports:

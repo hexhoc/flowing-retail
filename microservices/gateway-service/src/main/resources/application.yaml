@@ -2,6 +2,9 @@ server:
   port: 8072
 
 spring:
+  main:
+    # This option is need because spring cloud is not compatible with spring mvc web dependency
+    web-application-type: reactive
   application:
     name: gateway-service
 #  zipkin:
@@ -13,18 +16,16 @@ spring:
       discovery.locator:
         enabled: true
         lowerCaseServiceId: true
-      # Enable manual route for organization-service rename path to /orgservice
-      # Enable manual route for licensing-service rename path to /licservice
-      routes:
-        - id: order
-          uri: http://order:8091
-          predicates:
-            - Path=/orderservice/**
-          filters:
-            - RewritePath=/orderservice/(?<path>.*), /$\{path}
-            # gateway doesn’t forward sensitive HTTP headers like cookie,set-cookie, and authorization to downstream services
-            - RemoveRequestHeader= Cookie,Set-Cookie
+#      globalcors:
+#        corsConfigurations:
+#          '[/**]':
+#            allowedOrigins: "*"
+#            allowedHeaders: "*"
+#            allowedMethods:
+#              - GET
+#              - POST
 
+# Used to select all endpoints. For example, this to expose everything endpoints over HTTP
 management:
   endpoints:
     web:

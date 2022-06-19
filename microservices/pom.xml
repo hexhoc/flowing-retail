@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>io.flowing.retail</groupId>
-	<artifactId>flowing-retail-kafka</artifactId>
+	<artifactId>microservices</artifactId>
 	<packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 
@@ -12,14 +12,14 @@
 	</build>
 
 	<modules>
-		<module>order-zeebe</module>
-		<module>payment</module>
+		<module>order-service</module>
+		<module>payment-service</module>
 		<module>gateway-service</module>
-		<module>inventory</module>
-		<module>shipping</module>
+		<module>inventory-service</module>
+		<module>shipping-service</module>
 		<!--		<module>camunda-optimize-ingest</module>-->
 		<!--		<module>choreography-alternative</module>-->
-		<module>monitor</module>
+		<module>monitor-service</module>
 	</modules>
 
 </project>

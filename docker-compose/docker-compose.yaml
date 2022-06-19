@@ -29,6 +29,24 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://:9092,PLAINTEXT_HOST://:29092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  keycloak:
+    image: jboss/keycloak
+    container_name: keycloak
+    restart: always
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    volumes:
+      - ./config/realm-export.json:/opt/jboss/keycloak/realm-export.json
+    command:
+      - "-b 0.0.0.0"
+      - "-Dkeycloak.import=/opt/jboss/keycloak/realm-export.json"
+      - "-Dkeycloak.profile.feature.scripts=enabled"
+      - "-Dkeycloak.profile.feature.upload_scripts=enabled"
+    ports:
+      - "8080:8080"
+    networks:
+      - flowing
 
   gateway-service:
     image: hexhoc/flowing-retail-gateway-service
@@ -72,7 +90,7 @@ services:
     environment:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
-  shipping:
+  shipping-service:
     image: hexhoc/flowing-retail-shipping-service
     container_name: shipping-service
     networks:

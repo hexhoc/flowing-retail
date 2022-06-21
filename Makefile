@@ -34,7 +34,7 @@ ifeq ($(shell docker network ls | grep ${DOCKER_NETWORK} | wc -l),0)
 endif
 
 build:
-	cd microservices && mvn clean install
+	cd microservices && sh mvnw clean install
 
 up:
 	cd docker-compose && docker compose -p ${IMAGE_PREFIX} up -d --build

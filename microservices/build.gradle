@@ -1,0 +1,66 @@
+// "apply plugin" construction is a legacy method that you should avoid. Instead use plugins {} block
+// plugins {} block is to immediately resolve and apply the plugins
+plugins {
+    id 'java'
+    // This plugin is alternative of <parent> tag in maven
+    id "org.springframework.boot" version "${springBootVersion}"
+    id "io.spring.dependency-management" version "${springDependencyVersion}"
+    // Simplifies usage of Docker Compose for local development and integration testing in Gradle environment.
+    id "com.avast.gradle.docker-compose" version "${dockerComposePluginVersion}"
+}
+
+// exclude this stage for root project
+bootJar {
+    enabled = false
+}
+
+allprojects {
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
+
+    group = 'io.flowing.retail'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '11'
+
+    // By default gradle build two *.jar files. This options set to build only one jar for each project
+    jar {
+        enabled = false
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    // Dependency Management is a mechanism to centralize the dependency information.
+    // This block contains all non spring boot dependencies, and describe it version
+    dependencyManagement {
+        dependencies {
+            imports {
+                // A BOM (Bill Of Materials) is a special kind of POM (Project Object Model) that is used to control
+                // the versions of a project’s dependencies and provide a central place to define and update those versions
+                mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+
+            }
+//            dependency("com.google.guava:guava:${Versions.guava}")
+//            dependency("org.openjdk.jmh:jmh-core:${Versions.jmh}")
+//            dependency("org.openjdk.jmh:jmh-generator-annprocess:${Versions.jmh}")
+
+        }
+    }
+}
+
+//print versions from BOM
+task managedVersions {
+    doLast {
+        dependencyManagement.managedVersions.each {
+            println it
+        }
+    }
+}
+
+//gradle -q hello
+task hello {
+    println 'Hello world!'
+}

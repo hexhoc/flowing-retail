@@ -5,7 +5,11 @@ dist
 .DS_Store
 .idea
 .vscode
-
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
 # Compiled class file
 *.class
 
@@ -68,6 +72,5 @@ target
 classes
 *.db
 debug
-node_modules
 .dtbcache
 *.iml

@@ -1,0 +1,18 @@
+
+dependencies {
+//    TODO Перенести версии в главный build.gradle
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-json'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation "org.webjars:webjars-locator:0.34"
+    implementation "org.webjars:jquery:3.4.1"
+    implementation "org.webjars:sockjs-client:1.0.2"
+    implementation "org.webjars:stomp-websocket:2.3.3"
+    implementation "org.webjars.bower:bpmn-js:0.20.5"
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+}

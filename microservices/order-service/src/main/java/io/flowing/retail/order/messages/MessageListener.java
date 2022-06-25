@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.flowing.retail.order.domain.Order;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
@@ -23,16 +23,14 @@ import io.flowing.retail.order.process.payload.PaymentReceivedEventPayload;
 import io.flowing.retail.order.persistence.OrderRepository;
 
 @Component
+@RequiredArgsConstructor
 public class MessageListener {
 
-  @Autowired
-  private OrderRepository repository;
+  private final OrderRepository repository;
 
-  @Autowired
-  private ZeebeClient zeebe;
+  private final ZeebeClient zeebe;
 	
-  @Autowired
-  private ObjectMapper objectMapper;  
+  private final ObjectMapper objectMapper;
 
   @KafkaListener(id = "order", topics = MessageSender.TOPIC_NAME)
   public void messageReceived(String messagePayloadJson, @Header("type") String messageType) throws Exception{

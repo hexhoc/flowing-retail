@@ -2,20 +2,19 @@ package io.flowing.retail.payment.messages;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@RequiredArgsConstructor
 public class MessageListener {    
   
-  @Autowired
-  private MessageSender messageSender;
+  private final MessageSender messageSender;
 
-  @Autowired
-  private ObjectMapper objectMapper;
+  private final ObjectMapper objectMapper;
 
   @Transactional
   @KafkaListener(id = "payment", topics = MessageSender.TOPIC_NAME)

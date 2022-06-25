@@ -10,19 +10,18 @@ import io.flowing.retail.order.messages.Message;
 import io.flowing.retail.order.messages.MessageSender;
 import io.flowing.retail.order.persistence.OrderRepository;
 import io.flowing.retail.order.process.payload.ShipGoodsCommandPayload;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 
 @Component
+@RequiredArgsConstructor
 public class ShipGoodsAdapter {
   
-  @Autowired
-  private MessageSender messageSender;  
+  private final MessageSender messageSender;
 
-  @Autowired
-  private OrderRepository orderRepository;  
+  private final OrderRepository orderRepository;
 
   @ZeebeWorker(type = "ship-goods", autoComplete = true)
   public Map<String, String> handle(ActivatedJob job) {

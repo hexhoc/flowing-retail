@@ -5,22 +5,21 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.flowing.retail.monitor.domain.PastEvent;
 import io.flowing.retail.monitor.persistence.LogRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@RequiredArgsConstructor
 public class MessageListener {
 
   private static final String TOPIC_NAME = "flowing-retail";
 
-  @Autowired
-  private SimpMessagingTemplate simpMessageTemplate;
+  private final SimpMessagingTemplate simpMessageTemplate;
   
-  @Autowired
-  private ObjectMapper objectMapper;
+  private final ObjectMapper objectMapper;
 
   @Transactional
   @KafkaListener(id = "monitor", topics = TOPIC_NAME)

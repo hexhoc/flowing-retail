@@ -1,9 +1,9 @@
 package io.flowing.retail.shipping.messages;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -14,15 +14,14 @@ import org.springframework.stereotype.Component;
  * any other transport easily
  */
 @Component
+@RequiredArgsConstructor
 public class MessageSender {
 
   public static final String TOPIC_NAME = "flowing-retail";
   
-  @Autowired
-  private KafkaTemplate<String, String> kafkaTemplate;
+  private final KafkaTemplate<String, String> kafkaTemplate;
   
-  @Autowired
-  private ObjectMapper objectMapper;  
+  private final ObjectMapper objectMapper;
   
   @Bean
   public NewTopic autoCreateTopicOnStartupIfNotExistant() {

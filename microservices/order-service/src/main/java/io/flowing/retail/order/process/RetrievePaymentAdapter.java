@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import io.camunda.zeebe.spring.client.annotation.ZeebeWorker;
 import io.flowing.retail.order.domain.Order;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import io.flowing.retail.order.process.payload.RetrievePaymentCommandPayload;
@@ -16,13 +16,12 @@ import io.flowing.retail.order.persistence.OrderRepository;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 
 @Component
+@RequiredArgsConstructor
 public class RetrievePaymentAdapter {
   
-  @Autowired
-  private MessageSender messageSender;
+  private final MessageSender messageSender;
   
-  @Autowired
-  private OrderRepository orderRepository;  
+  private final OrderRepository orderRepository;
 
   @ZeebeWorker(type = "retrieve-payment", autoComplete = true)
   public Map<String, String> handle(ActivatedJob job) {

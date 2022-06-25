@@ -73,7 +73,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
 
   shipping:
-    image: hexhoc/flowing-retail-shipping
+    image: hexhoc/flowing-retail-shipping-service
     container_name: shipping-service
     networks:
       - flowing

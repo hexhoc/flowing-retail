@@ -78,3 +78,34 @@ Note that there are a couple of other docker-compose files available too, e.g. t
 ## Hint on using Camunda License
 
 The core components of Camunda are source available and free to use, but the operations tool Camunda Operate is only free for non-production use.
+
+# SECURITY DESCRIPTION
+
+## Security. KeyClock
+1. Open localhost:8080, login and password "admin" and config new realm "retail-realm"
+2. Add frontend URL - http://keycloak:8080/auth
+3. Create new client "flowing-retail". Access Type = confidential, Service Accounts Enabled = ON, Authorization Enabled = ON
+4. Create two client's roles - USER and ADMIN (not composite)
+5. Create two realm's roles - fr-admin and fr-user (composite) relative with client's roles
+6. Create new user, login = simpleuser, password = 123456, role = fr-admin
+7. Get client (flowing-retail) secret (for this example - OHWsNMOUADplKbAYtsg5VkFpnAm6yqsn)
+8. Create POST query for get access token. Basic auth - username = flowing-retail, password = OHWsNMOUADplKbAYtsg5VkFpnAm6yqsn (
+   client's credentials) and body - grant_type = password, username = simpleuser, password = 123456
+
+   ```
+   curl --location --request POST 'http://localhost:8080/auth/realms/retail-realm/protocol/openid-connect/token' \
+   --header 'Authorization: Basic Zmxvd2luZy1yZXRhaWw6T0hXc05NT1VBRHBsS2JBWXRzZzVWa0ZwbkFtNnlxc24=' \
+   --header 'Content-Type: application/x-www-form-urlencoded' \
+   --data-urlencode 'grant_type=password' \
+   --data-urlencode 'username=superuser' \
+   --data-urlencode 'password=123456'
+   ```
+
+## Security. order-service
+1. Add a few dependencies:
+    - keycloak-spring-boot-starter
+    - spring-boot-starter-security
+2. Add configuration properties (connect, rules, etc) for KeyClock
+3. Create SpringConfig class that extend KeycloakWebSecurityConfigurerAdapter. This class configure order-service
+   how it should secure resource
+4. Add @RolesAllowed annotation in OrderController class

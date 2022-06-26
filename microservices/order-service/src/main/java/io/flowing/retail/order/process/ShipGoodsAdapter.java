@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.UUID;
 
 import io.camunda.zeebe.spring.client.annotation.ZeebeWorker;
-import io.flowing.retail.order.domain.Order;
+import io.flowing.retail.order.entity.Order;
 import io.flowing.retail.order.messages.Message;
 import io.flowing.retail.order.messages.MessageSender;
-import io.flowing.retail.order.persistence.OrderRepository;
+import io.flowing.retail.order.repository.OrderRepository;
 import io.flowing.retail.order.process.payload.ShipGoodsCommandPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

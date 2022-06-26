@@ -3,7 +3,7 @@ package io.flowing.retail.order.process.payload;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.flowing.retail.order.domain.OrderItem;
+import io.flowing.retail.order.entity.OrderItem;
 
 public class FetchGoodsCommandPayload {
   

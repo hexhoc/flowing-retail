@@ -1,14 +1,10 @@
 package io.flowing.retail.order.messages;
 
-import java.io.IOException;
 import java.util.Collections;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.flowing.retail.order.domain.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
@@ -16,11 +12,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.camunda.zeebe.client.ZeebeClient;
-import io.flowing.retail.order.process.OrderFlowContext;
 import io.flowing.retail.order.process.payload.GoodsFetchedEventPayload;
 import io.flowing.retail.order.process.payload.GoodsShippedEventPayload;
 import io.flowing.retail.order.process.payload.PaymentReceivedEventPayload;
-import io.flowing.retail.order.persistence.OrderRepository;
+import io.flowing.retail.order.repository.OrderRepository;
 
 @Component
 @RequiredArgsConstructor

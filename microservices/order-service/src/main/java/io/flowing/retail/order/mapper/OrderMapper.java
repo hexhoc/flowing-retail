@@ -1,6 +1,6 @@
 package io.flowing.retail.order.mapper;
 
-import io.flowing.retail.order.domain.Order;
+import io.flowing.retail.order.entity.Order;
 import io.flowing.retail.order.dto.OrderDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: monitor
+  profiles:
+    active: dev
+
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+
+server:
+  port: 8095

@@ -7,6 +7,8 @@ spring:
     web-application-type: reactive
   application:
     name: gateway-service
+  profiles:
+    active: dev
 #  zipkin:
 #    baseUrl: http://zipkin:9411
   # Enables the gateway to create routes based on services registered with service discovery

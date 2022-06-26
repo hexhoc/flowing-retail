@@ -1,5 +1,6 @@
-var count = 0;
-var orderJson = {
+const gatewayHost = 'http://localhost:8072';
+let count = 0;
+let orderJson = {
     "orderId": null,
     "customer": {
         "name": "John Tompson",
@@ -19,7 +20,7 @@ var orderJson = {
 
 function getTest() {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", 'http://localhost:8072/orderservice/api/test', true);
+    xhr.open("GET", gatewayHost + '/orderservice/api/test', true);
     xhr.send();
     xhr.onload = function() {
         if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
@@ -35,7 +36,7 @@ function placeOrder() {
 
     let json = JSON.stringify(orderJson);
 
-    xhr.open("POST", 'http://localhost:8072/orderservice/api/cart/order')
+    xhr.open("POST", gatewayHost + '/orderservice/api/cart/order')
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 
     xhr.send(json);

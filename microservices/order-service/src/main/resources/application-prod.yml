@@ -1,0 +1,7 @@
+spring:
+  kafka:
+    bootstrap-servers: kafka:9092
+zeebe:
+  client:
+    broker:
+      gateway-address: zeebe:26500

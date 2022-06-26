@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: order-service
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+  profiles:
+    active: dev
+server:
+  port: 8091
+zeebe:
+  client:
+    security:
+      plaintext: true

@@ -59,8 +59,8 @@ You can either
 ## Docker Compose
 
 In root of project start run next command:
-
-```make build build-images run```
+1. ```make up-third-party``` This command will build and up third-party services (elastic, camunda, postgresql). These services separate from main project
+2. ```make build build-images run```
 * **build** - create artifact (jar files) for each service
 * **build-images** - packing all artifact in docker image
 * **up** - start docker-compose build

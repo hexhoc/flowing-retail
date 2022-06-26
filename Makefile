@@ -15,6 +15,7 @@ help:
 	@echo ''
 	@echo 'Common Targets:'
 	@echo '	create-network		Create the Docker network for the containers'
+	@echo '	build		Build gradle projects'
 	@echo '	build-images		Build all images from Dockerfiles'
 	@echo '	up			Start all containers needed to run the system'
 	@echo '	stop			Stop all containers'
@@ -37,7 +38,10 @@ build:
 	cd microservices && sh gradlew clean build
 
 up:
-	cd docker-compose && docker compose -p ${IMAGE_PREFIX} up -d --build
+	cd docker-compose/flowing-retail && docker compose -p ${IMAGE_PREFIX} up -d --build
+
+up-third-party:
+	cd docker-compose/third-party && docker compose up -d --build
 
 stop:
 	cd docker-compose && docker compose -p ${IMAGE_PREFIX} stop

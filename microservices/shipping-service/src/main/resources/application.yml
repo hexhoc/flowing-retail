@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: shipping-service
+  profiles:
+    active: dev
+
+  kafka:
+    consumer:
+      auto-offset-reset: earliest

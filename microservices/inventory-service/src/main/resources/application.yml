@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: inventory-service
+  profiles:
+    active: dev
+
+  kafka:
+    consumer:
+      auto-offset-reset: earliest

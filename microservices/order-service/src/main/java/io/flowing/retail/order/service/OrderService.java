@@ -1,8 +1,8 @@
 package io.flowing.retail.order.service;
 
 import io.camunda.zeebe.client.ZeebeClient;
-import io.flowing.retail.order.domain.Order;
-import io.flowing.retail.order.persistence.OrderRepository;
+import io.flowing.retail.order.entity.Order;
+import io.flowing.retail.order.repository.OrderRepository;
 import io.flowing.retail.order.process.OrderFlowContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

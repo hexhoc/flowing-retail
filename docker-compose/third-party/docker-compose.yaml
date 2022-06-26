@@ -1,6 +1,36 @@
 version: '3.8'
 
 services:
+  postgresql:
+    image: postgres:latest
+    container_name: postgresql
+    command:
+      # configuration for logging. All this config properties we can also set in postgres.conf.conf
+      - "postgres"
+      - "-c"
+      - "log_statement=all"
+      - "-c"
+      - "log_directory=log"
+      - "-c"
+      - "log_filename=postgresql-%Y-%m-%d_%H%M%S.log"
+      - "-c"
+      - "logging_collector=on"
+      - "-c"
+      - "log_min_error_statement=error"
+      - "-c"
+      - "log_rotation_age=60"
+    volumes:
+      - ./postgres/pgdata:/var/lib/postgresql/data
+      - ./postgres/pgconf:/etc/postgresql
+      - ./postgres/pglog:/var/log/postgresql
+      - ./postgres/init_scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
   zookeeper:
     image: "confluentinc/cp-zookeeper:latest"
     container_name: zookeeper

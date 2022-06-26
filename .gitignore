@@ -74,3 +74,6 @@ classes
 debug
 .dtbcache
 *.iml
+docker-compose/third-party/postgres/pgdata/*
+docker-compose/third-party/postgres/pgconf/*
+docker-compose/third-party/postgres/pglog/*

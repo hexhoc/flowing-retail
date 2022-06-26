@@ -9,6 +9,9 @@ dependencies {
     implementation "jakarta.xml.bind:jakarta.xml.bind-api:${jakartaXmlVersion}"
     implementation "org.glassfish.jaxb:jaxb-runtime:${jaxbRuntimeVersion}"
     implementation "com.h2database:h2:${h2Version}"
+    implementation "org.postgresql:postgresql"
+    implementation 'org.flywaydb:flyway-core'
+
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

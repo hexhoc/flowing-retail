@@ -59,7 +59,14 @@ You can either
 ## Docker Compose
 
 In root of project start run next command:
-1. ```make up-third-party``` This command will build and up third-party services (elastic, camunda, postgresql). These services separate from main project
+
+1. ```make up-third-party``` This command will build and up third-party services (elastic, camunda, postgresql). These
+   services separate from main project
+
+**ATTENTION**. If you are using windows or mac os, you may encounter with problem when docker share postgresql
+volume (operation not permitted). To avoid this problem, you should start third party services manually. Open folder _/docker-compose/third-party_
+and run next command ```docker compose up -d --build```
+
 2. ```make build build-images run```
 * **build** - create artifact (jar files) for each service
 * **build-images** - packing all artifact in docker image

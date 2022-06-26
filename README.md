@@ -11,15 +11,22 @@ The nice thing about this architecture is, that Kafka is the only common denomin
 
 ## Concrete technologies/frameworks:
 
-### Java
-
 * Java 11
 * Spring Boot 2.6.x
-* Maven
-
-And of course
-* Apache Kafka
-* Camunda or Zeebe
+* Kafka
+* Zookeeper
+* Camunda
+* Gradle
+* Spring data JPA
+* Keycloak (switch to branch keycloack/master)
+* Lombok
+* Mapstruct
+* Postgresql
+* Flyway
+* Elasticsearch
+* Redis
+* Docker
+* Kubernetes
 
 ## Communication of services
 

@@ -1,4 +1,4 @@
-package io.flowing.retail.inventory.application;
+package io.flowing.retail.inventory.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,7 +38,7 @@ public class InventoryService {
    * @return a unique pick ID 
    */
   public String pickItems(List<Item> items, String reason, String refId) {
-    PickOrder pickOrder = new PickOrder().setItems(items);    
+    PickOrder pickOrder = new PickOrder(items);
     System.out.println("# Items picked: " + pickOrder);      
     return pickOrder.getPickId();
   }

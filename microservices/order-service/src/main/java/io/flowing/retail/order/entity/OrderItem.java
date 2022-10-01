@@ -2,6 +2,8 @@ package io.flowing.retail.order.entity;
 
 import javax.persistence.*;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -9,6 +11,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name="order_items")
+@Getter
+@Setter
 public class OrderItem {
 
   @Id
@@ -28,23 +32,7 @@ public class OrderItem {
 
   private int amount;
 
-  /////////////////////////
-  // GETTER AND SETTER
-  /////////////////////////
-  public String getArticleId() {
-    return articleId;
-  }
-  public OrderItem setArticleId(String articleId) {
-    this.articleId = articleId;
-    return this;
-  }
-  public int getAmount() {
-    return amount;
-  }
-  public OrderItem setAmount(int amount) {
-    this.amount = amount;
-    return this;
-  }
+
   @Override
   public String toString() {
     return "OrderItem [articleId=" + articleId + ", amount=" + amount + "]";

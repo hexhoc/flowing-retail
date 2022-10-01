@@ -2,7 +2,9 @@ package io.flowing.retail.shipping.messages;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.flowing.retail.shipping.application.ShippingService;
+import io.flowing.retail.shipping.service.ShippingService;
+import io.flowing.retail.shipping.messages.payload.GoodsShippedEventPayload;
+import io.flowing.retail.shipping.messages.payload.ShipGoodsCommandPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
@@ -31,15 +33,13 @@ public class MessageListener {
               message.getData().getRecipientAddress(), //
               message.getData().getLogisticsProvider());
 
-      Thread.sleep(20_000);
+      Thread.sleep(60_000);
 
       messageSender.send( //
               new Message<GoodsShippedEventPayload>( //
                       "GoodsShippedEvent", //
                       message.getTraceid(), //
-                      new GoodsShippedEventPayload() //
-                              .setRefId(message.getData().getRefId())
-                              .setShipmentId(shipmentId))
+                      new GoodsShippedEventPayload(message.getData().getRefId(), shipmentId))
                       .setCorrelationid(message.getCorrelationid()));
     }
   }

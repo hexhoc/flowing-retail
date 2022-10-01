@@ -2,7 +2,9 @@ package io.flowing.retail.inventory.messages;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.flowing.retail.inventory.application.InventoryService;
+import io.flowing.retail.inventory.messages.payload.FetchGoodsCommandPayload;
+import io.flowing.retail.inventory.messages.payload.GoodsFetchedEventPayload;
+import io.flowing.retail.inventory.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
@@ -29,15 +31,13 @@ public class MessageListener {
       String pickId = inventoryService.pickItems( //
               fetchGoodsCommand.getItems(), fetchGoodsCommand.getReason(), fetchGoodsCommand.getRefId());
 
-      Thread.sleep(20_000);
+      Thread.sleep(60_000);
 
       messageSender.send( //
               new Message<GoodsFetchedEventPayload>( //
                       "GoodsFetchedEvent", //
                       message.getTraceid(), //
-                      new GoodsFetchedEventPayload() //
-                              .setRefId(fetchGoodsCommand.getRefId())
-                              .setPickId(pickId))
+                      new GoodsFetchedEventPayload(fetchGoodsCommand.getRefId(), pickId))
                       .setCorrelationid(message.getCorrelationid()));
     }
   }

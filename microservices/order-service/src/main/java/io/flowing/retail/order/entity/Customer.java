@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @Table(name="customers")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Customer {
   
   @Id
@@ -43,8 +45,5 @@ public class Customer {
 
   @Version
   private Integer version;
-
-  public Customer() {
-  }
 
 }

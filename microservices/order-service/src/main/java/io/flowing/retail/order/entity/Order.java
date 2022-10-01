@@ -9,6 +9,8 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -16,6 +18,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "orders")
+@Getter
+@Setter
 public class Order {
 
   @Id
@@ -26,6 +30,7 @@ public class Order {
   )
   @Type(type="org.hibernate.type.PostgresUUIDType")
   @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()", updatable = false, nullable = false)
+  @JsonProperty("orderId")
   private UUID id;
 
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER  )
@@ -59,33 +64,11 @@ public class Order {
     }
     return sum;
   }
-  
-  public String getId() {
-    return id.toString();
-  }
-
-  @JsonProperty("orderId")
-  public void setId(String id) {
-    this.id = UUID.fromString(id);
-  }
-
-  public List<OrderItem> getItems() {
-    return items;
-  }
 
   @Override
   public String toString() {
     return "Order [id=" + id + ", items=" + items + "]";
   }
 
-  public Customer getCustomer() {
-    return customer;
-  }
 
-  public void setCustomer(Customer customer) {
-    this.customer = customer;
-  }
-
-
-  
 }

@@ -24,6 +24,8 @@ services:
       - ./postgres/pgconf:/etc/postgresql
       - ./postgres/pglog:/var/log/postgresql
       - ./postgres/init_scripts:/docker-entrypoint-initdb.d
+    networks:
+      - flowing
     ports:
       - "5432:5432"
     environment:
@@ -98,7 +100,7 @@ services:
       - elasticsearch
 
   elasticsearch: # https://hub.docker.com/_/elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION:-7.17.0}
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION:-8.2.0}
     container_name: elasticsearch
     ports:
       - "9200:9200"

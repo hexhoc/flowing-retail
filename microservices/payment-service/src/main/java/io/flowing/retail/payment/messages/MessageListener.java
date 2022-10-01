@@ -2,6 +2,8 @@ package io.flowing.retail.payment.messages;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.flowing.retail.payment.messages.payload.PaymentReceivedEventPayload;
+import io.flowing.retail.payment.messages.payload.RetrievePaymentCommandPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
@@ -29,14 +31,13 @@ public class MessageListener {
     
     System.out.println("Retrieve payment: " + retrievePaymentCommand.getAmount() + " for " + retrievePaymentCommand.getRefId());
 
-    Thread.sleep(20_000);
+    Thread.sleep(60_000);
 
     messageSender.send( //
         new Message<PaymentReceivedEventPayload>( //
             "PaymentReceivedEvent", //
             message.getTraceid(), //
-            new PaymentReceivedEventPayload() //
-              .setRefId(retrievePaymentCommand.getRefId()))
+            new PaymentReceivedEventPayload(retrievePaymentCommand.getRefId()))
         .setCorrelationid(message.getCorrelationid()));
 
   }

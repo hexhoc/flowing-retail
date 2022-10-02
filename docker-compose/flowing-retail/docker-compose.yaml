@@ -9,6 +9,14 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
 
+  customer-service:
+    image: hexhoc/flowing-retail-customer-service
+    container_name: customer-service
+    ports:
+      - "8070:8070"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+
   order-service:
     image: hexhoc/flowing-retail-order-service
     container_name: order-service

@@ -35,7 +35,7 @@ ifeq ($(shell docker network ls | grep ${DOCKER_NETWORK} | wc -l),0)
 endif
 
 build:
-	sh gradlew clean build
+	cd microservices && sh gradlew clean build
 
 up:
 	cd docker-compose/flowing-retail && docker compose -p ${IMAGE_PREFIX} up -d --build
@@ -53,6 +53,7 @@ status:
 
 build-images:
 	cd microservices/gateway-service && docker build -t ${REPOSITORY}/flowing-retail-gateway-service .
+	cd microservices/customer-service && docker build -t ${REPOSITORY}/flowing-retail-customer-service .
 	cd microservices/inventory-service && docker build -t ${REPOSITORY}/flowing-retail-inventory-service .
 	cd microservices/monitor-service && docker build -t ${REPOSITORY}/flowing-retail-monitor-service .
 	cd microservices/order-service && docker build -t ${REPOSITORY}/flowing-retail-order-service .

@@ -1,15 +1,3 @@
-drop table if exists customers;
-create table customers
-(
-    id           uuid                  DEFAULT gen_random_uuid() PRIMARY KEY,
-    name         varchar(255) not null,
-    address      varchar(255) not null default '',
-    api_key      varchar(36),
-    created_date timestamp,
-    updated_date timestamp,
-    version      int
-);
-
 drop table if exists orders;
 create table orders
 (
@@ -18,8 +6,7 @@ create table orders
     order_status varchar(50),
     created_date timestamp,
     updated_date timestamp,
-    version      int,
-    constraint fk_orders_customer_id foreign key (customer_id) references customers (id) on delete set null
+    version      int
 );
 
 drop table if exists order_items;

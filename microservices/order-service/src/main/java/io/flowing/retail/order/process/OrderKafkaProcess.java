@@ -3,6 +3,7 @@ package io.flowing.retail.order.process;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.spring.client.annotation.ZeebeWorker;
+import io.flowing.retail.order.dto.CustomerDto;
 import io.flowing.retail.order.entity.Order;
 import io.flowing.retail.order.messages.Message;
 import io.flowing.retail.order.messages.MessageSender;
@@ -11,6 +12,7 @@ import io.flowing.retail.order.process.payload.OrderCompletedEventPayload;
 import io.flowing.retail.order.process.payload.RetrievePaymentCommandPayload;
 import io.flowing.retail.order.process.payload.ShipGoodsCommandPayload;
 import io.flowing.retail.order.repository.OrderRepository;
+import io.flowing.retail.order.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
@@ -25,9 +27,8 @@ import java.util.UUID;
 public class OrderKafkaProcess {
 
     private final MessageSender messageSender;
-
     private final OrderRepository orderRepository;
-
+    private final CustomerService customerService;
     private final ZeebeClient zeebeClient;
 
     public void startProcess(String orderId) {
@@ -91,7 +92,7 @@ public class OrderKafkaProcess {
     public Map<String, String> shipGoodsHandle(ActivatedJob job) {
         OrderFlowContext context = OrderFlowContext.fromMap(job.getVariablesAsMap());
         Order order = orderRepository.findById(UUID.fromString(context.getOrderId())).get();
-
+        var customerDto = customerService.getCustomerById(order.getCustomerId()).get();
         // generate an UUID for this communication
         String correlationId = UUID.randomUUID().toString();
 
@@ -101,8 +102,8 @@ public class OrderKafkaProcess {
                 new ShipGoodsCommandPayload() //
                         .setRefId(order.getId())
                         .setPickId(context.getPickId()) //
-                        .setRecipientName(order.getCustomer().getName()) //
-                        .setRecipientAddress(order.getCustomer().getAddress())) //
+                        .setRecipientName(customerDto.getName()) //
+                        .setRecipientAddress(customerDto.getAddress())) //
                 .setCorrelationid(correlationId));
 
         return Collections.singletonMap("CorrelationId_ShipGoods", correlationId);

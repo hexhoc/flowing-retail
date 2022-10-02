@@ -1,4 +1,4 @@
-package io.flowing.retail.order.dto;
+package io.flowing.retail.order.controller.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;

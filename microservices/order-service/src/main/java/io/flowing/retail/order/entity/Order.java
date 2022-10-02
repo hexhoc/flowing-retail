@@ -34,8 +34,7 @@ public class Order {
     @JsonProperty("orderId")
     private UUID id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Customer customer = new Customer();
+    private UUID customerId;
 
     @Enumerated(EnumType.STRING)
     private OrderStatusEnum orderStatus = OrderStatusEnum.NEW;

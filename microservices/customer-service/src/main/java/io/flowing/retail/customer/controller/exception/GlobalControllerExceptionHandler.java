@@ -1,4 +1,4 @@
-package io.flowing.retail.order.controller.exception;
+package io.flowing.retail.customer.controller.exception;
 
 
 import lombok.extern.log4j.Log4j2;

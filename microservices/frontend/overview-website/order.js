@@ -3,6 +3,7 @@ let count = 0;
 let orderJson = {
     "orderId": null,
     "customer": {
+        "id": "e8f5cc5a-af5a-4a94-a08c-fe22190aa036",
         "name": "John Tompson",
         "address": "Germany, sesame street, 21"
     },

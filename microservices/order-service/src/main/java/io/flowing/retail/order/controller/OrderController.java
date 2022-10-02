@@ -13,45 +13,40 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/order")
 public class OrderController {
 
-  private final OrderService  orderService;
-  private final OrderMapper orderMapper;
+  private final OrderService orderService;
 
   @GetMapping("/test")
   public ResponseEntity<String> testGet() {
     return ResponseEntity.ok("HELLO");
   }
 
-  @GetMapping(path = "/order")
-  public ResponseEntity<Page<Order>> OrderGetList(@RequestParam(name = "limit", required = false, defaultValue = "10") Integer limit,
+  @GetMapping
+  public ResponseEntity<Page<OrderDto>> OrderGetList(@RequestParam(name = "limit", required = false, defaultValue = "10") Integer limit,
                                         @RequestParam(name = "offset", required = false, defaultValue = "0") Integer offset) {
     var pageRequest = PageRequest.of(offset/limit, limit);
-    Page<Order> orders = orderService.findAll(pageRequest);
-    return ResponseEntity.ok(orders);
+    return ResponseEntity.ok(orderService.findAll(pageRequest));
   }
 
-  @GetMapping(path = "/order/{id}")
-  public ResponseEntity<OrderDto> OrderGetById(@PathVariable(name = "id") String id) {
-    Order order = orderService.findById(id);
-    return ResponseEntity.ok(orderMapper.toDto(order));
+  @GetMapping(path = "/{id}")
+  public ResponseEntity<OrderDto> orderGetById(@PathVariable(name = "id") String id) {
+    return ResponseEntity.ok(orderService.findById(id));
   }
 
-  @PostMapping(path = "/order")
-  public ResponseEntity<Order> OrderPost(@RequestBody OrderDto orderDto) {
-    Order order = orderService.createOrder(orderMapper.toModel(orderDto));
-    return ResponseEntity.ok(order);
+  @PostMapping
+  public ResponseEntity<OrderDto> orderPost(@RequestBody OrderDto orderDto) {
+    return ResponseEntity.ok(orderService.createOrder(orderDto));
   }
 
-  @PutMapping(path = "/order")
-  public ResponseEntity<OrderDto> OrderPut(@RequestBody OrderDto orderDto) {
-    Order order = orderService.updateOrder(orderMapper.toModel(orderDto));
-    return ResponseEntity.ok(orderMapper.toDto(order));
+  @PutMapping
+  public ResponseEntity<OrderDto> orderPut(@RequestBody OrderDto orderDto) {
+    return ResponseEntity.ok(orderService.updateOrder(orderDto));
   }
 
-  @DeleteMapping(path = "/order/{id}")
-  public ResponseEntity<String> OrderDeleteById(@PathVariable(name = "id") String id) {
+  @DeleteMapping(path = "/{id}")
+  public ResponseEntity<String> orderDeleteById(@PathVariable(name = "id") String id) {
     orderService.deleteById(id);
     return ResponseEntity.ok("OK");
   }

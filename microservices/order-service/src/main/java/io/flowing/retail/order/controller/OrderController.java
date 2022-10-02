@@ -27,7 +27,7 @@ public class OrderController {
   @GetMapping(path = "/order")
   public ResponseEntity<Page<Order>> OrderGetList(@RequestParam(name = "limit", required = false, defaultValue = "10") Integer limit,
                                         @RequestParam(name = "offset", required = false, defaultValue = "0") Integer offset) {
-    var pageRequest = PageRequest.of(limit, offset);
+    var pageRequest = PageRequest.of(offset/limit, limit);
     Page<Order> orders = orderService.findAll(pageRequest);
     return ResponseEntity.ok(orders);
   }

@@ -31,6 +31,10 @@ public class Customer {
   @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()", updatable = false, nullable = false)
   private UUID id;
 
+  @Type(type="org.hibernate.type.UUIDCharType")
+  @Column(length = 36, columnDefinition = "varchar(36)")
+  private UUID apiKey;
+
   private String name;
 
   private String address;

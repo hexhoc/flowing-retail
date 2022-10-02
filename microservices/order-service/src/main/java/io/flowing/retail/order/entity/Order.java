@@ -23,63 +23,71 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Setter
 public class Order {
 
-  @Id
-  @GeneratedValue(generator = "UUID")
-  @GenericGenerator(
-          name = "UUID",
-          strategy = "org.hibernate.id.UUIDGenerator"
-  )
-  @Type(type="org.hibernate.type.PostgresUUIDType")
-  @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()", updatable = false, nullable = false)
-  @JsonProperty("orderId")
-  private UUID id;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Type(type = "org.hibernate.type.PostgresUUIDType")
+    @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()", updatable = false, nullable = false)
+    @JsonProperty("orderId")
+    private UUID id;
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER  )
-  private Customer customer = new Customer();
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Customer customer = new Customer();
 
-  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER  )
-  private List<OrderItem> items = new ArrayList<OrderItem>();
+    @Enumerated(EnumType.STRING)
+    private OrderStatusEnum orderStatus = OrderStatusEnum.NEW;
 
-  @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
-  @CreationTimestamp
-  private LocalDateTime createdDate;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<OrderItem> items = new ArrayList<OrderItem>();
 
-  @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
-  @UpdateTimestamp
-  private LocalDateTime updatedDate;
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
 
-  @Version
-  private Integer version;
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
+    @UpdateTimestamp
+    private LocalDateTime updatedDate;
 
-  /////////////////////////
-  // GETTER AND SETTER
-  /////////////////////////
+    @Version
+    private Integer version;
 
-  public String getId() {
-    return id.toString();
-  }
-
-  public void setId(String id) {
-    if (Objects.nonNull(id)) {
-      this.id = UUID.fromString(id);
+    /////////////////////////
+    // GETTER AND SETTER
+    /////////////////////////
+    public boolean isNew() {
+        return this.id == null;
     }
-  }
-  public void addItem(OrderItem i) {
-    items.add(i);
-  }
-  
-  public int getTotalSum() {
-    int sum = 0;
-    for (OrderItem orderItem : items) {
-      sum += orderItem.getAmount();
-    }
-    return sum;
-  }
 
-  @Override
-  public String toString() {
-    return "Order [id=" + id + ", items=" + items + "]";
-  }
+    public String getId() {
+        return id.toString();
+    }
+
+    public void setId(String id) {
+        if (Objects.nonNull(id)) {
+            this.id = UUID.fromString(id);
+        }
+    }
+
+    public void addItem(OrderItem i) {
+        items.add(i);
+    }
+
+    public int getTotalSum() {
+        int sum = 0;
+        for (OrderItem orderItem : items) {
+            sum += orderItem.getAmount();
+        }
+        return sum;
+    }
+
+    @Override
+    public String toString() {
+        return "Order [id=" + id + ", items=" + items + "]";
+    }
 
 
 }

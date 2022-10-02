@@ -4,6 +4,7 @@ create table customers
     id           uuid                  DEFAULT gen_random_uuid() PRIMARY KEY,
     name         varchar(255) not null,
     address      varchar(255) not null default '',
+    api_key      varchar(36),
     created_date timestamp,
     updated_date timestamp,
     version      int
@@ -14,6 +15,7 @@ create table orders
 (
     id           uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     customer_id  uuid,
+    order_status varchar(50),
     created_date timestamp,
     updated_date timestamp,
     version      int,

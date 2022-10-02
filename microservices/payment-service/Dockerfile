@@ -1,4 +1,4 @@
-FROM adoptopenjdk:11
+FROM openjdk:17
 VOLUME /tmp
 ADD build/libs/*.jar app.jar
 ENV JAVA_OPTS=""

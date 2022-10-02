@@ -1,7 +1,0 @@
-rootProject.name = 'microservices'
-include 'gateway-service'
-include 'inventory-service'
-include 'monitor-service'
-include 'order-service'
-include 'payment-service'
-include 'shipping-service'

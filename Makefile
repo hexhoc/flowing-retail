@@ -35,7 +35,7 @@ ifeq ($(shell docker network ls | grep ${DOCKER_NETWORK} | wc -l),0)
 endif
 
 build:
-	cd microservices && sh gradlew clean build
+	sh gradlew clean build
 
 up:
 	cd docker-compose/flowing-retail && docker compose -p ${IMAGE_PREFIX} up -d --build

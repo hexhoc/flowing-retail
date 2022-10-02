@@ -9,6 +9,7 @@ import java.time.OffsetDateTime;
 
 @Data
 public class CustomerDto {
+  //TODO add springdoc
   private String name;
   private String address;
 

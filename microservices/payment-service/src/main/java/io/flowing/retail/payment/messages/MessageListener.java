@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class MessageListener {    
   
   private final MessageSender messageSender;
-
   private final ObjectMapper objectMapper;
 
   @Transactional

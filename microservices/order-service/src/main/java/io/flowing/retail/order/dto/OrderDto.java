@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Data
 public class OrderDto {
-
+    //TODO add springdoc
     private String orderId = "checkout-generated-" + UUID.randomUUID().toString();
     private CustomerDto customer;
     @Null

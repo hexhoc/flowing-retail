@@ -73,7 +73,7 @@ In root of project start run next command:
 volume (operation not permitted). To avoid this problem, you should start third party services manually. Open folder _/docker-compose/third-party_
 and run next command ```docker compose up -d --build```
 
-2. ```make build build-images run```
+2. ```make build build-images up```
 * **build** - create artifact (jar files) for each service
 * **build-images** - packing all artifact in docker image
 * **up** - start docker-compose build

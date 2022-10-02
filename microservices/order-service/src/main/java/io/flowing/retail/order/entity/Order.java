@@ -3,6 +3,7 @@ package io.flowing.retail.order.entity;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.*;
@@ -53,6 +54,16 @@ public class Order {
   /////////////////////////
   // GETTER AND SETTER
   /////////////////////////
+
+  public String getId() {
+    return id.toString();
+  }
+
+  public void setId(String id) {
+    if (Objects.nonNull(id)) {
+      this.id = UUID.fromString(id);
+    }
+  }
   public void addItem(OrderItem i) {
     items.add(i);
   }

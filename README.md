@@ -88,6 +88,9 @@ If you like you can connect to Kafka from your local Docker host machine too.
 
 Note that there are a couple of other docker-compose files available too, e.g. to play around with the choreography.
 
+## Remote debug
+I have added a debugging port for each service. You can view it in the docker compose file.
+
 ## Hint on using Camunda License
 
 The core components of Camunda are source available and free to use, but the operations tool Camunda Operate is only free for non-production use.

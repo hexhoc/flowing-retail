@@ -20,7 +20,7 @@ services:
       - "-c"
       - "log_rotation_age=60"
     volumes:
-      - ./postgres/pgdata:/var/lib/postgresql/data
+#      - ./postgres/pgdata:/var/lib/postgresql/data
       - ./postgres/pgconf:/etc/postgresql
       - ./postgres/pglog:/var/log/postgresql
       - ./postgres/init_scripts:/docker-entrypoint-initdb.d

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import io.flowing.retail.order.repository.OrderRepository;
 
 @Component
 @RequiredArgsConstructor
+@Log
 public class MessageListener {
   private final ZeebeClient zeebe;
   private final ObjectMapper objectMapper;
@@ -42,6 +44,7 @@ public class MessageListener {
 
   @Transactional
   public void paymentReceived(Message<PaymentReceivedEventPayload> message) {
+    log.info("paymentReceived");
      // Here you would maybe we should read something from the payload:
     message.getData();
 
@@ -56,6 +59,8 @@ public class MessageListener {
 
   @Transactional
   public void goodsFetchedReceived(Message<GoodsFetchedEventPayload> message) {
+    log.info("goodsFetchedReceived");
+
     String pickId = message.getData().getPickId();     
 
     zeebe.newPublishMessageCommand() //
@@ -69,6 +74,8 @@ public class MessageListener {
 
   @Transactional
   public void goodsShippedReceived(Message<GoodsShippedEventPayload> message) {
+    log.info("goodsShippedReceived");
+
     String shipmentId = message.getData().getShipmentId();     
 
     zeebe.newPublishMessageCommand() //

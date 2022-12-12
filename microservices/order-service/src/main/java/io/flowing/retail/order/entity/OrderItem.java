@@ -2,6 +2,7 @@ package io.flowing.retail.order.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -25,6 +26,7 @@ public class OrderItem {
   @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()", updatable = false, nullable = false)
   private UUID id;
 
+  @JsonIgnore
   @ManyToOne
   private Order order;
 

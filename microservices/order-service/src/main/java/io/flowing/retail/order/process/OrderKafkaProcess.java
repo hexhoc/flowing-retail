@@ -58,6 +58,7 @@ public class OrderKafkaProcess {
      */
     @ZeebeWorker(type = "retrieve-payment", autoComplete = true)
     public Map<String, String> retrievePaymentHandle(ActivatedJob job) {
+        log.info("retrieve-payment job");
         OrderFlowContext context = OrderFlowContext.fromMap(job.getVariablesAsMap());
 
         Order order = orderRepository.findById(UUID.fromString(context.getOrderId())).get();
@@ -85,6 +86,8 @@ public class OrderKafkaProcess {
      */
     @ZeebeWorker(type = "fetch-goods", autoComplete = true)
     public Map<String, String> fetchGoodsHandle(ActivatedJob job) {
+        log.info("fetch-goods job");
+
         OrderFlowContext context = OrderFlowContext.fromMap(job.getVariablesAsMap());
         Order order = orderRepository.findById(UUID.fromString(context.getOrderId()))
                 .orElseThrow(() -> new RuntimeException("Order not found"));
@@ -110,6 +113,8 @@ public class OrderKafkaProcess {
      */
     @ZeebeWorker(type = "ship-goods", autoComplete = true)
     public Map<String, String> shipGoodsHandle(ActivatedJob job) {
+        log.info("ship-goods job");
+
         OrderFlowContext context = OrderFlowContext.fromMap(job.getVariablesAsMap());
         Order order = orderRepository.findById(UUID.fromString(context.getOrderId())).get();
         var customerDto = customerService.getCustomerById(order.getCustomerId()).get();
@@ -131,6 +136,8 @@ public class OrderKafkaProcess {
 
     @ZeebeWorker(type = "order-completed", autoComplete = true)
     public void orderCompletedHandle(ActivatedJob job) {
+        log.info("order-completed job");
+
         OrderFlowContext context = OrderFlowContext.fromMap(job.getVariablesAsMap());
 
         messageSender.send( //

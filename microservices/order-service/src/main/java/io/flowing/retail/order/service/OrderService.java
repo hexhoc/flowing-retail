@@ -6,9 +6,8 @@ import io.flowing.retail.order.entity.Order;
 import io.flowing.retail.order.mapper.OrderMapper;
 import io.flowing.retail.order.process.OrderKafkaProcess;
 import io.flowing.retail.order.repository.OrderRepository;
-import io.flowing.retail.order.process.OrderFlowContext;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -17,22 +16,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
+@Log
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderKafkaProcess orderKafkaProcess;
     private final OrderMapper orderMapper;
 
-    @Transactional
     public OrderDto createOrder(OrderDto orderDto) {
         // persist domain entity
         // (if we want to do this "transactional" this could be a step in the workflow)
         Order newOrder = orderRepository.save(orderMapper.toModel(orderDto));
+        log.info("Save order " + newOrder.getId());
         orderKafkaProcess.startProcess(newOrder.getId());
         return orderMapper.toDto(newOrder);
     }

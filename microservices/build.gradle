@@ -41,12 +41,7 @@ allprojects {
                 // the versions of a project’s dependencies and provide a central place to define and update those versions
                 mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
                 mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-
             }
-//            dependency("com.google.guava:guava:${Versions.guava}")
-//            dependency("org.openjdk.jmh:jmh-core:${Versions.jmh}")
-//            dependency("org.openjdk.jmh:jmh-generator-annprocess:${Versions.jmh}")
-
         }
     }
 }

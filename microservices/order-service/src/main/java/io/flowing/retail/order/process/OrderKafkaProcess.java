@@ -14,6 +14,7 @@ import io.flowing.retail.order.process.payload.ShipGoodsCommandPayload;
 import io.flowing.retail.order.repository.OrderRepository;
 import io.flowing.retail.order.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-@Log4j2
+@Log
 public class OrderKafkaProcess {
 
     private final MessageSender messageSender;
@@ -31,8 +32,12 @@ public class OrderKafkaProcess {
     private final CustomerService customerService;
     private final ZeebeClient zeebeClient;
 
+    /**
+     * Starting an order processing business process
+     */
     public void startProcess(String orderId) {
         // This context is camunda variable, that flow from one task to another
+        // TODO Рассмотреть вариант, вместо id заказа лучше подставлять dto заказа
         OrderFlowContext context = new OrderFlowContext();
         context.setOrderId(orderId);
         context.setTraceId(UUID.randomUUID().toString());
@@ -46,6 +51,11 @@ public class OrderKafkaProcess {
                 .send().join();
     }
 
+    /**
+     * Step 1. Send message about order to payment-service through kafka
+     * To receive payment confirmation
+     * @return retrieve payment correlation id (camunda check message by this correlation id)
+     */
     @ZeebeWorker(type = "retrieve-payment", autoComplete = true)
     public Map<String, String> retrievePaymentHandle(ActivatedJob job) {
         OrderFlowContext context = OrderFlowContext.fromMap(job.getVariablesAsMap());
@@ -56,7 +66,7 @@ public class OrderKafkaProcess {
         String correlationId = UUID.randomUUID().toString();
 
         messageSender.send( //
-                new Message<RetrievePaymentCommandPayload>( //
+                new Message<>( //
                         "RetrievePaymentCommand", //
                         context.getTraceId(), //
                         new RetrievePaymentCommandPayload() //
@@ -68,6 +78,11 @@ public class OrderKafkaProcess {
         return Collections.singletonMap("CorrelationId_RetrievePayment", correlationId);
     }
 
+    /**
+     * Step 2. Send message to inventory-service through kafka
+     * To check the balance of goods in stock
+     * @return retrieve FetchGoods correlation id (camunda check message by this correlation id)
+     */
     @ZeebeWorker(type = "fetch-goods", autoComplete = true)
     public Map<String, String> fetchGoodsHandle(ActivatedJob job) {
         OrderFlowContext context = OrderFlowContext.fromMap(job.getVariablesAsMap());
@@ -77,7 +92,7 @@ public class OrderKafkaProcess {
         // generate an UUID for this communication
         String correlationId = UUID.randomUUID().toString();
 
-        messageSender.send(new Message<FetchGoodsCommandPayload>( //
+        messageSender.send(new Message<>( //
                 "FetchGoodsCommand", //
                 context.getTraceId(), //
                 new FetchGoodsCommandPayload() //
@@ -88,6 +103,11 @@ public class OrderKafkaProcess {
         return Collections.singletonMap("CorrelationId_FetchGoods", correlationId);
     }
 
+    /**
+     * Step 3. Send message to shipping-service through kafka
+     * To prepare the goods for shipment to the buyer
+     * @return retrieve CorrelationId_ShipGoods (camunda check message by this correlation id)
+     */
     @ZeebeWorker(type = "ship-goods", autoComplete = true)
     public Map<String, String> shipGoodsHandle(ActivatedJob job) {
         OrderFlowContext context = OrderFlowContext.fromMap(job.getVariablesAsMap());
@@ -96,7 +116,7 @@ public class OrderKafkaProcess {
         // generate an UUID for this communication
         String correlationId = UUID.randomUUID().toString();
 
-        messageSender.send(new Message<ShipGoodsCommandPayload>( //
+        messageSender.send(new Message<>( //
                 "ShipGoodsCommand", //
                 context.getTraceId(), //
                 new ShipGoodsCommandPayload() //

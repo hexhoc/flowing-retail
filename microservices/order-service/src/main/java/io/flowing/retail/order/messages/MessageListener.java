@@ -20,24 +20,20 @@ import io.flowing.retail.order.repository.OrderRepository;
 @Component
 @RequiredArgsConstructor
 public class MessageListener {
-
-  private final OrderRepository repository;
-
   private final ZeebeClient zeebe;
-	
   private final ObjectMapper objectMapper;
 
   @KafkaListener(id = "order", topics = MessageSender.TOPIC_NAME)
   public void messageReceived(String messagePayloadJson, @Header("type") String messageType) throws Exception{
 
     if ("PaymentReceivedEvent".equals(messageType)) {
-      paymentReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<Message<PaymentReceivedEventPayload>>() {}));
+      paymentReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {}));
     }
     else if ("GoodsFetchedEvent".equals(messageType)) {
-      goodsFetchedReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<Message<GoodsFetchedEventPayload>>() {}));
+      goodsFetchedReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {}));
     }
     else if ("GoodsShippedEvent".equals(messageType)) {
-      goodsShippedReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<Message<GoodsShippedEventPayload>>() {}));
+      goodsShippedReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {}));
     }
     else {
       System.out.println("Ignored message of type " + messageType );
@@ -45,7 +41,7 @@ public class MessageListener {
   }
 
   @Transactional
-  public void paymentReceived(Message<PaymentReceivedEventPayload> message) throws Exception {
+  public void paymentReceived(Message<PaymentReceivedEventPayload> message) {
      // Here you would maybe we should read something from the payload:
     message.getData();
 
@@ -59,7 +55,7 @@ public class MessageListener {
   }
 
   @Transactional
-  public void goodsFetchedReceived(Message<GoodsFetchedEventPayload> message) throws Exception {
+  public void goodsFetchedReceived(Message<GoodsFetchedEventPayload> message) {
     String pickId = message.getData().getPickId();     
 
     zeebe.newPublishMessageCommand() //
@@ -71,9 +67,8 @@ public class MessageListener {
     System.out.println("Correlated " + message );
   }
 
-
   @Transactional
-  public void goodsShippedReceived(Message<GoodsShippedEventPayload> message) throws Exception {
+  public void goodsShippedReceived(Message<GoodsShippedEventPayload> message) {
     String shipmentId = message.getData().getShipmentId();     
 
     zeebe.newPublishMessageCommand() //

@@ -1,8 +1,15 @@
 package io.flowing.retail.order.process;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
+@Setter
+@ToString
 public class OrderFlowContext {
 
     private String traceId;
@@ -27,46 +34,4 @@ public class OrderFlowContext {
         map.put("shipmentId", shipmentId);
         return map;
     }
-
-    public String getPickId() {
-        return pickId;
-    }
-
-    public OrderFlowContext setPickId(String pickId) {
-        this.pickId = pickId;
-        return this;
-    }
-
-    public String getTraceId() {
-        return traceId;
-    }
-
-    public OrderFlowContext setTraceId(String traceId) {
-        this.traceId = traceId;
-        return this;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public OrderFlowContext setOrderId(String orderId) {
-        this.orderId = orderId;
-        return this;
-    }
-
-    public String getShipmentId() {
-        return shipmentId;
-    }
-
-    public OrderFlowContext setShipmentId(String shipmentId) {
-        this.shipmentId = shipmentId;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderFlowContext [traceId=" + traceId + ", orderId=" + orderId + ", pickId=" + pickId + ", shipmentId=" + shipmentId + "]";
-    }
-
 }

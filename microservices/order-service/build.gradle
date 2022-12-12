@@ -4,7 +4,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     // BUSINESS
-    implementation 'io.camunda:spring-zeebe-starter:8.0.5'
+    implementation "io.camunda:spring-zeebe-starter:${zeebeVersion}"
 
     // WEB
     implementation 'org.springframework.boot:spring-boot-starter-json'

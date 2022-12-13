@@ -1,6 +1,6 @@
 
 dependencies {
-//    TODO Перенести версии в главный build.gradle
+//    TODO: Перенести версии в главный build.gradle
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-json'
     implementation 'org.springframework.boot:spring-boot-starter-web'

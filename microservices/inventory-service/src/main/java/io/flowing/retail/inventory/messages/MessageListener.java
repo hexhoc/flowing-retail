@@ -33,7 +33,7 @@ public class MessageListener {
               fetchGoodsCommand.getItems(), fetchGoodsCommand.getReason(), fetchGoodsCommand.getRefId());
 
       // Long operation
-      // TODO move to inventoryService class
+      // TODO: move to inventoryService class
       Thread.sleep(60_000);
 
       messageSender.send( //

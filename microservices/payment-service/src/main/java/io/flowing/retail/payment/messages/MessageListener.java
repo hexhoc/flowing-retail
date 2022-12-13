@@ -33,7 +33,7 @@ public class MessageListener {
     log.info("Retrieve payment: " + retrievePaymentCommand.getAmount() + " for " + retrievePaymentCommand.getRefId());
 
     // Processing. Long operation
-    // TODO Add PaymentService class for todo processing
+    // TODO: Add PaymentService class for TODO: processing
     Thread.sleep(60_000);
 
     messageSender.send( //

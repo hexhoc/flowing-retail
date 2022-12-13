@@ -36,7 +36,7 @@ public class Order {
 
     private UUID customerId;
 
-    // TODO Обновлять статус заказа в зависимости от этапов его обработки
+    // TODO: Обновлять статус заказа в зависимости от этапов его обработки
     @Enumerated(EnumType.STRING)
     private OrderStatusEnum orderStatus = OrderStatusEnum.NEW;
 

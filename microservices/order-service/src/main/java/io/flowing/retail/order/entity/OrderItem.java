@@ -33,7 +33,7 @@ public class OrderItem {
   private String articleId;
 
   private int amount;
-  // TODO как вариант, добавить еще price, quantity
+  // TODO: как вариант, добавить еще price, quantity
 
   @Override
   public String toString() {

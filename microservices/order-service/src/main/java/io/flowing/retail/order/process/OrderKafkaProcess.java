@@ -37,7 +37,7 @@ public class OrderKafkaProcess {
      */
     public void startProcess(String orderId) {
         // This context is camunda variable, that flow from one task to another
-        // TODO Рассмотреть вариант, вместо id заказа лучше подставлять dto заказа
+        // TODO: Рассмотреть вариант, вместо id заказа лучше подставлять dto заказа
         OrderFlowContext context = new OrderFlowContext();
         context.setOrderId(orderId);
         context.setTraceId(UUID.randomUUID().toString());

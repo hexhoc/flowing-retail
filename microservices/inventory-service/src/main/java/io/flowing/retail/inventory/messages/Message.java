@@ -3,8 +3,6 @@ package io.flowing.retail.inventory.messages;
 import java.util.Date;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Value;
-
 public class Message<T> {
 
   // Cloud Events compliant 

@@ -4,19 +4,16 @@ import java.util.Collections;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import io.camunda.zeebe.client.ZeebeClient;
 import io.flowing.retail.order.process.payload.GoodsFetchedEventPayload;
 import io.flowing.retail.order.process.payload.GoodsShippedEventPayload;
 import io.flowing.retail.order.process.payload.PaymentReceivedEventPayload;
-import io.flowing.retail.order.repository.OrderRepository;
 
 @Component
 @RequiredArgsConstructor

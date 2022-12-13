@@ -1,16 +1,9 @@
 package io.flowing.retail.order.controller;
 
-import io.flowing.retail.order.entity.Order;
 import io.flowing.retail.order.dto.OrderDto;
-import io.flowing.retail.order.mapper.OrderMapper;
 import io.flowing.retail.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,7 +28,7 @@ public class OrderController {
 
   @Operation(summary = "Get a list of orders", description = "Check is everything ok, and service already started")
   @GetMapping
-  public ResponseEntity<Page<OrderDto>> OrderGetList(
+  public ResponseEntity<Page<OrderDto>> orderGetList(
           @Parameter(description="Page limit, default is 10")
           @RequestParam(name = "limit", required = false, defaultValue = "10") Integer limit,
           @Parameter(description="Page offset, default is 0")

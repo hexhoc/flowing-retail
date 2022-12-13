@@ -1,12 +1,10 @@
 package io.flowing.retail.customer.controller;
 
-import io.flowing.retail.customer.entity.Customer;
 import io.flowing.retail.customer.service.CustomerService;
 import io.flowing.retail.customer.dto.CustomerDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;

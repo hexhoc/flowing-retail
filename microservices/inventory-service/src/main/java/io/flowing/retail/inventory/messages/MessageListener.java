@@ -6,7 +6,6 @@ import io.flowing.retail.inventory.messages.payload.FetchGoodsCommandPayload;
 import io.flowing.retail.inventory.messages.payload.GoodsFetchedEventPayload;
 import io.flowing.retail.inventory.service.InventoryService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;

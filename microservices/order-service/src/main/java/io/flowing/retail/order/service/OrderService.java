@@ -1,13 +1,15 @@
 package io.flowing.retail.order.service;
 
-import io.camunda.zeebe.client.ZeebeClient;
 import io.flowing.retail.order.dto.OrderDto;
 import io.flowing.retail.order.entity.Order;
+import io.flowing.retail.order.entity.OrderStatusEnum;
 import io.flowing.retail.order.mapper.OrderMapper;
 import io.flowing.retail.order.process.OrderKafkaProcess;
 import io.flowing.retail.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -19,12 +21,20 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 @Log
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderKafkaProcess orderKafkaProcess;
     private final OrderMapper orderMapper;
+
+    public OrderService(
+            OrderRepository orderRepository,
+            @Lazy OrderKafkaProcess orderKafkaProcess, // use lazy to resolve circular Dependencies
+            OrderMapper orderMapper) {
+        this.orderRepository = orderRepository;
+        this.orderKafkaProcess = orderKafkaProcess;
+        this.orderMapper = orderMapper;
+    }
 
     public OrderDto createOrder(OrderDto orderDto) {
         // persist domain entity
@@ -47,6 +57,7 @@ public class OrderService {
 
         return new PageImpl<>(allItems);
     }
+
     public OrderDto findById(String id) {
         return orderMapper.toDto(requireOne(id));
     }
@@ -58,5 +69,14 @@ public class OrderService {
 
     public void deleteById(String id) {
         orderRepository.deleteById(UUID.fromString(id));
+    }
+
+    @Transactional
+    public void updateStatus(String id, OrderStatusEnum orderStatus) {
+        Order order = orderRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new NoSuchElementException("Resource not found: " + id));
+        order.setOrderStatus(orderStatus);
+
+        orderRepository.save(order);
     }
 }

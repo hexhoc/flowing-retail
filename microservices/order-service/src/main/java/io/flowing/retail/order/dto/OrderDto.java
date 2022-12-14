@@ -25,6 +25,12 @@ public class OrderDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String orderStatus;
 
+    // TODO: Change Integer to BigDecimal
+    @Schema(description = "Total order sum")
+    @Null
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Integer totalSum;
+
     @Schema(description = "Order's items")
     private List<OrderItemDto> items = new ArrayList<>();
 

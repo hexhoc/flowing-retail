@@ -3,13 +3,13 @@ package io.flowing.retail.order.process.payload;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.flowing.retail.order.entity.OrderItem;
+import io.flowing.retail.order.dto.OrderItemDto;
 
 public class FetchGoodsCommandPayload {
   
   private String refId;
   private String reason = "CustomerOrder";
-  private List<OrderItem> items = new ArrayList<>();
+  private List<OrderItemDto> items = new ArrayList<>();
   
   public String getRefId() {
     return refId;
@@ -25,10 +25,10 @@ public class FetchGoodsCommandPayload {
     this.reason = reason;
     return this;
   }
-  public List<OrderItem> getItems() {
+  public List<OrderItemDto> getItems() {
     return items;
   }
-  public FetchGoodsCommandPayload setItems(List<OrderItem> items) {
+  public FetchGoodsCommandPayload setItems(List<OrderItemDto> items) {
     this.items = items;
     return this;
   }

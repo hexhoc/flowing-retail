@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.flowing.retail.payment.messages.payload.PaymentReceivedEventPayload;
 import io.flowing.retail.payment.messages.payload.RetrievePaymentCommandPayload;
+import io.flowing.retail.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Log
 public class MessageListener {    
   
+  private final PaymentService paymentService;
   private final MessageSender messageSender;
   private final ObjectMapper objectMapper;
 
@@ -33,9 +35,8 @@ public class MessageListener {
     log.info("Retrieve payment: " + retrievePaymentCommand.getAmount() + " for " + retrievePaymentCommand.getRefId());
 
     // Processing. Long operation
-    // TODO: Add PaymentService class for TODO: processing
-    Thread.sleep(60_000);
-
+    paymentService.receive(retrievePaymentCommand);
+    
     messageSender.send( //
         new Message<>( //
             "PaymentReceivedEvent", //

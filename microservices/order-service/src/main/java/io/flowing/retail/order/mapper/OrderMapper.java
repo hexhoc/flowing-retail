@@ -16,9 +16,10 @@ public class OrderMapper {
     public OrderDto toDto(Order order) {
         OrderDto orderDto = new OrderDto();
         orderDto.setOrderId(order.getId());
-        orderDto.setCustomer(this.customerService.getCustomerById(order.getCustomerId()).get());
+        orderDto.setCustomer(this.customerService.getCustomerById(order.getCustomerId()));
         orderDto.setOrderStatus(order.getOrderStatus().toString());
         orderDto.setItems(order.getItems().stream().map(orderItemMapper::toDto).toList());
+        orderDto.setTotalSum(order.getTotalSum());
         return orderDto;
     }
 

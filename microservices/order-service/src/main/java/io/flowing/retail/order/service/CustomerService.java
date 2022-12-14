@@ -24,12 +24,12 @@ public class CustomerService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public Optional<CustomerDto> getCustomerById(UUID uuid){
-        return Optional.ofNullable(restTemplate.getForObject(customerServiceHost + CUSTOMER_PATH_V1 + uuid.toString(), CustomerDto.class));
+    public CustomerDto getCustomerById(UUID uuid){
+        return restTemplate.getForObject(customerServiceHost + CUSTOMER_PATH_V1 + uuid.toString(), CustomerDto.class);
     }
 
-    public Optional<CustomerPagedList> getListOfCustomer() {
-        return Optional.ofNullable(restTemplate.getForObject(customerServiceHost + CUSTOMER_PATH_V1, CustomerPagedList.class));
+    public CustomerPagedList getListOfCustomer() {
+        return restTemplate.getForObject(customerServiceHost + CUSTOMER_PATH_V1, CustomerPagedList.class);
     }
 
 }

@@ -1,7 +1,7 @@
 custom:
   flowingretail:
     customer-service:
-      host: http://customer-service:8070
+      host: http://customer-service:8040
 spring:
   kafka:
     bootstrap-servers: kafka:9092

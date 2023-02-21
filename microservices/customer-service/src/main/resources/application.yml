@@ -4,4 +4,4 @@ spring:
   profiles:
     active: dev
 server:
-  port: 8070
+  port: 8040

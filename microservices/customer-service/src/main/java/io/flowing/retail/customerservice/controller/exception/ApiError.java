@@ -1,4 +1,4 @@
-package io.flowing.retail.customer.controller.exception;
+package io.flowing.retail.customerservice.controller.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;

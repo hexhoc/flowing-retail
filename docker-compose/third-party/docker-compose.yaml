@@ -1,9 +1,38 @@
 version: '3.8'
 
 services:
-  postgresql:
+  keycloak:
+    image: jboss/keycloak
+    container_name: keycloak
+    restart: always
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_VENDOR: postgres
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      # volumes:
+      #   - ./config/realm-export.json:/opt/jboss/keycloak/realm-export.json
+      # command:
+      # - "-b 0.0.0.0"
+      # - "-Dkeycloak.import=/opt/jboss/keycloak/realm-export.json"
+      # - "-Dkeycloak.profile.feature.scripts=enabled"
+      # - "-Dkeycloak.profile.feature.upload_scripts=enabled"
+    ports:
+      - "8080:8080"
+    networks:
+      - flowing
+
+  postgres:
+    container_name: postgres
     image: postgres:latest
-    container_name: postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
     command:
       # configuration for logging. All this config properties we can also set in postgres.conf.conf
       - "postgres"
@@ -20,18 +49,18 @@ services:
       - "-c"
       - "log_rotation_age=60"
     volumes:
-#      - ./postgres/pgdata:/var/lib/postgresql/data
-      - ./postgres/pgconf:/etc/postgresql
-      - ./postgres/pglog:/var/log/postgresql
-      - ./postgres/init_scripts:/docker-entrypoint-initdb.d
+      # If you need access to postgres data, uncomment this part
+      # - pgdata:/var/lib/postgresql/data
+      # - pgconf:/etc/postgresql
+      # - pglog:/var/log/postgresql
+      - ./config/postgres/init_scripts:/docker-entrypoint-initdb.d
     networks:
       - flowing
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   zookeeper:
     image: "confluentinc/cp-zookeeper:latest"

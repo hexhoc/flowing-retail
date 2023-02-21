@@ -14,7 +14,6 @@ import java.util.List;
 @Schema(description = "Error model")
 public class ApiError {
     private String message;
-
     private String debugMessage;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

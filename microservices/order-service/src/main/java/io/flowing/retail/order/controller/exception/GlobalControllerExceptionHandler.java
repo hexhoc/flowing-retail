@@ -47,7 +47,7 @@ public class GlobalControllerExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected ResponseEntity<ApiError> handleAllExceptions(Exception e) {
-        log.info("Returning HTTP 400 Bad Request", e);
+        log.info("Returning HTTP 500 INTERNAL SERVER ERROR", e);
 
         ApiError apiError = new ApiError("Internal Exception", e.getMessage());
         return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);

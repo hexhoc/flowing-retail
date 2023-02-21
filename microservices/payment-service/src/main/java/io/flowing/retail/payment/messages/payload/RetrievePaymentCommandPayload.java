@@ -11,6 +11,6 @@ public class RetrievePaymentCommandPayload {
   // Order id
   private String refId;
   private String reason;
-  private int amount;
+  private double amount;
 
 }

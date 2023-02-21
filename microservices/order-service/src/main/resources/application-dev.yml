@@ -17,14 +17,7 @@ spring:
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
-
 zeebe:
   client:
     broker:
       gateway-address: 127.0.0.1:26500
-
-## DATASOURCE
-#spring.datasource.url=jdbc:postgresql://localhost:5432/instagram
-#spring.datasource.username=postgres
-#spring.datasource.password=postgres
-#spring.datasource.driver-class-name=org.postgresql.Driver

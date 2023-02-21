@@ -4,7 +4,7 @@ public class RetrievePaymentCommandPayload {
   
   private String refId;
   private String reason;
-  private int amount;
+  private double amount;
   
   public String getRefId() {
     return refId;
@@ -20,10 +20,10 @@ public class RetrievePaymentCommandPayload {
     this.reason = reason;
     return this;
   }
-  public int getAmount() {
+  public double getAmount() {
     return amount;
   }
-  public RetrievePaymentCommandPayload setAmount(int amount) {
+  public RetrievePaymentCommandPayload setAmount(double amount) {
     this.amount = amount;
     return this;
   }

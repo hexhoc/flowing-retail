@@ -18,7 +18,7 @@ public class PaymentService {
      * @throws InterruptedException
      */
     public void receive(RetrievePaymentCommandPayload retrievePaymentCommand) throws InterruptedException {
-        log.info(String.format("Payment has been received. Order id: %s, reason: %s, amount: %d",
+        log.info(String.format("Payment has been received. Order id: %s, reason: %s, amount: %s",
                 retrievePaymentCommand.getRefId(),
                 retrievePaymentCommand.getReason(),
                 retrievePaymentCommand.getAmount()));

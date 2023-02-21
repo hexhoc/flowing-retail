@@ -3,36 +3,34 @@ package io.flowing.retail.order.process;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.spring.client.annotation.ZeebeWorker;
-import io.flowing.retail.order.dto.CustomerDto;
-import io.flowing.retail.order.dto.OrderDto;
-import io.flowing.retail.order.entity.Order;
-import io.flowing.retail.order.entity.OrderStatusEnum;
+import io.flowing.retail.order.dto.CustomerDTO;
+import io.flowing.retail.order.dto.OrderDTO;
+import io.flowing.retail.order.entity.enums.OrderStatusEnum;
 import io.flowing.retail.order.messages.Message;
 import io.flowing.retail.order.messages.MessageSender;
 import io.flowing.retail.order.process.payload.FetchGoodsCommandPayload;
 import io.flowing.retail.order.process.payload.OrderCompletedEventPayload;
 import io.flowing.retail.order.process.payload.RetrievePaymentCommandPayload;
 import io.flowing.retail.order.process.payload.ShipGoodsCommandPayload;
-import io.flowing.retail.order.repository.OrderRepository;
 import io.flowing.retail.order.service.CustomerService;
 import io.flowing.retail.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.annotation.PostConstruct;
-
 @Component
 @RequiredArgsConstructor
-@Log
+@Log4j2
 public class OrderKafkaProcess {
 
     private final MessageSender messageSender;
     private final OrderService orderService;
+    private final CustomerService customerService;
     private final ZeebeClient zeebeClient;
 
     /**
@@ -66,8 +64,8 @@ public class OrderKafkaProcess {
         log.info("retrieve-payment job");
         OrderFlowContext context = OrderFlowContext.fromMap(job.getVariablesAsMap());
 
-        OrderDto orderDto = orderService.findById(context.getOrderId());
-        orderService.updateStatus(orderDto.getOrderId(), OrderStatusEnum.PAYMENT_AWAITING);
+        OrderDTO orderDto = orderService.findById(context.getOrderId());
+        orderService.updateStatus(orderDto.getId(), OrderStatusEnum.PAYMENT_AWAITING);
         // generate an UUID for this communication
         String correlationId = UUID.randomUUID().toString();
 
@@ -76,9 +74,9 @@ public class OrderKafkaProcess {
                         "RetrievePaymentCommand", //
                         context.getTraceId(), //
                         new RetrievePaymentCommandPayload() //
-                                .setRefId(orderDto.getOrderId()) //
+                                .setRefId(orderDto.getId()) //
                                 .setReason("order") //
-                                .setAmount(orderDto.getTotalSum())) //
+                                .setAmount(orderDto.getTotalPrice().doubleValue())) //
                         .setCorrelationid(correlationId));
 
         return Collections.singletonMap("CorrelationId_RetrievePayment", correlationId);
@@ -96,8 +94,8 @@ public class OrderKafkaProcess {
         log.info("fetch-goods job");
 
         OrderFlowContext context = OrderFlowContext.fromMap(job.getVariablesAsMap());
-        OrderDto orderDto = orderService.findById(context.getOrderId());
-        orderService.updateStatus(orderDto.getOrderId(), OrderStatusEnum.ALLOCATION_AWAITING);
+        OrderDTO orderDto = orderService.findById(context.getOrderId());
+        orderService.updateStatus(orderDto.getId(), OrderStatusEnum.TO_RESERVE);
 
         // generate an UUID for this communication
         String correlationId = UUID.randomUUID().toString();
@@ -106,8 +104,8 @@ public class OrderKafkaProcess {
                 "FetchGoodsCommand", //
                 context.getTraceId(), //
                 new FetchGoodsCommandPayload() //
-                        .setRefId(orderDto.getOrderId()) //
-                        .setItems(orderDto.getItems())) //
+                        .setRefId(orderDto.getId()) //
+                        .setItems(orderDto.getOrderItems())) //
                 .setCorrelationid(correlationId));
 
         return Collections.singletonMap("CorrelationId_FetchGoods", correlationId);
@@ -125,9 +123,9 @@ public class OrderKafkaProcess {
         log.info("ship-goods job");
 
         OrderFlowContext context = OrderFlowContext.fromMap(job.getVariablesAsMap());
-        OrderDto orderDto = orderService.findById(context.getOrderId());
-        CustomerDto customerDto = orderDto.getCustomer();
-        orderService.updateStatus(orderDto.getOrderId(), OrderStatusEnum.DELIVERY_AWAITING);
+        OrderDTO orderDto = orderService.findById(context.getOrderId());
+        CustomerDTO customerDTO = customerService.getCustomerById(orderDto.getCustomerId());
+        orderService.updateStatus(orderDto.getId(), OrderStatusEnum.SHIPMENT_READY);
 
         // generate an UUID for this communication
         String correlationId = UUID.randomUUID().toString();
@@ -136,10 +134,10 @@ public class OrderKafkaProcess {
                 "ShipGoodsCommand", //
                 context.getTraceId(), //
                 new ShipGoodsCommandPayload() //
-                        .setRefId(orderDto.getOrderId())
+                        .setRefId(orderDto.getId())
                         .setPickId(context.getPickId()) //
-                        .setRecipientName(customerDto.getName()) //
-                        .setRecipientAddress(customerDto.getAddress())) //
+                        .setRecipientName(String.format("%s %s", customerDTO.getFirstName(), customerDTO.getLastName())) //
+                        .setRecipientAddress(orderDto.getAddress())) //
                 .setCorrelationid(correlationId));
 
         return Collections.singletonMap("CorrelationId_ShipGoods", correlationId);

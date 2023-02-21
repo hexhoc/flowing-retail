@@ -5,7 +5,7 @@
 .DEFAULT_GOAL:=help
 IMAGE_PREFIX=flowing-retail
 REPOSITORY=hexhoc
-DOCKER_NETWORK=flowing-retail-network
+DOCKER_NETWORK=flowing
 
 # show some help
 help:

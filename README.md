@@ -41,7 +41,7 @@ The services have to collaborate in order to implement the overall business capa
 # How it is work (step by step)
 ![Workflow](docs/architecture-flowing-retail.png)
 1. After everything has started up you are ready to visit the overview page [http://localhost:8099](http://localhost:8089)
-2. You can place an order via [http://localhost:8091](http://localhost:8091)
+2. You can place an order via [http://localhost:8050](http://localhost:8050)
 3. **order-service** service. Rest api controller get query, create new order and save order in db
 4. **order-service** service. Start bussines process with name "order-kafka" (/resource/order-kafka.bpmn). Send start proccess to using zeebe client to zeebe contatiner (zeebe:26500).
 5. **order-service** service. BPMN start new event **Retrieve payment** @ZeebeWorker in **RetrievePaymentAdapter** class get control, create instance of **RetrievePaymentCommandPayload** with order id and sum and send it to topic **flowing-retail**
@@ -80,7 +80,7 @@ and run next command ```docker compose up -d --build```
 
 After that:
 * After everything has started up you are ready to visit the overview page [http://localhost:8099](http://localhost:8089)
-* You can place an order via [http://localhost:8091](http://localhost:8091)
+* You can place an order via [http://localhost:8050](http://localhost:8050)
 * You can inspect processes via Camunda Operate on [http://localhost:8081](http://localhost:8081)
 * You can inspect all events going on via [http://localhost:8095](http://localhost:8095)
 

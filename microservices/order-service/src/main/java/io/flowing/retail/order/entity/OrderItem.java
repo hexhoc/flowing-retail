@@ -1,13 +1,17 @@
 package io.flowing.retail.order.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -26,17 +30,33 @@ public class OrderItem {
   @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()", updatable = false, nullable = false)
   private UUID id;
 
+
+  @NotNull
   @JsonIgnore
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  @JoinColumn(name = "order_id", nullable = false)
   private Order order;
 
-  private String articleId;
+  @NotNull
+  @Column(name = "product_id", nullable = false)
+  private Integer productId;
 
-  private int amount;
-  // TODO: как вариант, добавить еще price, quantity
+  @NotNull
+  @Column(name = "quantity", nullable = false)
+  private Integer quantity;
+
+  @NotNull
+  @Column(name = "price", nullable = false)
+  private BigDecimal price;
 
   @Override
   public String toString() {
-    return "OrderItem [articleId=" + articleId + ", amount=" + amount + "]";
+    return "OrderItem{" +
+            "id=" + id +
+            ", productId=" + productId +
+            ", quantity=" + quantity +
+            ", price=" + price +
+            '}';
   }
 }

@@ -25,14 +25,14 @@ services:
     image: hexhoc/flowing-retail-order-service
     container_name: order-service
     ports:
-      - "8091:8091"
-      - "9091:9091"
+      - "8050:8050"
+      - "9050:9050"
     depends_on:
       - kafka
       - zeebe
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9091
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9050
 
   payment-service:
     image: hexhoc/flowing-retail-payment-service
@@ -75,8 +75,3 @@ services:
     container_name: frontend
     ports:
       - "8099:80"
-
-networks:
-  default:
-    name: third-party_flowing
-    external: true

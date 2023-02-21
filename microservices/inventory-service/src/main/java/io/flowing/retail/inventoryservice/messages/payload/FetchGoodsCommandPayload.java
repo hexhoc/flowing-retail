@@ -1,11 +1,9 @@
-package io.flowing.retail.inventory.messages.payload;
+package io.flowing.retail.inventoryservice.messages.payload;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
-import io.flowing.retail.inventory.domain.Item;
+import io.flowing.retail.inventoryservice.dto.InventoryItemDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -15,6 +13,6 @@ public class FetchGoodsCommandPayload {
   
   private String refId;
   private String reason = "CustomerOrder";
-  private Set<Item> items = new LinkedHashSet<>();
+  private Set<InventoryItemDTO> items = new LinkedHashSet<>();
 
 }

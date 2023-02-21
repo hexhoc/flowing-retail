@@ -1,13 +1,11 @@
 package io.flowing.retail.order.service;
 
 import io.flowing.retail.order.dto.CustomerDTO;
-import io.flowing.retail.order.model.CustomerPagedList;
+import io.flowing.retail.order.dto.CustomerPagedList;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.UUID;
 
 @Service
 public class CustomerService {

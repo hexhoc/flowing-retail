@@ -4,6 +4,7 @@ import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.spring.client.annotation.ZeebeWorker;
 import io.flowing.retail.order.dto.CustomerDTO;
+import io.flowing.retail.order.dto.InventoryItemDTO;
 import io.flowing.retail.order.dto.OrderDTO;
 import io.flowing.retail.order.entity.enums.OrderStatusEnum;
 import io.flowing.retail.order.messages.Message;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -105,7 +107,9 @@ public class OrderKafkaProcess {
                 context.getTraceId(), //
                 new FetchGoodsCommandPayload() //
                         .setRefId(orderDto.getId()) //
-                        .setItems(orderDto.getOrderItems())) //
+                        .setItems(orderDto.getOrderItems().stream()
+                                .map(i -> new InventoryItemDTO(i.getProductId(), i.getQuantity()))
+                                .collect(Collectors.toSet()))) //
                 .setCorrelationid(correlationId));
 
         return Collections.singletonMap("CorrelationId_FetchGoods", correlationId);

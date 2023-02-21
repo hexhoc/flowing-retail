@@ -1,11 +1,18 @@
-
 dependencies {
     // METRIC
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     // WEB
     implementation 'org.springframework.boot:spring-boot-starter-json'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.springdoc:springdoc-openapi-ui:${springdocVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.kafka:spring-kafka'
+
+    // DB
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "org.postgresql:postgresql"
+    implementation 'org.flywaydb:flyway-core'
 
     // HELPER
     compileOnly 'org.projectlombok:lombok'
@@ -15,3 +22,4 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
+

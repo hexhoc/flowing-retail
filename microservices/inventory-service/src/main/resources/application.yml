@@ -3,7 +3,8 @@ spring:
     name: inventory-service
   profiles:
     active: dev
-
   kafka:
     consumer:
       auto-offset-reset: earliest
+server:
+  port: 8010

@@ -1,4 +1,4 @@
-package io.flowing.retail.order.model;
+package io.flowing.retail.order.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,9 +9,9 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public class CustomerPagedList extends PageImpl<CustomerDto> {
+public class CustomerPagedList extends PageImpl<CustomerDTO> {
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public CustomerPagedList(@JsonProperty("content") List<CustomerDto> content,
+    public CustomerPagedList(@JsonProperty("content") List<CustomerDTO> content,
                              @JsonProperty("number") int number,
                              @JsonProperty("size") int size,
                              @JsonProperty("totalElements") Long totalElements,
@@ -25,11 +25,11 @@ public class CustomerPagedList extends PageImpl<CustomerDto> {
         super(content, PageRequest.of(number, size), totalElements);
     }
 
-    public CustomerPagedList(List<CustomerDto> content, Pageable pageable, long total) {
+    public CustomerPagedList(List<CustomerDTO> content, Pageable pageable, long total) {
         super(content, pageable, total);
     }
 
-    public CustomerPagedList(List<CustomerDto> content) {
+    public CustomerPagedList(List<CustomerDTO> content) {
         super(content, PageRequest.of(1, content.size()), content.size());
     }
 }

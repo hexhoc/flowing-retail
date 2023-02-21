@@ -1,4 +1,4 @@
-package io.flowing.retail.inventory.messages;
+package io.flowing.retail.inventoryservice.messages;
 
 import java.util.Date;
 import java.util.UUID;

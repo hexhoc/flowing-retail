@@ -1,23 +1,30 @@
 package io.flowing.retail.order.process.payload;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
-
-import io.flowing.retail.order.dto.OrderItemDTO;
+import io.flowing.retail.order.dto.InventoryItemDTO;
 
 public class FetchGoodsCommandPayload {
   
   private String refId;
   private String reason = "CustomerOrder";
-  private Set<OrderItemDTO> items = new LinkedHashSet<>();
+  private String orderId;
+  private Set<InventoryItemDTO> items = new LinkedHashSet<>();
   
   public String getRefId() {
     return refId;
   }
   public FetchGoodsCommandPayload setRefId(String refId) {
     this.refId = refId;
+    return this;
+  }
+
+  public String getOrderId() {
+    return orderId;
+  }
+
+  public FetchGoodsCommandPayload setOrderId(String orderId) {
+    this.orderId = orderId;
     return this;
   }
   public String getReason() {
@@ -27,10 +34,10 @@ public class FetchGoodsCommandPayload {
     this.reason = reason;
     return this;
   }
-  public Set<OrderItemDTO> getItems() {
+  public Set<InventoryItemDTO> getItems() {
     return items;
   }
-  public FetchGoodsCommandPayload setItems(Set<OrderItemDTO> items) {
+  public FetchGoodsCommandPayload setItems(Set<InventoryItemDTO> items) {
     this.items = items;
     return this;
   }

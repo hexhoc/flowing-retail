@@ -1,10 +1,10 @@
-package io.flowing.retail.inventory.messages;
+package io.flowing.retail.inventoryservice.messages;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.flowing.retail.inventory.messages.payload.FetchGoodsCommandPayload;
-import io.flowing.retail.inventory.messages.payload.GoodsFetchedEventPayload;
-import io.flowing.retail.inventory.service.InventoryService;
+import io.flowing.retail.inventoryservice.messages.payload.FetchGoodsCommandPayload;
+import io.flowing.retail.inventoryservice.messages.payload.GoodsFetchedEventPayload;
+import io.flowing.retail.inventoryservice.service.ProductStockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
@@ -16,9 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MessageListener {
 
   private final MessageSender messageSender;
-  
-  private final InventoryService inventoryService;
-
+  private final ProductStockService productStockService;
   private final ObjectMapper objectMapper;
   
   @Transactional
@@ -28,18 +26,14 @@ public class MessageListener {
       Message<FetchGoodsCommandPayload> message = objectMapper.readValue(messagePayloadJson, new TypeReference<>() { });
 
       FetchGoodsCommandPayload fetchGoodsCommand = message.getData();
-      String pickId = inventoryService.pickItems( //
+      productStockService.pickItems( //
               fetchGoodsCommand.getItems(), fetchGoodsCommand.getReason(), fetchGoodsCommand.getRefId());
-
-      // Long operation
-      // TODO: move to inventoryService class
-      Thread.sleep(60_000);
 
       messageSender.send( //
               new Message<>( //
                       "GoodsFetchedEvent", //
                       message.getTraceid(), //
-                      new GoodsFetchedEventPayload(fetchGoodsCommand.getRefId(), pickId))
+                      new GoodsFetchedEventPayload(fetchGoodsCommand.getRefId(), fetchGoodsCommand.getRefId()))
                       .setCorrelationid(message.getCorrelationid()));
     }
   }

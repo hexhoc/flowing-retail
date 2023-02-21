@@ -1,7 +1,15 @@
 spring:
   kafka:
     bootstrap-servers: kafka:9092
-#zeebe:
-#  client:
-#    broker:
-#      gateway-address: zeebe:26500
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    url: jdbc:postgresql://postgresql:5432/inventory_service_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver

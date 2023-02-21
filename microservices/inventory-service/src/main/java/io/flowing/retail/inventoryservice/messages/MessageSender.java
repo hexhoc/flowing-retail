@@ -1,4 +1,4 @@
-package io.flowing.retail.inventory.messages;
+package io.flowing.retail.inventoryservice.messages;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

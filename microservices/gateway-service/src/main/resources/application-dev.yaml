@@ -1,3 +1,8 @@
 routes:
   uri:
     order-service: http://localhost:8050
+    payment-service: http://localhost:8020
+    inventory-service: http://localhost:8010
+    customer-service: http://localhost:8040
+    product-service: http://localhost:8000
+    shipping-service: http://localhost:8020

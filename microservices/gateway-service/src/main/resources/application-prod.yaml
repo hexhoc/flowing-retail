@@ -1,3 +1,8 @@
 routes:
   uri:
     order-service: http://order-service:8050
+    payment-service: http://payment-service:8020
+    inventory-service: http://inventory-service:8010
+    customer-service: http://customer-service:8040
+    product-service: http://product-service:8000
+    shipping-service: http://shipping-service:8020

@@ -17,19 +17,19 @@ public class Category {
 
     @Id
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Integer id;
 
     @Column(name = "level", nullable = false)
-    private Integer level;
+    private Short level;
 
     @Column(name = "parent_id")
-    private Long parentId;
+    private Integer parentId;
 
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "rank", nullable = false)
-    private Long rank;
+    private Integer rank;
 
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;

@@ -6,11 +6,9 @@ drop table if exists orders;
 create table orders
 (
     id            uuid                  DEFAULT gen_random_uuid() not null,
-    order_no      varchar(20)  not null,
-    order_date    timestamp    not null,
     customer_id   int4         not null,
     address       varchar(255) not null default '',
-    status        int2         not null,
+    status        varchar(200)         not null,
     is_deleted    boolean      not null,
     created_date  timestamp    not null,
     modified_date timestamp    not null,
@@ -21,12 +19,9 @@ alter table orders
     add constraint order_id primary key (id);
 
 comment on column orders.id is 'Order id';
-comment on column orders.order_no is 'Order number';
-comment on column orders.order_date is 'Order date';
 comment on column orders.customer_id is 'Order customer';
 comment on column orders.address is 'Order address';
 comment on column orders.status is 'Order status';
-comment on column orders.total_price is 'Order total price';
 
 -- ------------------------------------------------------------
 -- Dump of table order items

@@ -29,10 +29,7 @@ help:
 	@echo ''
 
 create-network:
-ifeq ($(shell docker network ls | grep ${DOCKER_NETWORK} | wc -l),0)
-	echo "Creating docker network ${DOCKER_NETWORK}"
-	@docker network create ${DOCKER_NETWORK}
-endif
+	docker network create ${DOCKER_NETWORK}
 
 build:
 	cd microservices && sh gradlew clean build
@@ -59,6 +56,7 @@ build-images:
 	cd microservices/order-service && docker build -t ${REPOSITORY}/flowing-retail-order-service .
 	cd microservices/payment-service && docker build -t ${REPOSITORY}/flowing-retail-payment-service .
 	cd microservices/shipping-service && docker build -t ${REPOSITORY}/flowing-retail-shipping-service .
+	cd microservices/product-service && docker build -t ${REPOSITORY}/flowing-retail-product-service .
 	cd microservices/frontend && docker build -t ${REPOSITORY}/flowing-retail-frontend .
 
 clean-images:

@@ -15,7 +15,7 @@ spring:
         jwt:
           issuer-uri: http://keycloak:8080/auth/realms/ecommerce-realm
   datasource:
-    url: jdbc:postgresql://postgresql:5432/product_service_db
+    url: jdbc:postgresql://postgres:5432/product_service_db
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver

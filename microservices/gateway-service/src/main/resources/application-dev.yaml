@@ -5,4 +5,4 @@ routes:
     inventory-service: http://localhost:8010
     customer-service: http://localhost:8040
     product-service: http://localhost:8000
-    shipping-service: http://localhost:8020
+    shipping-service: http://localhost:8030

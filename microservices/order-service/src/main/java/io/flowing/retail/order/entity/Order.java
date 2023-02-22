@@ -33,16 +33,6 @@ public class Order {
     @Type(type = "org.hibernate.type.PostgresUUIDType")
     @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()", updatable = false, nullable = false)
     private UUID id;
-
-    @Size(max = 20)
-    @NotNull
-    @Column(name = "order_no", nullable = false, length = 20)
-    private String orderNo;
-
-    @NotNull
-    @Column(name = "order_date", nullable = false)
-    private LocalDateTime orderDate;
-
     @NotNull
     @Column(name = "customer_id", nullable = false)
     private Integer customerId;

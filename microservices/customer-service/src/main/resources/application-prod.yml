@@ -7,7 +7,7 @@ spring:
       hibernate:
         format_sql: true
   datasource:
-    url: jdbc:postgresql://postgresql:5432/customer_service_db
+    url: jdbc:postgresql://postgres:5432/customer_service_db
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver

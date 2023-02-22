@@ -1,29 +1,29 @@
 version: '3.8'
 
 services:
-  keycloak:
-    image: jboss/keycloak
-    container_name: keycloak
-    restart: always
-    environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
-      DB_VENDOR: postgres
-      DB_ADDR: postgres
-      DB_DATABASE: keycloak
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      # volumes:
-      #   - ./config/realm-export.json:/opt/jboss/keycloak/realm-export.json
-      # command:
-      # - "-b 0.0.0.0"
-      # - "-Dkeycloak.import=/opt/jboss/keycloak/realm-export.json"
-      # - "-Dkeycloak.profile.feature.scripts=enabled"
-      # - "-Dkeycloak.profile.feature.upload_scripts=enabled"
-    ports:
-      - "8080:8080"
-    networks:
-      - flowing
+#  keycloak:
+#    image: jboss/keycloak
+#    container_name: keycloak
+#    restart: always
+#    environment:
+#      KEYCLOAK_USER: admin
+#      KEYCLOAK_PASSWORD: admin
+#      DB_VENDOR: postgres
+#      DB_ADDR: postgres
+#      DB_DATABASE: keycloak
+#      DB_USER: postgres
+#      DB_PASSWORD: postgres
+#      # volumes:
+#      #   - ./config/realm-export.json:/opt/jboss/keycloak/realm-export.json
+#      # command:
+#      # - "-b 0.0.0.0"
+#      # - "-Dkeycloak.import=/opt/jboss/keycloak/realm-export.json"
+#      # - "-Dkeycloak.profile.feature.scripts=enabled"
+#      # - "-Dkeycloak.profile.feature.upload_scripts=enabled"
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - flowing
 
   postgres:
     container_name: postgres
@@ -161,4 +161,4 @@ volumes:
 
 networks:
   flowing:
-    driver: bridge
+    external: true

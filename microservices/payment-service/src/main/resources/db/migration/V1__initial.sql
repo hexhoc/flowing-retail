@@ -9,7 +9,7 @@ create table payments
     date          timestamp not null,
     order_id      varchar(36)      not null,
     customer_id   int4      not null,
-    type          int2      not null,
+    type          varchar(200)      not null,
     amount        numeric   not null check ( amount > 0 ),
     is_deleted    boolean   not null,
     created_date  timestamp not null,

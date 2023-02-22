@@ -20,12 +20,6 @@ public class OrderDTO implements Serializable {
     @Schema(description = "id")
     private String id;
 
-    @Schema(description = "order no")
-    private String orderNo;
-
-    @Schema(description = "order date")
-    private LocalDateTime orderDate;
-
     @Schema(description = "customer id")
     private Integer customerId;
 

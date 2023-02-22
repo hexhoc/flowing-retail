@@ -3,6 +3,8 @@ package io.flowing.retail.order.process.payload;
 public class RetrievePaymentCommandPayload {
   
   private String refId;
+  private Integer customerId;
+
   private String reason;
   private double amount;
   
@@ -13,6 +15,16 @@ public class RetrievePaymentCommandPayload {
     this.refId = refId;
     return this;
   }
+
+  public Integer getCustomerId() {
+    return customerId;
+  }
+
+  public RetrievePaymentCommandPayload setCustomerId(Integer customerId) {
+    this.customerId = customerId;
+    return this;
+  }
+
   public String getReason() {
     return reason;
   }

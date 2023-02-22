@@ -1,4 +1,4 @@
-package io.flowing.retail.payment.messages.payload;
+package io.flowing.retail.paymentservice.messages.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class PaymentReceivedEventPayload {
   private String refId;
-
+  private boolean success;
 }

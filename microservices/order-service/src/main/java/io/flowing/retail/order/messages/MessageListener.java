@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.flowing.retail.order.entity.enums.OrderStatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -27,14 +28,11 @@ public class MessageListener {
   public void messageReceived(String messagePayloadJson, @Header("type") String messageType) throws Exception {
 
     if ("PaymentReceivedEvent".equals(messageType)) {
-      paymentReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {
-      }));
+      paymentReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {}));
     } else if ("GoodsFetchedEvent".equals(messageType)) {
-      goodsFetchedReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {
-      }));
+      goodsFetchedReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {}));
     } else if ("GoodsShippedEvent".equals(messageType)) {
-      goodsShippedReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {
-      }));
+      goodsShippedReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {}));
     } else {
       log.info("Ignored message of type " + messageType);
     }
@@ -44,12 +42,12 @@ public class MessageListener {
     log.info("paymentReceived");
 
     PaymentReceivedEventPayload paymentReceivedEventPayload = message.getData();
-    orderService.updateStatus(paymentReceivedEventPayload.getRefId(), OrderStatusEnum.PAID);
-
+    orderService.updateStatus(paymentReceivedEventPayload.getRefId(), OrderStatusEnum.PICK_UP);
+    // TODO: set in variables. Payment success or not
     zeebe.newPublishMessageCommand() //
         .messageName(message.getType())
         .correlationKey(message.getCorrelationid())
-        .variables(Collections.singletonMap("paymentInfo", "YeahWeCouldAddSomething"))
+        .variables(Collections.singletonMap("paymentSuccess", paymentReceivedEventPayload.isSuccess()))
         .send().join();
 
     log.info("Correlated " + message);
@@ -59,8 +57,8 @@ public class MessageListener {
     log.info("goodsFetchedReceived");
 
     GoodsFetchedEventPayload goodsFetchedEventPayload = message.getData();
-    orderService.updateStatus(goodsFetchedEventPayload.getRefId(), OrderStatusEnum.ALLOCATED);
-
+    orderService.updateStatus(goodsFetchedEventPayload.getRefId(), OrderStatusEnum.SHIPMENT_READY);
+    // TODO: set in variables. Fetched success or not
     zeebe.newPublishMessageCommand() //
         .messageName(message.getType()) //
         .correlationKey(message.getCorrelationid()) //
@@ -74,8 +72,8 @@ public class MessageListener {
     log.info("goodsShippedReceived");
 
     GoodsShippedEventPayload goodsShippedEventPayload = message.getData();
-    orderService.updateStatus(goodsShippedEventPayload.getRefId(), OrderStatusEnum.DELIVERED);
-
+    orderService.updateStatus(goodsShippedEventPayload.getRefId(), OrderStatusEnum.DONE);
+    // TODO: set in variables. Shipment success or not
     zeebe.newPublishMessageCommand() //
         .messageName(message.getType()) //
         .correlationKey(message.getCorrelationid()) //

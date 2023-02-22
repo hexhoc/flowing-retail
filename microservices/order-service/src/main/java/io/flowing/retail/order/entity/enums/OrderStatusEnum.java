@@ -2,8 +2,8 @@ package io.flowing.retail.order.entity.enums;
 
 public enum OrderStatusEnum {
     NEW,
-    TO_RESERVE,
     PAYMENT_AWAITING,
+    PICK_UP,
     SHIPMENT_READY,
     DONE,
     CANCELLED,

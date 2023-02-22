@@ -1,4 +1,4 @@
-package io.flowing.retail.payment.messages.payload;
+package io.flowing.retail.paymentservice.messages.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class RetrievePaymentCommandPayload {
   // Order id
   private String refId;
+  private Integer customerId;
   private String reason;
   private double amount;
 

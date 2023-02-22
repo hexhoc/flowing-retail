@@ -40,7 +40,6 @@ public class OrderKafkaProcess {
      */
     public void startProcess(String orderId) {
         // This context is camunda variable, that flow from one task to another
-        // TODO: Рассмотреть вариант, вместо id заказа лучше подставлять dto заказа
         OrderFlowContext context = new OrderFlowContext();
         context.setOrderId(orderId);
         context.setTraceId(UUID.randomUUID().toString());
@@ -77,6 +76,7 @@ public class OrderKafkaProcess {
                         context.getTraceId(), //
                         new RetrievePaymentCommandPayload() //
                                 .setRefId(orderDto.getId()) //
+                                .setCustomerId(orderDto.getCustomerId())
                                 .setReason("order") //
                                 .setAmount(orderDto.getTotalPrice().doubleValue())) //
                         .setCorrelationid(correlationId));
@@ -97,7 +97,7 @@ public class OrderKafkaProcess {
 
         OrderFlowContext context = OrderFlowContext.fromMap(job.getVariablesAsMap());
         OrderDTO orderDto = orderService.findById(context.getOrderId());
-        orderService.updateStatus(orderDto.getId(), OrderStatusEnum.TO_RESERVE);
+        orderService.updateStatus(orderDto.getId(), OrderStatusEnum.PICK_UP);
 
         // generate an UUID for this communication
         String correlationId = UUID.randomUUID().toString();

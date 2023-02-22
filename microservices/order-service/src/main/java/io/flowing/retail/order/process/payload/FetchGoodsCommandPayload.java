@@ -8,7 +8,6 @@ public class FetchGoodsCommandPayload {
   
   private String refId;
   private String reason = "CustomerOrder";
-  private String orderId;
   private Set<InventoryItemDTO> items = new LinkedHashSet<>();
   
   public String getRefId() {
@@ -19,14 +18,6 @@ public class FetchGoodsCommandPayload {
     return this;
   }
 
-  public String getOrderId() {
-    return orderId;
-  }
-
-  public FetchGoodsCommandPayload setOrderId(String orderId) {
-    this.orderId = orderId;
-    return this;
-  }
   public String getReason() {
     return reason;
   }

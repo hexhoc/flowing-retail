@@ -40,10 +40,14 @@ public class OrderService {
     public OrderDTO createOrder(OrderDTO orderDto) {
         // persist domain entity
         // (if we want to do this "transactional" this could be a step in the workflow)
-        Order newOrder = orderRepository.save(OrderMapper.toEntity(orderDto));
-        log.info("Save order " + newOrder.getId());
-        orderKafkaProcess.startProcess(newOrder.getId());
-        return OrderMapper.toDto(newOrder);
+        Order entity = OrderMapper.toEntity(orderDto);
+        entity.setStatus(OrderStatusEnum.NEW);
+        entity = orderRepository.save(entity);
+        log.info("Save order " + entity.getId());
+
+        orderKafkaProcess.startProcess(entity.getId());
+
+        return OrderMapper.toDto(entity);
     }
 
     @Transactional

@@ -32,7 +32,6 @@ public class Order {
     )
     @Type(type = "org.hibernate.type.PostgresUUIDType")
     @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()", updatable = false, nullable = false)
-    @JsonProperty("orderId")
     private UUID id;
 
     @Size(max = 20)

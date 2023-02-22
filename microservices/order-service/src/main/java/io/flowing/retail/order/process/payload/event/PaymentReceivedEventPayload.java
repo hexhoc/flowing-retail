@@ -1,8 +1,8 @@
-package io.flowing.retail.order.process.payload;
+package io.flowing.retail.order.process.payload.event;
 
 public class PaymentReceivedEventPayload {
   private String refId;
-  private boolean success;
+  private String paymentId;
 
   public String getRefId() {
     return refId;
@@ -13,11 +13,11 @@ public class PaymentReceivedEventPayload {
     return this;
   }
 
-  public boolean isSuccess() {
-    return success;
+  public String getPaymentId() {
+    return paymentId;
   }
 
-  public void setSuccess(boolean success) {
-    this.success = success;
+  public void setPaymentId(String paymentId) {
+    this.paymentId = paymentId;
   }
 }

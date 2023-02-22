@@ -11,9 +11,9 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 import io.camunda.zeebe.client.ZeebeClient;
-import io.flowing.retail.order.process.payload.GoodsFetchedEventPayload;
-import io.flowing.retail.order.process.payload.GoodsShippedEventPayload;
-import io.flowing.retail.order.process.payload.PaymentReceivedEventPayload;
+import io.flowing.retail.order.process.payload.event.GoodsFetchedEventPayload;
+import io.flowing.retail.order.process.payload.event.GoodsShippedEventPayload;
+import io.flowing.retail.order.process.payload.event.PaymentReceivedEventPayload;
 import io.flowing.retail.order.service.OrderService;
 
 @Component
@@ -47,7 +47,7 @@ public class MessageListener {
     zeebe.newPublishMessageCommand() //
         .messageName(message.getType())
         .correlationKey(message.getCorrelationid())
-        .variables(Collections.singletonMap("paymentSuccess", paymentReceivedEventPayload.isSuccess()))
+        .variables(Collections.singletonMap("paymentId", paymentReceivedEventPayload.getPaymentId()))
         .send().join();
 
     log.info("Correlated " + message);

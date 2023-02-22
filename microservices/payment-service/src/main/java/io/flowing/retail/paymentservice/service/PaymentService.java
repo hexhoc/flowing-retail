@@ -34,7 +34,7 @@ public class PaymentService {
      * @param retrievePaymentCommand info about order
      * @throws InterruptedException
      */
-    public boolean receive(RetrievePaymentCommandPayload retrievePaymentCommand) throws InterruptedException {
+    public String receive(RetrievePaymentCommandPayload retrievePaymentCommand) throws InterruptedException {
         log.info(String.format("Payment has been received. Order id: %s, reason: %s, amount: %s",
                 retrievePaymentCommand.getRefId(),
                 retrievePaymentCommand.getReason(),
@@ -51,7 +51,7 @@ public class PaymentService {
 
         Thread.sleep(60_000);
 
-        return true;
+        return p.getId().toString();
     }
 
     public void delete(Integer id) {

@@ -5,7 +5,7 @@
 drop table if exists payments;
 create table payments
 (
-    id            serial4   not null,
+    id            uuid DEFAULT gen_random_uuid() not null,
     date          timestamp not null,
     order_id      varchar(36)      not null,
     customer_id   int4      not null,

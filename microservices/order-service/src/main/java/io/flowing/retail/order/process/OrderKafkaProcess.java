@@ -9,14 +9,13 @@ import io.flowing.retail.order.dto.OrderDTO;
 import io.flowing.retail.order.entity.enums.OrderStatusEnum;
 import io.flowing.retail.order.messages.Message;
 import io.flowing.retail.order.messages.MessageSender;
-import io.flowing.retail.order.process.payload.FetchGoodsCommandPayload;
-import io.flowing.retail.order.process.payload.OrderCompletedEventPayload;
-import io.flowing.retail.order.process.payload.RetrievePaymentCommandPayload;
-import io.flowing.retail.order.process.payload.ShipGoodsCommandPayload;
+import io.flowing.retail.order.process.payload.command.FetchGoodsCommandPayload;
+import io.flowing.retail.order.process.payload.event.OrderCompletedEventPayload;
+import io.flowing.retail.order.process.payload.command.RetrievePaymentCommandPayload;
+import io.flowing.retail.order.process.payload.command.ShipGoodsCommandPayload;
 import io.flowing.retail.order.service.CustomerService;
 import io.flowing.retail.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 

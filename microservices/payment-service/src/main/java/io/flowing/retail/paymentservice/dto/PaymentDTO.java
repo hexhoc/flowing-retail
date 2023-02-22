@@ -19,7 +19,7 @@ public class PaymentDTO implements Serializable {
 
     @Schema(description = "Payment id")
     @NotNull
-    private Integer id;
+    private String id;
 
     @Schema(description = "Payment date")
     @NotNull

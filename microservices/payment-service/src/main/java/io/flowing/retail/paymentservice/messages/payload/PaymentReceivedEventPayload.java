@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class PaymentReceivedEventPayload {
   private String refId;
-  private boolean success;
+  private String shipmentId;
 }

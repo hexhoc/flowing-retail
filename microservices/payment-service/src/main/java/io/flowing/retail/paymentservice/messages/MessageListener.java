@@ -35,13 +35,13 @@ public class MessageListener {
     log.info("Retrieve payment: " + retrievePaymentCommand.getAmount() + " for " + retrievePaymentCommand.getRefId());
 
     // Processing. Long operation
-    boolean success = paymentService.receive(retrievePaymentCommand);
+    String paymentId = paymentService.receive(retrievePaymentCommand);
     
     messageSender.send( //
         new Message<>( //
             "PaymentReceivedEvent", //
             message.getTraceid(), //
-            new PaymentReceivedEventPayload(retrievePaymentCommand.getRefId(), success))
+            new PaymentReceivedEventPayload(retrievePaymentCommand.getRefId(), paymentId))
         .setCorrelationid(message.getCorrelationid()));
   }
 }

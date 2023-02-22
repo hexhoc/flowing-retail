@@ -14,7 +14,7 @@ public class WaybillDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Schema(description = "id")
-    private Integer id;
+    private String id;
 
     @Schema(description = "waybill date")
     private LocalDateTime waybillDate;

@@ -1,4 +1,4 @@
-package io.flowing.retail.shipping.messages.payload;
+package io.flowing.retail.shippingservice.messages.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

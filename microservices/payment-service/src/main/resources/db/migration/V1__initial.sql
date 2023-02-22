@@ -7,7 +7,7 @@ create table payments
 (
     id            serial4   not null,
     date          timestamp not null,
-    order_id      int4      not null,
+    order_id      varchar(36)      not null,
     customer_id   int4      not null,
     type          int2      not null,
     amount        numeric   not null check ( amount > 0 ),

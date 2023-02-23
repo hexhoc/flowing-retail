@@ -33,6 +33,7 @@ public class Order {
     @Type(type = "org.hibernate.type.PostgresUUIDType")
     @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()", updatable = false, nullable = false)
     private UUID id;
+
     @NotNull
     @Column(name = "customer_id", nullable = false)
     private Integer customerId;

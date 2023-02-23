@@ -5,6 +5,7 @@ import io.flowing.retail.customerservice.entity.Customer;
 import io.flowing.retail.customerservice.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -42,6 +43,7 @@ public class CustomerService {
         return new PageImpl<>(dtoList);
     }
 
+    @Cacheable(value = "getById", key = "#id")
     public CustomerDTO getById(Integer id) {
         return CustomerMapper.toDto(requireOne(id));
     }

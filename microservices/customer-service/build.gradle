@@ -1,4 +1,9 @@
 dependencies {
+
+    // COMMON
+    implementation("com.google.guava:guava:${googleGuavaVersion}")
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+
     // METRIC
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 

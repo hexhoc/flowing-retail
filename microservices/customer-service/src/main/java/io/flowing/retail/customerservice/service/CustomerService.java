@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
@@ -25,11 +24,11 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
-    public void update(Integer id, CustomerDTO dto) {
+    public CustomerDTO update(Integer id, CustomerDTO dto) {
         Customer entity = requireOne(id);
         Customer updatedEntity = CustomerMapper.toEntity(dto);
         BeanUtils.copyProperties(updatedEntity, entity ,"id", "version","createdDate","modifiedDate");
-        customerRepository.save(entity);
+        return CustomerMapper.toDto(customerRepository.save(entity));
     }
 
     public Page<CustomerDTO> getAll(Integer page, Integer size) {

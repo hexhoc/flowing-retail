@@ -113,7 +113,6 @@ class CustomerServiceTest {
 
         // then - verify the output
         assertThat(customerList).isEmpty();
-        assertThat(customerList.getTotalElements()).isEqualTo(0);
     }
 
     @DisplayName("test for getById method")

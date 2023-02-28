@@ -83,6 +83,10 @@ public class Order {
         }
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public void addItem(OrderItem i) {
         orderItems.add(i);
     }

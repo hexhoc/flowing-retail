@@ -1,6 +1,5 @@
-package io.flowing.retail.customerservice;
+package io.flowing.retail.order;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,30 +11,30 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CustomerServiceApplicationTest {
+class OrderFulfillmentApplicationTest {
+
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
 
-    @DisplayName("GET customers")
+    @DisplayName("GET orders")
     @Test
-    public void customerGetList_whenGet_thenStatus200andListReturned() throws Exception {
-        this.mockMvc.perform(get("/api/v1/customer"))
+    public void getList_whenGet_thenStatus200andListReturned() throws Exception {
+        this.mockMvc.perform(get("/api/v1/order"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.empty").value("false"));
     }
 
-    @DisplayName("GET customer by id")
+    @DisplayName("GET order by id")
     @Test
-    public void customerGetById_whenGet_thenStatus200andResultReturned() throws Exception {
-        this.mockMvc.perform(get("/api/v1/customer/1"))
+    public void getById_whenGet_thenStatus200andResultReturned() throws Exception {
+        this.mockMvc.perform(get("/api/v1/order/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

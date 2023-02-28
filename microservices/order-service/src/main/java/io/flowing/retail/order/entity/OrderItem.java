@@ -4,7 +4,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
@@ -18,6 +20,8 @@ import java.util.UUID;
 @Table(name="order_items")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderItem {
 
   @Id

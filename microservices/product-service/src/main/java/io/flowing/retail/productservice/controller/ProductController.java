@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Validated
 @RestController
@@ -44,6 +45,13 @@ public class ProductController {
     @Operation(summary = "Create a new product")
     public ResponseEntity<String> save(@Valid @RequestBody ProductDTO dto) {
         return ResponseEntity.ok(productService.save(dto).toString());
+    }
+
+    @PostMapping
+    @Operation(summary = "Create batch of new product")
+    public ResponseEntity<String> saveBatch(@Valid @RequestBody List<ProductDTO> dtoList) {
+        productService.saveBatch(dtoList);
+        return ResponseEntity.ok("OK");
     }
 
     @DeleteMapping("/{id}")

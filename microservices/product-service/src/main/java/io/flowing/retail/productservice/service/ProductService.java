@@ -27,6 +27,11 @@ public class ProductService {
         return entity.getId();
     }
 
+    public void saveBatch(List<ProductDTO> dtoList) {
+        List<Product> entityList = dtoList.stream().map(ProductMapper::toEntity).toList();
+        productRepository.saveAll(entityList);
+    }
+
     public void delete(Integer id) {
         productRepository.deleteById(id);
     }

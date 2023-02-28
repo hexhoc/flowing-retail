@@ -25,6 +25,9 @@ public class ProductDTO implements Serializable {
     @Size(min = 5, message = "Product name should have at least 5 characters")
     private String name;
 
+    @Schema(description = "Product barcode")
+    private String sku;
+
     @Schema(description = "Product intro (short description)")
     @NotNull
     @NotBlank(message = "Content cannot be empty")

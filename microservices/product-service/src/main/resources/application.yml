@@ -1,6 +1,10 @@
 spring:
   application:
     name: product-service
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   profiles:
     active: dev
 server:

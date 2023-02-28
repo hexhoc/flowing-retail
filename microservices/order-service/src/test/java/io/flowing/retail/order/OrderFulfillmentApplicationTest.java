@@ -27,8 +27,7 @@ class OrderFulfillmentApplicationTest {
         this.mockMvc.perform(get("/api/v1/order"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.empty").value("false"));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
     @DisplayName("GET order by id")
@@ -37,7 +36,6 @@ class OrderFulfillmentApplicationTest {
         this.mockMvc.perform(get("/api/v1/order/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value("1"));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 }

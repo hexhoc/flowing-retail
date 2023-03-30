@@ -3,6 +3,7 @@ package io.flowing.retail.order.process;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.spring.client.annotation.ZeebeWorker;
+import io.flowing.retail.order.config.KafkaConfig;
 import io.flowing.retail.order.dto.CustomerDTO;
 import io.flowing.retail.order.dto.InventoryItemDTO;
 import io.flowing.retail.order.dto.OrderDTO;
@@ -69,16 +70,17 @@ public class OrderKafkaProcess {
         // generate an UUID for this communication
         String correlationId = UUID.randomUUID().toString();
 
-        messageSender.send( //
-                new Message<>( //
-                        "RetrievePaymentCommand", //
-                        context.getTraceId(), //
-                        new RetrievePaymentCommandPayload() //
-                                .setRefId(orderDto.getId()) //
+        messageSender.send(
+                new Message<>(
+                        "RetrievePaymentCommand",
+                        context.getTraceId(),
+                        new RetrievePaymentCommandPayload()
+                                .setRefId(orderDto.getId())
                                 .setCustomerId(orderDto.getCustomerId())
-                                .setReason("order") //
-                                .setAmount(orderDto.getTotalPrice().doubleValue())) //
-                        .setCorrelationid(correlationId));
+                                .setReason("order")
+                                .setAmount(orderDto.getTotalPrice().doubleValue()))
+                        .setCorrelationid(correlationId),
+                KafkaConfig.PAYMENT_TOPIC);
 
         return Collections.singletonMap("CorrelationId_RetrievePayment", correlationId);
     }
@@ -101,15 +103,16 @@ public class OrderKafkaProcess {
         // generate an UUID for this communication
         String correlationId = UUID.randomUUID().toString();
 
-        messageSender.send(new Message<>( //
-                "FetchGoodsCommand", //
-                context.getTraceId(), //
-                new FetchGoodsCommandPayload() //
-                        .setRefId(orderDto.getId()) //
+        messageSender.send(new Message<>(
+                "FetchGoodsCommand",
+                context.getTraceId(),
+                new FetchGoodsCommandPayload()
+                        .setRefId(orderDto.getId())
                         .setItems(orderDto.getOrderItems().stream()
                                 .map(i -> new InventoryItemDTO(i.getProductId(), i.getQuantity()))
-                                .collect(Collectors.toSet()))) //
-                .setCorrelationid(correlationId));
+                                .collect(Collectors.toSet())))
+                .setCorrelationid(correlationId),
+                KafkaConfig.INVENTORY_TOPIC);
 
         return Collections.singletonMap("CorrelationId_FetchGoods", correlationId);
     }
@@ -133,15 +136,16 @@ public class OrderKafkaProcess {
         // generate an UUID for this communication
         String correlationId = UUID.randomUUID().toString();
 
-        messageSender.send(new Message<>( //
-                "ShipGoodsCommand", //
-                context.getTraceId(), //
-                new ShipGoodsCommandPayload() //
+        messageSender.send(new Message<>(
+                "ShipGoodsCommand",
+                context.getTraceId(),
+                new ShipGoodsCommandPayload()
                         .setRefId(orderDto.getId())
-                        .setPickId(context.getPickId()) //
-                        .setRecipientName(String.format("%s %s", customerDTO.getFirstName(), customerDTO.getLastName())) //
-                        .setRecipientAddress(orderDto.getAddress())) //
-                .setCorrelationid(correlationId));
+                        .setPickId(context.getPickId())
+                        .setRecipientName(String.format("%s %s", customerDTO.getFirstName(), customerDTO.getLastName()))
+                        .setRecipientAddress(orderDto.getAddress()))
+                .setCorrelationid(correlationId),
+                KafkaConfig.SHIPMENT_TOPIC);
 
         return Collections.singletonMap("CorrelationId_ShipGoods", correlationId);
     }
@@ -152,13 +156,13 @@ public class OrderKafkaProcess {
 
         OrderFlowContext context = OrderFlowContext.fromMap(job.getVariablesAsMap());
 
-        messageSender.send( //
-                new Message<OrderCompletedEventPayload>( //
-                        "OrderCompletedEvent", //
-                        context.getTraceId(), //
-                        new OrderCompletedEventPayload() //
-                                .setOrderId(context.getOrderId())));
-
+//        messageSender.send(
+//                new Message<OrderCompletedEventPayload>(
+//                        "OrderCompletedEvent",
+//                        context.getTraceId(),
+//                        new OrderCompletedEventPayload()
+//                                .setOrderId(context.getOrderId())));
+//
         // TODO: Reintorduce traceId? .setCorrelationId(event.get)));
     }
 }

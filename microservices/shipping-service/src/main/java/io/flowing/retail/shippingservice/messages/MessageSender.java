@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MessageSender {
 
-  public static final String TOPIC_NAME = "flowing-retail";
+  public static final String TOPIC_NAME = "shipment";
   
   private final KafkaTemplate<String, String> kafkaTemplate;
   
@@ -34,7 +34,7 @@ public class MessageSender {
       String jsonMessage = objectMapper.writeValueAsString(m);
       
       // wrap into a proper message for Kafka including a header
-      ProducerRecord<String, String> record = new ProducerRecord<String, String>("flowing-retail", jsonMessage);
+      ProducerRecord<String, String> record = new ProducerRecord<String, String>(TOPIC_NAME, jsonMessage);
       record.headers().add("type", m.getType().getBytes());
 
       // and send it

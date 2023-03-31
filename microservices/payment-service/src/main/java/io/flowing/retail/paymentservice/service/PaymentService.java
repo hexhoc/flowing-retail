@@ -49,7 +49,7 @@ public class PaymentService {
 
         paymentRepository.save(p);
 
-        Thread.sleep(60_000);
+        Thread.sleep(5_000);
 
         return p.getId().toString();
     }

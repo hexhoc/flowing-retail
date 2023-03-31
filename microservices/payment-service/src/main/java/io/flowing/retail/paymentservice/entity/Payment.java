@@ -4,14 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.flowing.retail.paymentservice.enums.PaymentType;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -56,15 +57,13 @@ public class Payment {
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;
 
-    @NotNull
     @Column(name = "created_date", nullable = false)
-    @CreatedDate
-    private LocalDateTime createdDate;
+    @CreationTimestamp
+    private Timestamp createdDate;
 
-    @NotNull
     @Column(name = "modified_date", nullable = false)
-    @LastModifiedDate
-    private LocalDateTime modifiedDate;
+    @UpdateTimestamp
+    private Timestamp modifiedDate;
 
     @Column(name = "version")
     @Version

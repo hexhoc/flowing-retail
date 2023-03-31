@@ -70,7 +70,7 @@ In root of project start run next command:
    services separate from main project
 
 **ATTENTION**. If you are using windows or mac os, you may encounter with problem when docker share postgresql
-volume (operation not permitted). To avoid this problem, you should start third party services manually. Open folder _/docker-compose/third-party_
+volume (operation not permitted). To avoid this problem, you should start third party services manually. Open folder _/docker-compose/flowing-retail-third-party_
 and run next command ```docker compose up -d --build```
 
 2. ```make build build-images up```

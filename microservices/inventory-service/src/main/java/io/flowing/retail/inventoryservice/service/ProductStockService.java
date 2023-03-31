@@ -71,7 +71,7 @@ public class ProductStockService {
 
         // Long operation
         try {
-            Thread.sleep(60_000);
+            Thread.sleep(5_000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

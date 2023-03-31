@@ -1,6 +1,5 @@
 package io.flowing.retail.shippingservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;

@@ -47,7 +47,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.save(dto).toString());
     }
 
-    @PostMapping
+    @PostMapping("/batch")
     @Operation(summary = "Create batch of new product")
     public ResponseEntity<String> saveBatch(@Valid @RequestBody List<ProductDTO> dtoList) {
         productService.saveBatch(dtoList);

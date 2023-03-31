@@ -31,28 +31,28 @@ public class RouterConfig {
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(p -> p
-                        .path("/api/v1/order/**")
-                        .filters(f -> f.rewritePath("/api/v1/order/(?<path>.*)", "/$\\{path}"))
+                        .path("/ordersvc/**")
+                        .filters(f -> f.rewritePath("/ordersvc/(?<path>.*)", "/$\\{path}"))
                         .uri(orderService))
                 .route(p -> p
-                        .path("/api/v1/payment/**")
-                        .filters(f -> f.rewritePath("/api/v1/payment/(?<path>.*)", "/$\\{path}"))
+                        .path("/paymentsvc/**")
+                        .filters(f -> f.rewritePath("/paymentsvc/(?<path>.*)", "/$\\{path}"))
                         .uri(paymentService))
                 .route(p -> p
-                        .path("/api/v1/stock/**")
-                        .filters(f -> f.rewritePath("/api/v1/stock/(?<path>.*)", "/$\\{path}"))
+                        .path("/inventorysvc/**")
+                        .filters(f -> f.rewritePath("/inventorysvc/(?<path>.*)", "/$\\{path}"))
                         .uri(inventoryService))
                 .route(p -> p
-                        .path("/api/v1/customer/**")
-                        .filters(f -> f.rewritePath("/api/v1/customer/(?<path>.*)", "/$\\{path}"))
+                        .path("/customersvc/**")
+                        .filters(f -> f.rewritePath("/customersvc/(?<path>.*)", "/$\\{path}"))
                         .uri(customerService))
                 .route(p -> p
-                        .path("/api/v1/product/**")
-                        .filters(f -> f.rewritePath("/api/v1/product/(?<path>.*)", "/$\\{path}"))
+                        .path("/productsvc/**")
+                        .filters(f -> f.rewritePath("/productsvc/(?<path>.*)", "/$\\{path}"))
                         .uri(productService))
                 .route(p -> p
-                        .path("/api/v1/shipping/**")
-                        .filters(f -> f.rewritePath("/api/v1/shipping/(?<path>.*)", "/$\\{path}"))
+                        .path("/shippingsvc/**")
+                        .filters(f -> f.rewritePath("/shippingsvc/(?<path>.*)", "/$\\{path}"))
                         .uri(shippingService))
                 .build();
 

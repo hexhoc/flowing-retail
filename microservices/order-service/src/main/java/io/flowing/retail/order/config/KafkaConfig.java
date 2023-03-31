@@ -1,5 +1,6 @@
 package io.flowing.retail.order.config;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -17,14 +18,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@RequiredArgsConstructor
 public class KafkaConfig {
 
     public static final String PAYMENT_TOPIC = "payment";
     public static final String INVENTORY_TOPIC = "inventory";
     public static final String SHIPMENT_TOPIC = "shipment";
 
-    @Autowired
-    private KafkaProperties kafkaProperties; // get data from application.yaml (prefix = "spring.kafka")
+    private final KafkaProperties kafkaProperties; // Autowired. Get data from application.yaml (prefix = "spring.kafka")
 
     @Bean
     public Map<String, Object> producerConfigs() {
@@ -42,12 +43,12 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ProducerFactory<String, Object> producerFactory() {
+    public ProducerFactory<String, String> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
-    public KafkaTemplate<String, Object> kafkaTemplate() {
+    public KafkaTemplate<String, String> kafkaTemplate() {
         // This is the object we employ to send messages to Kafka
         // the KafkaTemplate to have a plain String key, and an Object as value. The reason to have Object as a value
         // is that we want to send multiple object types with the same template.

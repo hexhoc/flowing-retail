@@ -1,4 +1,4 @@
-const gatewayHost = 'http://localhost:8072';
+const gatewayHost = 'http://localhost:3000';
 let count = 0;
 let orderJson = {
     "id": null,

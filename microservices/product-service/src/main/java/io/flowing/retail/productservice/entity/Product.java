@@ -6,14 +6,14 @@ package io.flowing.retail.productservice.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -63,15 +63,13 @@ public class Product {
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;
 
-    @NotNull
     @Column(name = "created_date", nullable = false)
-    @CreatedDate
-    private LocalDateTime createdDate;
+    @CreationTimestamp
+    private Timestamp createdDate;
 
-    @NotNull
     @Column(name = "modified_date", nullable = false)
-    @LastModifiedDate
-    private LocalDateTime modifiedDate;
+    @UpdateTimestamp
+    private Timestamp modifiedDate;
 
     @Column(name = "version")
     @Version

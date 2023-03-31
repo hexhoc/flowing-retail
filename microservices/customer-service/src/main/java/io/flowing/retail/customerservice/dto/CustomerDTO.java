@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Data
 @Schema(description = "Order data transfer object. Used for request and response")
@@ -32,10 +32,10 @@ public class CustomerDTO implements Serializable {
     private Boolean isDeleted = false;
 
     @Schema(description = "created date")
-    private LocalDateTime createdDate;
+    private Timestamp createdDate;
 
     @Schema(description = "modified date")
-    private LocalDateTime modifiedDate;
+    private Timestamp modifiedDate;
 
     @Schema(description = "version")
     private Long version;

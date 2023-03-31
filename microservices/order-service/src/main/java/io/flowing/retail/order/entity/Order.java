@@ -1,22 +1,19 @@
 package io.flowing.retail.order.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.flowing.retail.order.entity.enums.OrderStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 @Entity
 @Table(name = "orders")
@@ -52,18 +49,20 @@ public class Order {
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;
 
-    @NotNull
-    @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate;
+    @CreationTimestamp
+    @Column(name = "created_date", nullable = false, updatable = false)
+    private Timestamp createdDate;
 
-    @NotNull
+    @UpdateTimestamp
     @Column(name = "modified_date", nullable = false)
-    private LocalDateTime modifiedDate;
+    private Timestamp modifiedDate;
 
+    @Version
     @Column(name = "version")
     private Long version;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
 
     /////////////////////////
@@ -74,6 +73,9 @@ public class Order {
     }
 
     public String getId() {
+        if (Objects.isNull(id)) {
+            return "";
+        }
         return id.toString();
     }
 

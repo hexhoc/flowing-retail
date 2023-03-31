@@ -9,6 +9,7 @@ public class OrderItemMapper {
     public static OrderItemDTO toDto(OrderItem entity) {
         var dto = new OrderItemDTO();
         BeanUtils.copyProperties(entity, dto);
+        dto.setId(entity.getId().toString());
         return dto;
     }
 

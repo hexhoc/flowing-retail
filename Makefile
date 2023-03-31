@@ -38,7 +38,7 @@ up:
 	cd docker-compose/flowing-retail && docker compose -p ${IMAGE_PREFIX} up -d --build
 
 up-third-party:
-	cd docker-compose/third-party && docker compose up -d --build
+	cd docker-compose/flowing-retail-third-party && docker compose up -d --build
 
 stop:
 	cd docker-compose && docker compose -p ${IMAGE_PREFIX} stop

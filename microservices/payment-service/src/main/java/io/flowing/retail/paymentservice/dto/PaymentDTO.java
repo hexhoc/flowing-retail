@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Data
@@ -43,9 +44,9 @@ public class PaymentDTO implements Serializable {
 
     private Boolean isDeleted = false;
 
-    private LocalDateTime createdDate;
+    private Timestamp createdDate;
 
-    private LocalDateTime modifiedDate;
+    private Timestamp modifiedDate;
 
     private Long version;
 }

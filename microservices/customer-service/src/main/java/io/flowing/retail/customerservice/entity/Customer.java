@@ -1,12 +1,12 @@
 package io.flowing.retail.customerservice.entity;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "customers")
@@ -38,15 +38,13 @@ public class Customer {
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;
 
-    @NotNull
     @Column(name = "created_date", nullable = false)
-    @CreatedDate
-    private LocalDateTime createdDate;
+    @CreationTimestamp
+    private Timestamp createdDate;
 
-    @NotNull
     @Column(name = "modified_date", nullable = false)
-    @LastModifiedDate
-    private LocalDateTime modifiedDate;
+    @UpdateTimestamp
+    private Timestamp modifiedDate;
 
     @Column(name = "version")
     @Version

@@ -1,32 +1,30 @@
 package io.flowing.retail.productservice.dto;
 
-
 import lombok.Data;
-
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Data
 public class CategoryDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private Integer id;
 
-    private Integer level;
+    private Short level;
 
-    private Long parentId;
+    private Integer parentId;
 
     private String name;
 
-    private Long rank;
+    private Integer rank;
 
     private Boolean isDeleted;
 
-    private LocalDateTime createdDate;
+    private Timestamp createdDate;
 
-    private LocalDateTime modifiedDate;
+    private Timestamp modifiedDate;
 
     private Long version;
 

@@ -12,3 +12,7 @@ zeebe:
   client:
     security:
       plaintext: true
+
+logging:
+  level:
+    org.springframework: INFO

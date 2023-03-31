@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Data
 public class ReviewDTO implements Serializable {
@@ -24,9 +24,9 @@ public class ReviewDTO implements Serializable {
 
     private Boolean isDeleted;
 
-    private LocalDateTime createdDate;
+    private Timestamp createdDate;
 
-    private LocalDateTime modifiedDate;
+    private Timestamp modifiedDate;
 
     private Long version;
 

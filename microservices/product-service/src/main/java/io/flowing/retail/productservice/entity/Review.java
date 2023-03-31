@@ -4,14 +4,13 @@ package io.flowing.retail.productservice.entity;
 //import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
+import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "reviews")
@@ -44,15 +43,13 @@ public class Review {
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;
 
-    @NotNull
     @Column(name = "created_date", nullable = false)
-    @CreatedDate
-    private LocalDateTime createdDate;
+    @CreationTimestamp
+    private Timestamp createdDate;
 
-    @NotNull
     @Column(name = "modified_date", nullable = false)
-    @LastModifiedDate
-    private LocalDateTime modifiedDate;
+    @UpdateTimestamp
+    private Timestamp modifiedDate;
 
     @Column(name = "version")
     @Version

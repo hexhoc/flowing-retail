@@ -3,11 +3,11 @@ package io.flowing.retail.productservice.entity;
 //import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "categories")
@@ -35,12 +35,12 @@ public class Category {
     private Boolean isDeleted;
 
     @Column(name = "created_date", nullable = false)
-    @CreatedDate
-    private LocalDateTime createdDate;
+    @CreationTimestamp
+    private Timestamp createdDate;
 
     @Column(name = "modified_date", nullable = false)
-    @LastModifiedDate
-    private LocalDateTime modifiedDate;
+    @UpdateTimestamp
+    private Timestamp modifiedDate;
 
     @Column(name = "version")
     @Version

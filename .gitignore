@@ -73,6 +73,6 @@ classes
 debug
 .dtbcache
 *.iml
-docker-compose/third-party/postgres/pgdata/*
-docker-compose/third-party/postgres/pgconf/*
-docker-compose/third-party/postgres/pglog/*
+docker-compose/flowing-retail-third-party/postgres/pgdata/*
+docker-compose/flowing-retail-third-party/postgres/pgconf/*
+docker-compose/flowing-retail-third-party/postgres/pglog/*

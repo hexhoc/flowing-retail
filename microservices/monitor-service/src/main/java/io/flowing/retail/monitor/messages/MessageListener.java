@@ -15,14 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MessageListener {
 
-  private static final String TOPIC_NAME = "flowing-retail";
-
   private final SimpMessagingTemplate simpMessageTemplate;
   
   private final ObjectMapper objectMapper;
 
   @Transactional
-  @KafkaListener(id = "monitor", topics = TOPIC_NAME)
+  @KafkaListener(id = "monitor", topics = {"payment","inventory","shipment"})
   public void messageReceived(String messageJson) throws Exception {
     Message<JsonNode> message = objectMapper.readValue( //
         messageJson, //

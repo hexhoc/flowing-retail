@@ -7,7 +7,7 @@ import javax.validation.constraints.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Data
@@ -69,11 +69,11 @@ public class ProductDTO implements Serializable {
 
     @Schema(description = "Product created date")
     @Null
-    private LocalDateTime createdDate;
+    private Timestamp createdDate;
 
     @Schema(description = "Product last modified date")
     @Null
-    private LocalDateTime modifiedDate;
+    private Timestamp modifiedDate;
 
     @Schema(description = "Product version")
     @Null

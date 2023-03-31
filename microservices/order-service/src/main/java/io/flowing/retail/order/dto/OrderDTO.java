@@ -8,7 +8,7 @@ import javax.validation.constraints.Null;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.*;
 
 @Data
@@ -29,7 +29,8 @@ public class OrderDTO implements Serializable {
     @Schema(description = "Order status", example = "NEW, CANCELLED, PAID, DELIVERED")
     @Null
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Short status;
+    // TODO: is empty
+    private String status;
 
     @Schema(description = "total order price")
     @Null
@@ -40,10 +41,10 @@ public class OrderDTO implements Serializable {
     private Boolean isDeleted;
 
     @Schema(description = "created date")
-    private LocalDateTime createdDate;
+    private Timestamp createdDate;
 
     @Schema(description = "modified date")
-    private LocalDateTime modifiedDate;
+    private Timestamp modifiedDate;
 
     @Schema(description = "version")
     private Long version;

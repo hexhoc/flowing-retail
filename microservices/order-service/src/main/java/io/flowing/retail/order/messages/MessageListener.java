@@ -25,22 +25,20 @@ public class MessageListener {
   private final ObjectMapper objectMapper;
   private final OrderService orderService;
 
-  @KafkaListener(id = "order", topics = KafkaConfig.PAYMENT_TOPIC)
+  @KafkaListener(id = "order", topics = {KafkaConfig.PAYMENT_TOPIC, KafkaConfig.INVENTORY_TOPIC, KafkaConfig.SHIPMENT_TOPIC})
   public void paymentListener(String messagePayloadJson, @Header("type") String messageType) throws Exception {
     log.info(messageType);
-    paymentReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {}));
+    if ("PaymentReceivedEvent".equals(messageType)) {
+      paymentReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {}));
+    } else if ("GoodsFetchedEvent".equals(messageType)) {
+      goodsFetchedReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {}));
+    } else if ("GoodsShippedEvent".equals(messageType)) {
+      goodsShippedReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {}));
+    } else {
+      log.info("Ignored message of type " + messageType);
+    }
   }
 
-  @KafkaListener(id = "order", topics = KafkaConfig.INVENTORY_TOPIC)
-  public void inventoryListener(String messagePayloadJson, @Header("type") String messageType) throws Exception {
-    log.info(messageType);
-    goodsFetchedReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {}));
-  }
-  @KafkaListener(id = "order", topics = KafkaConfig.SHIPMENT_TOPIC)
-  public void shipmentListener(String messagePayloadJson, @Header("type") String messageType) throws Exception {
-    log.info(messageType);
-    goodsShippedReceived(objectMapper.readValue(messagePayloadJson, new TypeReference<>() {}));
-  }
 
   public void paymentReceived(Message<PaymentReceivedEventPayload> message) {
     log.info("paymentReceived");

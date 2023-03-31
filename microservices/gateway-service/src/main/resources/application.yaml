@@ -1,5 +1,5 @@
 server:
-  port: 8072
+  port: 3000
 
 spring:
   main:
@@ -33,3 +33,6 @@ management:
     web:
       exposure:
         include: "*"
+logging:
+  level:
+    org.springframework: DEBUG

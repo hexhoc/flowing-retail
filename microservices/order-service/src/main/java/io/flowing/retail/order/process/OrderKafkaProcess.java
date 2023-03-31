@@ -78,6 +78,7 @@ public class OrderKafkaProcess {
                                 .setRefId(orderDto.getId())
                                 .setCustomerId(orderDto.getCustomerId())
                                 .setReason("order")
+                                // TODO: amount is empty
                                 .setAmount(orderDto.getTotalPrice().doubleValue()))
                         .setCorrelationid(correlationId),
                 KafkaConfig.PAYMENT_TOPIC);
@@ -108,6 +109,7 @@ public class OrderKafkaProcess {
                 context.getTraceId(),
                 new FetchGoodsCommandPayload()
                         .setRefId(orderDto.getId())
+                        // TODO: items is empty
                         .setItems(orderDto.getOrderItems().stream()
                                 .map(i -> new InventoryItemDTO(i.getProductId(), i.getQuantity()))
                                 .collect(Collectors.toSet())))
@@ -143,7 +145,8 @@ public class OrderKafkaProcess {
                         .setRefId(orderDto.getId())
                         .setPickId(context.getPickId())
                         .setRecipientName(String.format("%s %s", customerDTO.getFirstName(), customerDTO.getLastName()))
-                        .setRecipientAddress(orderDto.getAddress()))
+                        .setRecipientAddress(orderDto.getAddress())
+                        .setLogisticsProvider("DHL"))
                 .setCorrelationid(correlationId),
                 KafkaConfig.SHIPMENT_TOPIC);
 

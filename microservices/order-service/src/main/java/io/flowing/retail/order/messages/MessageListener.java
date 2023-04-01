@@ -38,8 +38,6 @@ public class MessageListener {
       log.info("Ignored message of type " + messageType);
     }
   }
-
-
   public void paymentReceived(Message<PaymentReceivedEventPayload> message) {
     log.info("paymentReceived");
 

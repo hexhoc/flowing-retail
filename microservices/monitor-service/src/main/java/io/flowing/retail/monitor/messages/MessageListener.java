@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.flowing.retail.monitor.domain.PastEvent;
 import io.flowing.retail.monitor.persistence.LogRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Log4j2
 public class MessageListener {
 
   private final SimpMessagingTemplate simpMessageTemplate;
@@ -22,6 +24,7 @@ public class MessageListener {
   @Transactional
   @KafkaListener(id = "monitor", topics = {"payment","inventory","shipment"})
   public void messageReceived(String messageJson) throws Exception {
+    log.info(messageJson);
     Message<JsonNode> message = objectMapper.readValue( //
         messageJson, //
         new TypeReference<Message<JsonNode>>() {});
@@ -45,5 +48,4 @@ public class MessageListener {
     // and probably send to connected websocket (TODO: Not a good place for the code here!)
     simpMessageTemplate.convertAndSend("/topic/events", event);
   }
-
 }

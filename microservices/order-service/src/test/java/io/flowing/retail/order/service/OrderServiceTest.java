@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,7 +23,6 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -61,7 +61,7 @@ class OrderServiceTest {
     void givenOrderObject_whenUpdateOrder_thenReturnUpdatedOrder() {
         // given - precondition or setup
         given(orderRepository.findById(UUID.fromString(mockOrder.getId()))).willReturn(Optional.of(mockOrder));
-        given(orderRepository.save(mockOrder)).willReturn(mockOrder);
+        given(orderRepository.save(any())).willReturn(mockOrder);
         mockOrder.setCustomerId(2);
         mockOrder.setAddress("USA");
         // when -  action or the behaviour that we are going test
@@ -120,10 +120,11 @@ class OrderServiceTest {
     @Test
     void updateStatus() {
         // given
+        given(orderRepository.findById(UUID.fromString(mockOrder.getId()))).willReturn(Optional.of(mockOrder));
         given(orderRepository.save(mockOrder)).willReturn(mockOrder);
         // when
-        orderService.updateStatus(mockOrder.getId(), OrderStatusEnum.SHIPMENT_READY);
+        orderService.updateStatus(mockOrder.getId(), OrderStatusEnum.PICKED_UP);
         // then
-        assertThat(mockOrder.getStatus()).isEqualTo(OrderStatusEnum.SHIPMENT_READY);
+        assertThat(mockOrder.getStatus()).isEqualTo(OrderStatusEnum.PICKED_UP);
     }
 }

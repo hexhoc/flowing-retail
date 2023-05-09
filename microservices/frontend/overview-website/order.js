@@ -4,12 +4,12 @@ let orderJson = {
     "id": null,
     "customerId": 1,
     "address": "",
-    "status": null,
-    "is_deleted": null,
+    "status": "NEW",
+    "is_deleted": false,
     "created_date": null,
     "modified_date": null,
     "version": null,
-    "items": [
+    "orderItems": [
         {
             "id": null,
             "productId": 1,
@@ -27,7 +27,7 @@ let orderJson = {
 
 function getTest() {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", gatewayHost + '/api/v1/order/test', true);
+    xhr.open("GET", gatewayHost + '/ordersvc/api/v1/order/test', true);
     xhr.send();
     xhr.onload = function() {
         if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
@@ -43,7 +43,7 @@ function placeOrder() {
 
     let json = JSON.stringify(orderJson);
 
-    xhr.open("POST", gatewayHost + '/api/v1/order')
+    xhr.open("POST", gatewayHost + '/ordersvc/api/v1/order')
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 
     xhr.send(json);

@@ -43,9 +43,6 @@ services:
     ports:
       - "8050:8050"
       - "9050:9050"
-    depends_on:
-      - kafka
-      - zeebe
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9050
@@ -58,8 +55,6 @@ services:
     ports:
       - "8020:8020"
       - "9020:9020"
-    depends_on:
-      - kafka
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9002
@@ -72,8 +67,6 @@ services:
     ports:
       - "8010:8010"
       - "9010:9010"
-    depends_on:
-      - kafka
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9010
@@ -86,8 +79,6 @@ services:
     ports:
       - "8030:8030"
       - "9030:9030"
-    depends_on:
-      - kafka
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9030
@@ -100,8 +91,6 @@ services:
     ports:
       - "8095:8095"
       - "9095:9095"
-    depends_on:
-      - kafka
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9095

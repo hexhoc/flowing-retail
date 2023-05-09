@@ -61,6 +61,7 @@ public class Order {
     @Column(name = "version")
     private Long version;
 
+    // TODO: Заменить на embeddable collection
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @Fetch(FetchMode.JOIN)
     private Set<OrderItem> orderItems = new LinkedHashSet<>();

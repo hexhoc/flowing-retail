@@ -20,7 +20,7 @@ public class CategoryDTO implements Serializable {
 
     private Integer rank;
 
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     private Timestamp createdDate;
 

@@ -9,7 +9,7 @@ create table orders
     customer_id   int4         not null,
     address       varchar(255) not null default '',
     status        varchar(200)         not null,
-    is_deleted    boolean      not null,
+    is_deleted    boolean      not null default false,
     created_date  timestamp    not null,
     modified_date timestamp    not null,
     version       int8

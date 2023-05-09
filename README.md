@@ -15,7 +15,6 @@ The nice thing about this architecture is, that Kafka is the only common denomin
 * Spring Boot 2.6.x
 * Kafka
 * Zookeeper
-* Camunda
 * Gradle
 * Spring data JPA
 * Keycloak (switch to git branch keycloack/master)
@@ -66,7 +65,8 @@ You can either
 
 In root of project start run next command:
 
-1. ```make up-third-party``` This command will build and up third-party services (elastic, camunda, postgresql). These
+1. ```make create-network``` To create docker external network
+2. ```make up-third-party``` This command will build and up third-party services (postgresql, kafka). These
    services separate from main project
 
 **ATTENTION**. If you are using windows or mac os, you may encounter with problem when docker share postgresql
@@ -79,9 +79,8 @@ and run next command ```docker compose up -d --build```
 * **up** - start docker-compose build
 
 After that:
-* After everything has started up you are ready to visit the overview page [http://localhost:8099](http://localhost:8089)
+* After everything has started up you are ready to visit the overview page [http://localhost:8099](http://localhost:8099)
 * You can place an order via [http://localhost:8050](http://localhost:8050)
-* You can inspect processes via Camunda Operate on [http://localhost:8081](http://localhost:8081)
 * You can inspect all events going on via [http://localhost:8095](http://localhost:8095)
 
 If you like you can connect to Kafka from your local Docker host machine too.
@@ -90,7 +89,3 @@ Note that there are a couple of other docker-compose files available too, e.g. t
 
 ## Remote debug
 I have added a debugging port for each service. You can view it in the docker compose file.
-
-## Hint on using Camunda License
-
-The core components of Camunda are source available and free to use, but the operations tool Camunda Operate is only free for non-production use.

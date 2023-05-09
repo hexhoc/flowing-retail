@@ -1,4 +1,4 @@
-package io.flowing.retail.order.process.payload.command;
+package io.flowing.retail.order.messages.command;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

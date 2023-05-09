@@ -43,7 +43,7 @@ create table "products"
     original_price numeric      not null default 0 check ( original_price > 0 ),
     selling_price  numeric      not null default 0 check ( selling_price > 0 ),
     is_sale        boolean      not null default false,
-    is_deleted     boolean      not null,
+    is_deleted     boolean      not null default false,
     created_date   timestamp    not null,
     modified_date  timestamp    not null,
     version        int8

@@ -4,13 +4,10 @@ import io.flowing.retail.order.dto.OrderDTO;
 import io.flowing.retail.order.entity.Order;
 import io.flowing.retail.order.dto.mapper.OrderMapper;
 import io.flowing.retail.order.entity.enums.OrderStatusEnum;
-import io.flowing.retail.order.process.OrderKafkaProcess;
 import io.flowing.retail.order.repository.OrderRepository;
-import lombok.extern.java.Log;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -27,14 +24,13 @@ import java.util.UUID;
 @Log4j2
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final OrderKafkaProcess orderKafkaProcess;
+    private final OrderStatusUpdater orderStatusUpdater;
 
     public OrderService(
             OrderRepository orderRepository,
-            // use lazy to resolve circular Dependencies
-            @Lazy OrderKafkaProcess orderKafkaProcess) {
+            OrderStatusUpdater orderStatusUpdater) {
         this.orderRepository = orderRepository;
-        this.orderKafkaProcess = orderKafkaProcess;
+        this.orderStatusUpdater = orderStatusUpdater;
     }
 
     public OrderDTO createOrder(OrderDTO orderDto) {
@@ -45,7 +41,7 @@ public class OrderService {
         entity = orderRepository.save(entity);
         log.info("Save order " + entity.getId());
 
-        orderKafkaProcess.startProcess(entity.getId());
+        orderStatusUpdater.changeStatus(entity, entity.getStatus().nextState());
 
         return OrderMapper.toDto(entity);
     }
@@ -54,7 +50,7 @@ public class OrderService {
     public OrderDTO updateOrder(String id, OrderDTO orderDto) {
         Order entity = requireOne(id);
         Order updatedEntity = OrderMapper.toEntity(orderDto);
-        BeanUtils.copyProperties(updatedEntity, entity, "id","version","createdDate","modifiedDate");
+        BeanUtils.copyProperties(updatedEntity, entity, "id","status","version","createdDate","modifiedDate");
         return OrderMapper.toDto(orderRepository.save(entity));
     }
 
@@ -95,5 +91,15 @@ public class OrderService {
         order.setStatus(orderStatus);
 
         orderRepository.save(order);
+    }
+
+    @Transactional
+    public void changeStatus(String id) {
+        Order order = orderRepository.findById(UUID.fromString(id))
+                                     .orElseThrow(() -> new NoSuchElementException("Resource not found: " + id));
+        orderStatusUpdater.changeStatus(order, order.getStatus().nextState());
+
+//        @Transactional save entity automatically
+//        orderRepository.save(order);
     }
 }

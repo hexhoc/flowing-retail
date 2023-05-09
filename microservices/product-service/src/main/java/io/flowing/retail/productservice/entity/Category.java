@@ -32,7 +32,7 @@ public class Category {
     private Integer rank;
 
     @Column(name = "is_deleted", nullable = false)
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     @Column(name = "created_date", nullable = false)
     @CreationTimestamp

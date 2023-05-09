@@ -2,6 +2,7 @@ package io.flowing.retail.order.dto.mapper;
 
 import io.flowing.retail.order.dto.OrderDTO;
 import io.flowing.retail.order.entity.Order;
+import io.flowing.retail.order.entity.enums.OrderStatusEnum;
 import io.flowing.retail.order.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -23,6 +24,7 @@ public class OrderMapper {
     public static Order toEntity(OrderDTO dto) {
         var entity = new Order();
         BeanUtils.copyProperties(dto, entity, "version","createdDate","modifiedDate");
+//        entity.setStatus(OrderStatusEnum.valueOf(dto.getStatus()));
         entity.setOrderItems(dto.getOrderItems().stream()
                 .map(orderItemDTO -> {
                     var orderItem = OrderItemMapper.toEntity(orderItemDTO);

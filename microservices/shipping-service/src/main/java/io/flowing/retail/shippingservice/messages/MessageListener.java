@@ -36,7 +36,6 @@ public class MessageListener {
 
         String shipmentId = shippingService.createShipment( //
                 message.getData().getRefId(),
-                message.getData().getPickId(), //
                 message.getData().getRecipientName(), //
                 message.getData().getRecipientAddress(), //
                 message.getData().getLogisticsProvider());

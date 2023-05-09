@@ -65,7 +65,7 @@ public class ProductDTO implements Serializable {
 
     @Schema(description = "Product is deleted")
     @NotNull
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     @Schema(description = "Product created date")
     @Null

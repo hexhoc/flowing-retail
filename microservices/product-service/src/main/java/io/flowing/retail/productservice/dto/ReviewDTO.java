@@ -22,7 +22,7 @@ public class ReviewDTO implements Serializable {
 
     private String content;
 
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     private Timestamp createdDate;
 

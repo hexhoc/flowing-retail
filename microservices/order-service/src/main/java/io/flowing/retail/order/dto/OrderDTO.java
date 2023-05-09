@@ -38,7 +38,7 @@ public class OrderDTO implements Serializable {
     private BigDecimal totalPrice;
 
     @Schema(description = "is deleted")
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     @Schema(description = "created date")
     private Timestamp createdDate;

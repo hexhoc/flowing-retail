@@ -1,4 +1,4 @@
-package io.flowing.retail.order.process.payload.event;
+package io.flowing.retail.order.messages.event;
 
 public class PaymentReceivedEventPayload {
   private String refId;

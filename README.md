@@ -98,3 +98,5 @@ All microservices registered in keycloak as trusted clients and call keycloak to
    3. Set **access type** - confidential
    4. copy **client-secret** from credential tab
 5. WARNING. Required set tokenRelay in gateway routing config
+
+![keycloak](docs/spring-cloud-gateway-oauth2-login.png)

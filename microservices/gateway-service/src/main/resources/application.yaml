@@ -36,3 +36,5 @@ management:
 logging:
   level:
     org.springframework: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG

@@ -19,3 +19,5 @@ logging:
     org.hibernate.type.descriptor.sql: TRACE
     # Log sql parameters. For Hibernate 6 version
 #    org.hibernate.orm.jdbc.bind: TRACE
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG

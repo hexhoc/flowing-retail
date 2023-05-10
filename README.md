@@ -22,8 +22,6 @@ The nice thing about this architecture is, that Kafka is the only common denomin
 * Mapstruct
 * Postgresql
 * Flyway
-* Elasticsearch
-* Redis
 * Docker
 * Kubernetes
 
@@ -80,12 +78,23 @@ and run next command ```docker compose up -d --build```
 
 After that:
 * After everything has started up you are ready to visit the overview page [http://localhost:8099](http://localhost:8099)
-* You can place an order via [http://localhost:8050](http://localhost:8050)
 * You can inspect all events going on via [http://localhost:8095](http://localhost:8095)
-
-If you like you can connect to Kafka from your local Docker host machine too.
-
-Note that there are a couple of other docker-compose files available too, e.g. to play around with the choreography.
 
 ## Remote debug
 I have added a debugging port for each service. You can view it in the docker compose file.
+
+
+# Security. Keycloak. Oauth2 protocol
+All microservices registered in keycloak as trusted clients and call keycloak to validate jwt token. 
+
+
+## Configure keycloak
+1. Create new realm - **flowing-realm**
+2. Create new user - **retail_user**
+3. Create clients scope - **message.read** and **message.write**
+4. Create client - **flowing-client**. 
+   1. Add client scopes, 
+   2. Set **redirect url** - http://localhost:3000/login/oauth2/code/gateway and http://gateway-service:3000/login/oauth2/code/gateway
+   3. Set **access type** - confidential
+   4. copy **client-secret** from credential tab
+5. WARNING. Required set tokenRelay in gateway routing config

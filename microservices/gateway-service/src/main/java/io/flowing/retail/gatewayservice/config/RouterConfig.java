@@ -48,7 +48,7 @@ public class RouterConfig {
                         .uri(customerService))
                 .route(p -> p
                         .path("/productsvc/**")
-                        .filters(f -> f.rewritePath("/productsvc/(?<path>.*)", "/$\\{path}"))
+                        .filters(f -> f.rewritePath("/productsvc/(?<path>.*)", "/$\\{path}").tokenRelay())
                         .uri(productService))
                 .route(p -> p
                         .path("/shippingsvc/**")

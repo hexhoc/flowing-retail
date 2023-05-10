@@ -76,3 +76,4 @@ debug
 docker-compose/flowing-retail-third-party/postgres/pgdata/*
 docker-compose/flowing-retail-third-party/postgres/pgconf/*
 docker-compose/flowing-retail-third-party/postgres/pglog/*
+/microservices/.gradle/

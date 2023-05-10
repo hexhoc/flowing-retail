@@ -29,7 +29,6 @@ public class OrderDTO implements Serializable {
     @Schema(description = "Order status", example = "NEW, CANCELLED, PAID, DELIVERED")
     @Null
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    // TODO: is empty
     private String status;
 
     @Schema(description = "total order price")

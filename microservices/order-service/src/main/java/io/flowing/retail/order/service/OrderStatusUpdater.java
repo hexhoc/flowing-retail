@@ -116,7 +116,6 @@ public class OrderStatusUpdater {
                                    traceId,
                                    new FetchGoodsCommandPayload()
                                            .setRefId(order.getId())
-                                           // TODO: items is empty
                                            .setItems(order.getOrderItems().stream()
                                                              .map(i -> new InventoryItemDTO(i.getProductId(), i.getQuantity()))
                                                              .collect(Collectors.toSet())))

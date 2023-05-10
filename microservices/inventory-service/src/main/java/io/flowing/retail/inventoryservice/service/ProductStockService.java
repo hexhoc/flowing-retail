@@ -106,7 +106,7 @@ public class ProductStockService {
     public Page<ProductStockDTO> getAll(Integer productId, Integer warehouseId, Integer page, Integer size) {
         Pageable pageRequest = PageRequest.of(page, size);
 
-        // TODO: Use JpaRepository instead
+        // TODO: Use JpaRepository criteria instead
         Page<ProductStock> entityPage;
         if (Objects.nonNull(productId) && Objects.nonNull(warehouseId)){
             entityPage = productStockRepository.findAllByProductIdAndWarehouseId(productId, warehouseId, pageRequest);

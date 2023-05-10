@@ -61,7 +61,6 @@ public class Order {
     @Column(name = "version")
     private Long version;
 
-    // TODO: Заменить на embeddable collection
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @Fetch(FetchMode.JOIN)
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
@@ -95,12 +94,12 @@ public class Order {
     }
 
     public BigDecimal getTotalSum() {
-        //TODO: Fix сделать нормальный расчет суммы с использование только bigdecimal, без double
-        double sum = 0D;
+        BigDecimal totalSum = BigDecimal.ONE;
         for (OrderItem orderItem : orderItems) {
-            sum += orderItem.getPrice().doubleValue() * orderItem.getQuantity();
+            var itemSum = orderItem.getPrice().multiply(BigDecimal.valueOf(orderItem.getQuantity()));
+            totalSum = totalSum.add(itemSum);
         }
-        return new BigDecimal(sum);
+        return totalSum;
     }
 
     @Override

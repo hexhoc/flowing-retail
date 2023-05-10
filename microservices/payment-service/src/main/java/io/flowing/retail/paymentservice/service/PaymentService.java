@@ -68,7 +68,7 @@ public class PaymentService {
     public Page<PaymentDTO> getAll(Integer orderId, Integer customerId, Integer page, Integer size) {
         Pageable pageRequest = PageRequest.of(page, size);
 
-        // TODO: Use JpaRepository instead
+        // TODO: Use JpaRepository criteria instead
         Page<Payment> entityPage;
         if (Objects.nonNull(orderId) && Objects.nonNull(customerId)){
             entityPage = paymentRepository.findAllByOrderIdAndCustomerId(orderId, customerId, pageRequest);

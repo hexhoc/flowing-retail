@@ -13,12 +13,12 @@ spring:
       client:
         provider:
           my_provider:
-            issuer-uri: http://flowing-keycloak:8080/auth/realms/flowing-realm
+            issuer-uri: http://keycloak:8080/auth/realms/flowing-realm
         registration:
           my_keycloak:
             provider: my_provider
             client-id: flowing-client
-            client-secret: frZzUp0h7fLqZnKGlD7ugUUrXTePsNVD
+            client-secret: N26RFNkq1ieGL7cZCBf8xsJlAJqjlYzP
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/gateway"
             scope: openid, message.read

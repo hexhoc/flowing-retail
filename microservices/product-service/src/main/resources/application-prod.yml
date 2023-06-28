@@ -13,7 +13,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://flowing-keycloak:8080/auth/realms/flowing-realm
+          issuer-uri: http://keycloak:8080/auth/realms/flowing-realm
   datasource:
     url: jdbc:postgresql://postgres:5432/product_service_db
     username: postgres

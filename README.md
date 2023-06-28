@@ -17,7 +17,7 @@ The nice thing about this architecture is, that Kafka is the only common denomin
 * Zookeeper
 * Gradle
 * Spring data JPA
-* Keycloak (switch to git branch keycloack/master)
+* Keycloak
 * Lombok
 * Mapstruct
 * Postgresql
@@ -87,6 +87,13 @@ I have added a debugging port for each service. You can view it in the docker co
 # Security. Keycloak. Oauth2 protocol
 All microservices registered in keycloak as trusted clients and call keycloak to validate jwt token. 
 
+OAuth 2 is an authorization method to provide access to protected resources over the HTTP protocol. Primarily, oauth2 enables a third-party application to obtain limited access to an HTTP service
+
+OAuth defines four roles:
+ - **Resource Owner (fr_user)** – The user of the application.
+ - **Client (gateway-service)** – the application (user is using) which require access to user data on the resource server.
+ - **Resource Server (product-service, order-service, ...)** – store user’s data and http services which can return user data to authenticated clients.
+ - **Authorization Server (keycloak)** – responsible for authenticating user’s identity and gives an authorization token. This token is accepted by resource server and validate your identity.
 
 ## Configure keycloak
 1. Create new realm - **flowing-realm**

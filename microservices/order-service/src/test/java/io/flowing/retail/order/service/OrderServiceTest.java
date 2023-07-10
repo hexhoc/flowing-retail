@@ -1,11 +1,12 @@
 package io.flowing.retail.order.service;
 
-import io.flowing.retail.order.dto.OrderDTO;
+import io.flowing.retail.order.dto.OrderCommandDTO;
 import io.flowing.retail.order.dto.mapper.OrderMapper;
 import io.flowing.retail.order.entity.Order;
 import io.flowing.retail.order.entity.OrderItem;
 import io.flowing.retail.order.entity.enums.OrderStatusEnum;
-import io.flowing.retail.order.repository.OrderRepository;
+import io.flowing.retail.order.repository.OrderCommandRepository;
+import io.flowing.retail.order.repository.OrderQueryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -29,10 +31,16 @@ import static org.mockito.BDDMockito.given;
 class OrderServiceTest {
 
     @Mock
-    private OrderRepository orderRepository;
+    private OrderCommandRepository orderCommandRepository;
+    @Mock
+    private OrderQueryRepository orderQueryRepository;
+    @Spy
+    private final OrderMapper orderMapper = new OrderMapper();
 
     @InjectMocks
-    private OrderService orderService;
+    private OrderCommandService orderCommandService;
+    @InjectMocks
+    private OrderQueryService orderQueryService;
 
     private Order mockOrder;
 
@@ -60,12 +68,12 @@ class OrderServiceTest {
     @Test
     void givenOrderObject_whenUpdateOrder_thenReturnUpdatedOrder() {
         // given - precondition or setup
-        given(orderRepository.findById(UUID.fromString(mockOrder.getId()))).willReturn(Optional.of(mockOrder));
-        given(orderRepository.save(any())).willReturn(mockOrder);
+        given(orderQueryRepository.findById(UUID.fromString(mockOrder.getId()))).willReturn(Optional.of(mockOrder));
+        given(orderCommandRepository.save(any())).willReturn(mockOrder);
         mockOrder.setCustomerId(2);
         mockOrder.setAddress("USA");
         // when -  action or the behaviour that we are going test
-        OrderDTO updatedOrder = orderService.updateOrder(mockOrder.getId(), OrderMapper.toDto(mockOrder));
+        OrderCommandDTO updatedOrder = orderCommandService.updateOrder(mockOrder.getId(), orderMapper.toOrderQueryDTO(mockOrder));
         // then - verify the output
         assertThat(updatedOrder.getCustomerId()).isEqualTo(2);
         assertThat(updatedOrder.getAddress()).isEqualTo("USA");
@@ -79,11 +87,11 @@ class OrderServiceTest {
         BeanUtils.copyProperties(mockOrder, mockOrder2);
         mockOrder2.setId(UUID.randomUUID());
 
-        given(orderRepository.findAll(PageRequest.of(0,2)))
+        given(orderQueryRepository.findAll(PageRequest.of(0, 2)))
                 .willReturn(new PageImpl<>(List.of(mockOrder,mockOrder2)));
 
         // when -  action or the behaviour that we are going test
-        Page<OrderDTO> orderList = orderService.findAll(null,0,2);
+        Page<OrderCommandDTO> orderList = orderQueryService.findAll(null, 0, 2);
 
         // then - verify the output
         assertThat(orderList).isNotNull();
@@ -94,11 +102,11 @@ class OrderServiceTest {
     @Test
     void givenEmptyOrderist_whenGetAllOrder_thenReturnEmptyOrderList() {
         // given - precondition or setup
-        given(orderRepository.findAll(PageRequest.of(0,2)))
+        given(orderQueryRepository.findAll(PageRequest.of(0, 2)))
                 .willReturn(new PageImpl<>(Collections.emptyList()));
 
         // when -  action or the behaviour that we are going test
-        Page<OrderDTO> orderList = orderService.findAll(null,0,2);
+        Page<OrderCommandDTO> orderList = orderQueryService.findAll(null, 0, 2);
 
         // then - verify the output
         assertThat(orderList).isEmpty();
@@ -109,21 +117,21 @@ class OrderServiceTest {
     @Test
     void findById() {
         // given
-        given(orderRepository.findById(UUID.fromString(mockOrder.getId()))).willReturn(Optional.of(mockOrder));
+        given(orderQueryRepository.findById(UUID.fromString(mockOrder.getId()))).willReturn(Optional.of(mockOrder));
         // when
-        OrderDTO orderDto = orderService.findById(mockOrder.getId());
+        OrderCommandDTO orderCommandDto = orderQueryService.findById(mockOrder.getId());
         // then
-        assertThat(orderDto).isNotNull();
+        assertThat(orderCommandDto).isNotNull();
     }
 
     @DisplayName("test for update status order")
     @Test
     void updateStatus() {
         // given
-        given(orderRepository.findById(UUID.fromString(mockOrder.getId()))).willReturn(Optional.of(mockOrder));
-        given(orderRepository.save(mockOrder)).willReturn(mockOrder);
+        given(orderQueryRepository.findById(UUID.fromString(mockOrder.getId()))).willReturn(Optional.of(mockOrder));
+        given(orderCommandRepository.save(mockOrder)).willReturn(mockOrder);
         // when
-        orderService.updateStatus(mockOrder.getId(), OrderStatusEnum.PICKED_UP);
+        orderCommandService.updateStatus(mockOrder.getId(), OrderStatusEnum.PICKED_UP);
         // then
         assertThat(mockOrder.getStatus()).isEqualTo(OrderStatusEnum.PICKED_UP);
     }

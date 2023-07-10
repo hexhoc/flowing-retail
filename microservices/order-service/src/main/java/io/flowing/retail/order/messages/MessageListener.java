@@ -5,6 +5,7 @@ import java.util.Collections;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.flowing.retail.order.config.KafkaConfig;
+import io.flowing.retail.order.service.OrderCommandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -13,14 +14,13 @@ import org.springframework.stereotype.Component;
 import io.flowing.retail.order.messages.event.GoodsFetchedEventPayload;
 import io.flowing.retail.order.messages.event.GoodsShippedEventPayload;
 import io.flowing.retail.order.messages.event.PaymentReceivedEventPayload;
-import io.flowing.retail.order.service.OrderService;
 
 @Component
 @RequiredArgsConstructor
 @Log
 public class MessageListener {
   private final ObjectMapper objectMapper;
-  private final OrderService orderService;
+  private final OrderCommandService orderCommandService;
 
   @KafkaListener(id = "order", topics = {KafkaConfig.PAYMENT_TOPIC, KafkaConfig.INVENTORY_TOPIC, KafkaConfig.SHIPMENT_TOPIC})
   public void orderEventListener(String messagePayloadJson, @Header("type") String messageType) throws Exception {
@@ -41,7 +41,7 @@ public class MessageListener {
 
     // TODO: Check. Payment success or not
     PaymentReceivedEventPayload paymentReceivedEventPayload = message.getData();
-    orderService.changeStatus(paymentReceivedEventPayload.getRefId());
+    orderCommandService.changeStatus(paymentReceivedEventPayload.getRefId());
 
 //    log.info(message.getType());
 //    log.info(message.getCorrelationid());
@@ -54,7 +54,7 @@ public class MessageListener {
 
     // TODO: Check. Fetched success or not
     GoodsFetchedEventPayload goodsFetchedEventPayload = message.getData();
-    orderService.changeStatus(goodsFetchedEventPayload.getRefId());
+    orderCommandService.changeStatus(goodsFetchedEventPayload.getRefId());
 
     log.info("pick id: " + goodsFetchedEventPayload.getPickId());
     log.info("Correlated " + message);
@@ -65,7 +65,7 @@ public class MessageListener {
 
     // TODO: Check. Shipment success or not
     GoodsShippedEventPayload goodsShippedEventPayload = message.getData();
-    orderService.changeStatus(goodsShippedEventPayload.getRefId());
+    orderCommandService.changeStatus(goodsShippedEventPayload.getRefId());
     log.info("shipment id: " + goodsShippedEventPayload.getShipmentId());
     log.info("Correlated " + message);
   }

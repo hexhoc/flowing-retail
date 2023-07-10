@@ -85,11 +85,16 @@ I have added a debugging port for each service. You can view it in the docker co
 
 
 # Security. Keycloak. Oauth2 protocol
-All microservices registered in keycloak as trusted clients and call keycloak to validate jwt token. 
+We are use keycloak. Keycloak is single sign on service based on two protocol - **OAuth2** and **OpenID connect**.
 
 OAuth 2 is an authorization method to provide access to protected resources over the HTTP protocol. Primarily, oauth2 enables a third-party application to obtain limited access to an HTTP service
 
-OAuth defines four roles:
+OpenID Connect (OIDC) is a protocol for authorization, the top layer of the oauth2 protocol that provides authentication and provides information about the user (identity token or JWT). I.e. if the service supports OIDC, then it can be considered an identity provider (idp)
+
+All microservices registered in keycloak as trusted clients and call keycloak to validate jwt token. 
+
+
+OAuth defines 4 roles:
  - **Resource Owner (fr_user)** – The user of the application.
  - **Client (gateway-service)** – the application (user is using) which require access to user data on the resource server.
  - **Resource Server (product-service, order-service, ...)** – store user’s data and http services which can return user data to authenticated clients.
@@ -107,3 +112,15 @@ OAuth defines four roles:
 5. WARNING. Required set tokenRelay in gateway routing config
 
 ![keycloak](docs/spring-cloud-gateway-oauth2-login.png)
+
+## How security work
+We have created user with scope in keycloak. Client delegated the authentication to keycloak. 
+**Gateway-service** added as trusted client in keycloak, this means that the gateway will be for authentication on keycloak. Get a token, update a token
+
+1. GET access to resource http://localhost:3000/productsvc/api/v1/product
+2. Gateway redirect request to keycloak to login and issue token
+3. Keycloak check username and password and create access token
+4. Redirect back to gateway with token
+5. Gateway redirect to resource service
+6. Resource service send token to keycloak to verify it
+7. After verification is completed, resource service return response

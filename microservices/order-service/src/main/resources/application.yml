@@ -8,10 +8,6 @@ spring:
     active: dev
 server:
   port: 8050
-zeebe:
-  client:
-    security:
-      plaintext: true
 
 logging:
   level:

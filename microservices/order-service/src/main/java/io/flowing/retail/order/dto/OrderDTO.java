@@ -1,21 +1,18 @@
 package io.flowing.retail.order.dto;
 
-import javax.validation.constraints.Null;
-
-import java.io.Serial;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import javax.validation.constraints.Null;
+import java.io.Serial;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.*;
+
 @Data
 @Schema(description = "Order information")
-public class OrderQueryDTO implements Serializable {
+public class OrderDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -40,15 +37,6 @@ public class OrderQueryDTO implements Serializable {
 
     @Schema(description = "is deleted")
     private Boolean isDeleted = false;
-
-    @Schema(description = "created date")
-    private Timestamp createdDate;
-
-    @Schema(description = "modified date")
-    private Timestamp modifiedDate;
-
-    @Schema(description = "version")
-    private Long version;
 
     @Schema(description = "order items")
     private Set<OrderItemDTO> orderItems = new LinkedHashSet<>();

@@ -1,11 +1,9 @@
 package io.flowing.retail.order.messages;
 
-import java.util.Collections;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.flowing.retail.order.config.KafkaConfig;
-import io.flowing.retail.order.service.OrderCommandService;
+import io.flowing.retail.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -20,7 +18,7 @@ import io.flowing.retail.order.messages.event.PaymentReceivedEventPayload;
 @Log
 public class MessageListener {
   private final ObjectMapper objectMapper;
-  private final OrderCommandService orderCommandService;
+  private final OrderService orderService;
 
   @KafkaListener(id = "order", topics = {KafkaConfig.PAYMENT_TOPIC, KafkaConfig.INVENTORY_TOPIC, KafkaConfig.SHIPMENT_TOPIC})
   public void orderEventListener(String messagePayloadJson, @Header("type") String messageType) throws Exception {
@@ -41,7 +39,7 @@ public class MessageListener {
 
     // TODO: Check. Payment success or not
     PaymentReceivedEventPayload paymentReceivedEventPayload = message.getData();
-    orderCommandService.changeStatus(paymentReceivedEventPayload.getRefId());
+    orderService.changeStatus(paymentReceivedEventPayload.getRefId());
 
 //    log.info(message.getType());
 //    log.info(message.getCorrelationid());
@@ -54,7 +52,7 @@ public class MessageListener {
 
     // TODO: Check. Fetched success or not
     GoodsFetchedEventPayload goodsFetchedEventPayload = message.getData();
-    orderCommandService.changeStatus(goodsFetchedEventPayload.getRefId());
+    orderService.changeStatus(goodsFetchedEventPayload.getRefId());
 
     log.info("pick id: " + goodsFetchedEventPayload.getPickId());
     log.info("Correlated " + message);
@@ -65,7 +63,7 @@ public class MessageListener {
 
     // TODO: Check. Shipment success or not
     GoodsShippedEventPayload goodsShippedEventPayload = message.getData();
-    orderCommandService.changeStatus(goodsShippedEventPayload.getRefId());
+    orderService.changeStatus(goodsShippedEventPayload.getRefId());
     log.info("shipment id: " + goodsShippedEventPayload.getShipmentId());
     log.info("Correlated " + message);
   }

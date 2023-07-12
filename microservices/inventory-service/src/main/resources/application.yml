@@ -17,3 +17,6 @@ logging:
     org.hibernate.type.descriptor.sql: TRACE
     # Log sql parameters. For Hibernate 6 version
 #    org.hibernate.orm.jdbc.bind: TRACE
+app:
+  write:
+    enabled: false

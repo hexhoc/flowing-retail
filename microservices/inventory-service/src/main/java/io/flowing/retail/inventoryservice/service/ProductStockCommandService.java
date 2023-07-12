@@ -1,32 +1,28 @@
 package io.flowing.retail.inventoryservice.service;
 
-import io.flowing.retail.inventoryservice.domain.PickOrder;
+import io.flowing.retail.inventoryservice.dto.PickOrderDTO;
 import io.flowing.retail.inventoryservice.dto.InventoryItemDTO;
 import io.flowing.retail.inventoryservice.dto.ProductStockDTO;
 import io.flowing.retail.inventoryservice.dto.mapper.ProductStockMapper;
-import io.flowing.retail.inventoryservice.entity.ProductStock;
-import io.flowing.retail.inventoryservice.repository.ProductStockRepository;
+import io.flowing.retail.inventoryservice.repository.ProductStockCommandRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Service to write stock
+ */
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class ProductStockService {
+public class ProductStockCommandService {
 
-    private final ProductStockRepository productStockRepository;
+    private final ProductStockCommandRepository productStockCommandRepository;
 
     /**
      * reserve goods on stock for a defined period of time
@@ -56,18 +52,18 @@ public class ProductStockService {
      */
     public String pickItems(Set<InventoryItemDTO> items, String reason, String refId) {
 
-        List<Integer> productIds = items.stream().map(InventoryItemDTO::getProductId).toList();
-        List<ProductStock> productStockList = productStockRepository.findAllForPickUp(productIds, 1);
-        Map<Integer, ProductStock> productStockMap = productStockList.stream()
+        var productIds = items.stream().map(InventoryItemDTO::getProductId).toList();
+        var productStockList = productStockCommandRepository.findAllForPickUp(productIds, 1);
+        var productStockMap = productStockList.stream()
                 .collect(Collectors.toMap(p -> p.getProductStockId().getProductId(), p -> p));
 
-        for (InventoryItemDTO item : items) {
+        for (var item : items) {
             // TODO: сделать возможность отказа из-за нехватки товара. 90% что товар есть, 10% может отсутствовать
             var productStock = productStockMap.get(item.getProductId());
             productStock.setStock(productStock.getStock() - item.getQuantity());
         }
 
-        productStockRepository.saveAll(productStockList);
+        productStockCommandRepository.saveAll(productStockList);
 
         // Long operation
         try {
@@ -76,53 +72,32 @@ public class ProductStockService {
             throw new RuntimeException(e);
         }
 
-        PickOrder pickOrder = new PickOrder(items);
-        log.info("# Items picked: " + pickOrder);
+        PickOrderDTO pickOrderDTO = new PickOrderDTO(items);
+        log.info("# Items picked: " + pickOrderDTO);
 
-        return pickOrder.getId();
+        return pickOrderDTO.getId();
     }
 
     /**
-     * New goods are arrived and inventory is increased
+     * Delete all record by id
+     * @param dtoList list of products stock
      */
-    public void topUpInventory(String articleId, int amount) {
-        // TODO: Implement
-    }
-
     public void batchDelete(List<ProductStockDTO> dtoList) {
         var ids = dtoList.stream()
                 .map(dto -> ProductStockMapper.toEntity(dto).getProductStockId())
                 .toList();
-        productStockRepository.deleteAllByIdInBatch(ids);
+        productStockCommandRepository.deleteAllByIdInBatch(ids);
     }
 
+    /**
+     * Update already exist or add new if not found
+     * @param dtoList list of products stock
+     */
     public void batchUpdate(List<ProductStockDTO> dtoList) {
         var productStockList = dtoList.stream()
                 .map(ProductStockMapper::toEntity)
                 .toList();
-        productStockRepository.saveAll(productStockList);
-    }
-
-    public Page<ProductStockDTO> getAll(Integer productId, Integer warehouseId, Integer page, Integer size) {
-        Pageable pageRequest = PageRequest.of(page, size);
-
-        // TODO: Use JpaRepository criteria instead
-        Page<ProductStock> entityPage;
-        if (Objects.nonNull(productId) && Objects.nonNull(warehouseId)){
-            entityPage = productStockRepository.findAllByProductIdAndWarehouseId(productId, warehouseId, pageRequest);
-        } else if (Objects.nonNull(productId)) {
-            entityPage = productStockRepository.findAllByProductId(productId, pageRequest);
-        } else if (Objects.nonNull(warehouseId)) {
-            entityPage = productStockRepository.findAllByWarehouseId(warehouseId, pageRequest);
-        } else {
-            entityPage = productStockRepository.findAll(pageRequest);
-        }
-
-        List<ProductStockDTO> dtoList = entityPage.stream()
-                .map(ProductStockMapper::toDto)
-                .toList();
-
-        return new PageImpl<>(dtoList);
+        productStockCommandRepository.saveAll(productStockList);
     }
 
 }

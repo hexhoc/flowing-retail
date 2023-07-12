@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.flowing.retail.inventoryservice.messages.payload.FetchGoodsCommandPayload;
 import io.flowing.retail.inventoryservice.messages.payload.GoodsFetchedEventPayload;
-import io.flowing.retail.inventoryservice.service.ProductStockService;
+import io.flowing.retail.inventoryservice.service.ProductStockCommandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MessageListener {
 
     private final MessageSender messageSender;
-    private final ProductStockService productStockService;
+    private final ProductStockCommandService productStockCommandService;
     private final ObjectMapper objectMapper;
 
     @Transactional
@@ -33,8 +33,8 @@ public class MessageListener {
         });
 
         FetchGoodsCommandPayload fetchGoodsCommand = message.getData();
-        productStockService.pickItems( //
-                fetchGoodsCommand.getItems(), fetchGoodsCommand.getReason(), fetchGoodsCommand.getRefId());
+        productStockCommandService.pickItems( //
+                                              fetchGoodsCommand.getItems(), fetchGoodsCommand.getReason(), fetchGoodsCommand.getRefId());
 
         messageSender.send( //
                 new Message<>( //

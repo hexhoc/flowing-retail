@@ -6,9 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
 
-public interface ProductStockRepository extends JpaRepository<ProductStock, ProductStock.ProductStockId> {
+/*
+Repository for read. In this example, reading from the same database that is being written to
+ */
+public interface ProductStockQueryRepository extends JpaRepository<ProductStock, ProductStock.ProductStockId> {
     @Query(value = """
     select s
     from ProductStock s
@@ -30,11 +32,5 @@ public interface ProductStockRepository extends JpaRepository<ProductStock, Prod
     """)
     Page<ProductStock> findAllByProductIdAndWarehouseId(Integer productId, Integer warehouseId, Pageable pageable);
 
-    @Query(value = """
-    select s
-    from ProductStock s
-    where s.productStockId.productId in (:productIds) and s.productStockId.warehouseId = :warehouseId
-    """)
-    List<ProductStock> findAllForPickUp(List<Integer> productIds, Integer warehouseId);
 
 }

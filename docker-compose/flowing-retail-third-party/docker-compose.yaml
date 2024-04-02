@@ -81,6 +81,8 @@ services:
     hostname: kafka
     depends_on:
       - zookeeper
+    networks:
+      - flowing
     ports:
       - 9092:9092
       - 29092:29092

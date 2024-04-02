@@ -1,0 +1,20 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:29092
+  jpa:
+#    show-sql: true
+    hibernate:
+      ddl-auto: validate
+#    properties:
+#      hibernate:
+#        format_sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/flowing_retail_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+custom:
+  flowingretail:
+    customer-service:
+      host: http://localhost:8080

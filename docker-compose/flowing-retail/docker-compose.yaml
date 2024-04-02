@@ -1,107 +1,16 @@
 version: '3.8'
 
 services:
-  gateway-service:
-    image: hexhoc/flowing-retail-gateway-service
-    container_name: gateway-service
+  flowing-retail:
+    image: hexhoc/flowing-retail
+    container_name: flowing-retail
     ports:
-      - "3000:3000"
-      - "3001:3001"
+      - "8080:8080"
+      - "9090:9090"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:3001
-    networks:
-      - flowing
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9090
 
-  product-service:
-    image: hexhoc/flowing-retail-product-service
-    container_name: product-service
-    ports:
-      - "8000:8000"
-      - "9000:9000"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9000
-    networks:
-      - flowing
-
-  customer-service:
-    image: hexhoc/flowing-retail-customer-service
-    container_name: customer-service
-    ports:
-      - "8040:8040"
-      - "9040:9040"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9040
-    networks:
-      - flowing
-
-  order-service:
-    image: hexhoc/flowing-retail-order-service
-    container_name: order-service
-    ports:
-      - "8050:8050"
-      - "9050:9050"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9050
-    networks:
-      - flowing
-
-  payment-service:
-    image: hexhoc/flowing-retail-payment-service
-    container_name: payment-service
-    ports:
-      - "8020:8020"
-      - "9020:9020"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9002
-    networks:
-      - flowing
-
-  inventory-service:
-    image: hexhoc/flowing-retail-inventory-service
-    container_name: inventory-service
-    ports:
-      - "8010:8010"
-      - "9010:9010"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9010
-    networks:
-      - flowing
-
-  shipping-service:
-    image: hexhoc/flowing-retail-shipping-service
-    container_name: shipping-service
-    ports:
-      - "8030:8030"
-      - "9030:9030"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9030
-    networks:
-      - flowing
-
-  monitor-service:
-    image: hexhoc/flowing-retail-monitor-service
-    container_name: monitor-service
-    ports:
-      - "8095:8095"
-      - "9095:9095"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9095
-    networks:
-      - flowing
-
-  frontend:
-    image: hexhoc/flowing-retail-frontend
-    container_name: frontend
-    ports:
-      - "8099:80"
 networks:
   flowing:
     external: true

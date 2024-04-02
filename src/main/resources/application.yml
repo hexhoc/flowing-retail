@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: flowing-retail
+  profiles:
+    active: dev
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework: INFO
+    # Enable hibernate sql log
+    org.hibernate.SQL: DEBUG
+    # Log sql parameters. For Hibernate 5 version
+    org.hibernate.type.descriptor.sql: TRACE
+    # Log sql parameters. For Hibernate 6 version
+#    org.hibernate.orm.jdbc.bind: TRACE
+
+app:
+  write:
+    enabled: false

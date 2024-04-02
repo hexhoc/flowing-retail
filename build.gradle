@@ -1,0 +1,56 @@
+// "apply plugin" construction is a legacy method that you should avoid. Instead use plugins {} block
+// plugins {} block is to immediately resolve and apply the plugins
+plugins {
+	id 'java'
+	// This plugin is alternative of <parent> tag in maven
+	id "org.springframework.boot" version "${springBootVersion}"
+	id "io.spring.dependency-management" version "${springDependencyVersion}"
+}
+
+group = 'io'
+version = '1.0.0-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// METRIC
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// WEB
+	implementation 'org.springframework.boot:spring-boot-starter-json'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation "org.springdoc:springdoc-openapi-ui:${springdocVersion}"
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.kafka:spring-kafka'
+
+	// DB
+	implementation "com.h2database:h2:${h2Version}"
+	implementation "org.postgresql:postgresql"
+	implementation 'org.flywaydb:flyway-core'
+
+	// HELPER
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation("com.google.guava:guava:${googleGuavaVersion}")
+
+	// TEST
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

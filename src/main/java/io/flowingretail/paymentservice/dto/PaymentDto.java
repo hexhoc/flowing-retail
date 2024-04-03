@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "Payment data transfer object. Used for request and response")
-public class PaymentDTO implements Serializable {
+public class PaymentDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "Product stock data transfer object. Used for request and response")
-public class ProductStockDTO implements Serializable {
+public class ProductStockDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

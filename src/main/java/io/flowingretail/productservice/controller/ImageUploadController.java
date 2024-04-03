@@ -1,6 +1,6 @@
 package io.flowingretail.productservice.controller;
 
-import io.flowingretail.productservice.dto.ProductImageDTO;
+import io.flowingretail.productservice.dto.ProductImageDto;
 import io.flowingretail.productservice.service.ProductImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -28,8 +28,8 @@ public class ImageUploadController {
 
     @GetMapping("/{productId}")
     @Operation(summary = "Get list of images for specific product id")
-    public ResponseEntity<List<ProductImageDTO>> getImageToPost(@PathVariable("productId") Integer productId) {
-        List<ProductImageDTO> imagesList = productImageService.getAllByProductId(productId);
+    public ResponseEntity<List<ProductImageDto>> getImageToPost(@PathVariable("productId") Integer productId) {
+        List<ProductImageDto> imagesList = productImageService.getAllByProductId(productId);
         return ResponseEntity.ok(imagesList);
     }
 

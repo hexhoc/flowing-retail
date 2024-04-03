@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "Order information")
-public class OrderDTO implements Serializable {
+public class OrderDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -39,6 +39,6 @@ public class OrderDTO implements Serializable {
     private Boolean isDeleted = false;
 
     @Schema(description = "order items")
-    private Set<OrderItemDTO> orderItems = new LinkedHashSet<>();
+    private Set<OrderItemDto> orderItems = new LinkedHashSet<>();
 
 }

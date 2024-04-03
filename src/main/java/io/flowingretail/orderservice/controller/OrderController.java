@@ -1,6 +1,6 @@
 package io.flowingretail.orderservice.controller;
 
-import io.flowingretail.orderservice.dto.OrderDTO;
+import io.flowingretail.orderservice.dto.OrderDto;
 import io.flowingretail.orderservice.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -40,7 +40,7 @@ public class OrderController {
 
     @Operation(summary = "Get a list of orders", description = "Check is everything ok, and service already started")
     @GetMapping
-    public ResponseEntity<Page<OrderDTO>> orderGetList(
+    public ResponseEntity<Page<OrderDto>> orderGetList(
             @Parameter(description="customer id filter")
             @RequestParam(name = "customerId", required = false) Integer customerId,
             @Parameter(description="Page, default is 0")
@@ -54,27 +54,27 @@ public class OrderController {
 
     @Operation(summary = "Find order by ID", description = "Return single order")
     @GetMapping(path = "/{id}")
-    public ResponseEntity<OrderDTO> orderGetById(@Valid @NotNull @PathVariable(name = "id") String id) {
+    public ResponseEntity<OrderDto> orderGetById(@Valid @NotNull @PathVariable(name = "id") String id) {
         log.info("get order by id");
         return ResponseEntity.ok(orderService.findById(id));
     }
 
     @Operation(summary = "Add new order", description = "Return created order")
     @PostMapping
-    public ResponseEntity<OrderDTO> orderPost(
+    public ResponseEntity<OrderDto> orderPost(
             @Parameter(description="Order to create. Cannot null or empty.", required=true)
-            @RequestBody OrderDTO orderDto) {
+            @RequestBody OrderDto orderDto) {
         log.info("Add new order");
         return ResponseEntity.ok(orderService.createOrder(orderDto));
     }
 
     @Operation(summary = "Update an existing order", description = "Return updated order")
     @PutMapping("/{id}")
-    public ResponseEntity<OrderDTO> orderPut(
+    public ResponseEntity<OrderDto> orderPut(
             @Parameter(description="Order id. Cannot null or empty.", required=true)
             @Valid @NotNull @PathVariable("id") String id,
             @Parameter(description="Order to update. Cannot null or empty.", required=true)
-            @RequestBody OrderDTO orderDto) {
+            @RequestBody OrderDto orderDto) {
         log.info("update order");
         return ResponseEntity.ok(orderService.updateOrder(id, orderDto));
     }

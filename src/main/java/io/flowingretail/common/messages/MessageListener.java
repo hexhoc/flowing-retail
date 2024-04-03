@@ -32,7 +32,7 @@ public class MessageListener {
 
   @KafkaListener(id = "order", topics = {KafkaConfig.ORDER_TOPIC})
   public void orderEventListener(String messagePayloadJson,
-                                 @Header("type") String eventType) { //TODO: delete traceId
+                                 @Header("type") String eventType) {
     log.info(eventType);
 
     if (PAYMENT_RECEIVED_EVENT.equals(eventType)) {
@@ -46,17 +46,6 @@ public class MessageListener {
     }
   }
 
-  @KafkaListener(id = "inventory", topics = KafkaConfig.INVENTORY_TOPIC)
-  public void inventoryEventReceived(String messagePayloadJson,
-                                     @Header("type") String messageType) {
-    if (!FETCH_GOODS_COMMAND.equals(messageType)) {
-      log.info("Ignoring message of type " + messageType);
-      return;
-    }
-
-    applicationEventPublisher.publishEvent(new FetchGoodsCommand(this, messagePayloadJson));
-  }
-
   @KafkaListener(id = "payment", topics = KafkaConfig.PAYMENT_TOPIC)
   public void paymentEventReceived(String messagePayloadJson,
                                    @Header("type") String messageType) {
@@ -66,6 +55,17 @@ public class MessageListener {
     }
 
     applicationEventPublisher.publishEvent(new RetrievePaymentCommand(this, messagePayloadJson));
+  }
+
+  @KafkaListener(id = "inventory", topics = KafkaConfig.INVENTORY_TOPIC)
+  public void inventoryEventReceived(String messagePayloadJson,
+                                     @Header("type") String messageType) {
+    if (!FETCH_GOODS_COMMAND.equals(messageType)) {
+      log.info("Ignoring message of type " + messageType);
+      return;
+    }
+
+    applicationEventPublisher.publishEvent(new FetchGoodsCommand(this, messagePayloadJson));
   }
 
   @KafkaListener(id = "shipping", topics = KafkaConfig.SHIPMENT_TOPIC)

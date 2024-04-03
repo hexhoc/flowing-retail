@@ -34,7 +34,7 @@ public class FetchGoodsCommandHandler {
     @EventListener
     @Transactional
     public void on(FetchGoodsCommand event) throws JsonProcessingException {
-        log.info("GoodsFetchedEvent");
+        log.info("2/3 GoodsFetchedEvent");
         Message<FetchGoodsCommandPayload> message = objectMapper.readValue(event.getPayload(), new TypeReference<>() {});
         if (incomingEventService.alreadyExist(UUID.fromString(message.getCorrelationid()))) {
             log.warn("Message with trace id %s already exist".formatted(message.getTraceid()));

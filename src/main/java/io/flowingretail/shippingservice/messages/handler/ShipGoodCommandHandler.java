@@ -38,7 +38,7 @@ public class ShipGoodCommandHandler {
     @EventListener
     @Transactional
     public void on(ShipGoodsCommand event) throws JsonProcessingException, InterruptedException {
-        log.info("ShipGoodsCommand");
+        log.info("3/3 ShipGoodsCommand");
 
         Message<ShipGoodsCommandPayload> message = objectMapper.readValue(event.getPayload(), new TypeReference<>() {});
         if (incomingEventService.alreadyExist(UUID.fromString(message.getCorrelationid()))){
@@ -53,8 +53,6 @@ public class ShipGoodCommandHandler {
             message.getData().getRecipientName(),
             message.getData().getRecipientAddress(),
             message.getData().getLogisticsProvider());
-
-        Thread.sleep(5_000);
 
         var responseMessage = Message.builder()
             .id(UUID.randomUUID().toString())

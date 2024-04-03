@@ -1,7 +1,7 @@
 package io.flowingretail.paymentservice.service;
 
 import io.flowingretail.common.messages.command.RetrievePaymentCommandPayload;
-import io.flowingretail.paymentservice.dto.PaymentDTO;
+import io.flowingretail.paymentservice.dto.PaymentDto;
 import io.flowingretail.paymentservice.dto.mapper.PaymentMapper;
 import io.flowingretail.paymentservice.entity.Payment;
 import io.flowingretail.paymentservice.enums.PaymentType;
@@ -48,8 +48,6 @@ public class PaymentService {
 
         paymentRepository.save(p);
 
-        Thread.sleep(5_000);
-
         return p.getId().toString();
     }
 
@@ -57,14 +55,14 @@ public class PaymentService {
         paymentRepository.deleteById(id);
     }
 
-    public void update(Integer id, PaymentDTO dto) {
+    public void update(Integer id, PaymentDto dto) {
         Payment entity = requireOne(id);
         Payment updatedEntity = PaymentMapper.toEntity(dto);
         BeanUtils.copyProperties(updatedEntity, entity, "id","version","createdDate","modifiedDate");
         paymentRepository.save(entity);
     }
 
-    public Page<PaymentDTO> getAll(Integer orderId, Integer customerId, Integer page, Integer size) {
+    public Page<PaymentDto> getAll(Integer orderId, Integer customerId, Integer page, Integer size) {
         Pageable pageRequest = PageRequest.of(page, size);
 
         // TODO: Use JpaRepository criteria instead
@@ -79,14 +77,14 @@ public class PaymentService {
             entityPage = paymentRepository.findAll(pageRequest);
         }
 
-        List<PaymentDTO> dtoList = entityPage.stream()
+        List<PaymentDto> dtoList = entityPage.stream()
                 .map(PaymentMapper::toDto)
                 .toList();
 
         return new PageImpl<>(dtoList);
     }
 
-    public PaymentDTO getById(Integer id) {
+    public PaymentDto getById(Integer id) {
         return PaymentMapper.toDto(requireOne(id));
     }
 

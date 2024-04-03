@@ -1,6 +1,6 @@
 package io.flowingretail.productservice.controller;
 
-import io.flowingretail.productservice.dto.ProductDTO;
+import io.flowingretail.productservice.dto.ProductDto;
 import io.flowingretail.productservice.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,26 +37,26 @@ public class ProductController {
 
     @GetMapping
     @Operation(summary = "Get a list of products")
-    public ResponseEntity<Page<ProductDTO>> getList(@RequestParam(name = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<Page<ProductDto>> getList(@RequestParam(name = "page", defaultValue = "0") Integer page,
                                                     @RequestParam(name = "size", defaultValue = "10") Integer size) {
         return ResponseEntity.ok(productService.getAll(page, size));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get the product by the identifier")
-    public ResponseEntity<ProductDTO> getById(@Valid @NotNull @PathVariable("id") Integer id) {
+    public ResponseEntity<ProductDto> getById(@Valid @NotNull @PathVariable("id") Integer id) {
         return ResponseEntity.ok(productService.getById(id));
     }
 
     @PostMapping
     @Operation(summary = "Create a new product")
-    public ResponseEntity<String> save(@Valid @RequestBody ProductDTO dto) {
+    public ResponseEntity<String> save(@Valid @RequestBody ProductDto dto) {
         return ResponseEntity.ok(productService.save(dto).toString());
     }
 
     @PostMapping("/batch")
     @Operation(summary = "Create batch of new product")
-    public ResponseEntity<String> saveBatch(@Valid @RequestBody List<ProductDTO> dtoList) {
+    public ResponseEntity<String> saveBatch(@Valid @RequestBody List<ProductDto> dtoList) {
         productService.saveBatch(dtoList);
         return ResponseEntity.ok("OK");
     }
@@ -70,7 +70,7 @@ public class ProductController {
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing product")
     public void update(@Valid @NotNull @PathVariable("id") Integer id,
-                       @Valid @RequestBody ProductDTO dto) {
+                       @Valid @RequestBody ProductDto dto) {
         productService.update(id, dto);
     }
 

@@ -1,6 +1,6 @@
 package io.flowingretail.productservice.dto.mapper;
 
-import io.flowingretail.productservice.dto.ProductDTO;
+import io.flowingretail.productservice.dto.ProductDto;
 import io.flowingretail.productservice.entity.Product;
 import io.flowingretail.productservice.utils.Memoizer;
 import java.util.stream.Collectors;
@@ -15,14 +15,13 @@ public class ProductMapper {
                     // Calculate SKU
                     String prefix = "22000";
                     String postfix = "1233";
-                    Thread.sleep(2_500);
                     return prefix + arg + postfix;
                 }
         );
     }
 
-    public static ProductDTO toDto(Product entity) {
-        var dto = new ProductDTO();
+    public static ProductDto toDto(Product entity) {
+        var dto = new ProductDto();
         BeanUtils.copyProperties(entity, dto);
         dto.setCategory(CategoryMapper.toDto(entity.getCategory()));
         dto.setImages(entity.getProductImages().stream().map(ProductImageMapper::toDto).collect(Collectors.toSet()));
@@ -35,7 +34,7 @@ public class ProductMapper {
         return dto;
     }
 
-    public static Product toEntity(ProductDTO dto) {
+    public static Product toEntity(ProductDto dto) {
         var entity = new Product();
         BeanUtils.copyProperties(dto,entity,"version","createdDate","modifiedDate");
         entity.setCategory(CategoryMapper.toEntity(dto.getCategory()));

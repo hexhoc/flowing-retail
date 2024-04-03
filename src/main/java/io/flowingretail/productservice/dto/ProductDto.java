@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "Product data transfer object. Used for request and response")
-public class ProductDTO implements Serializable {
+public class ProductDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -43,7 +43,7 @@ public class ProductDTO implements Serializable {
 
     @Schema(description = "Product category")
     @NotNull
-    private CategoryDTO category;
+    private CategoryDto category;
 
     @NotNull
     @Schema(description = "Product original price")
@@ -61,10 +61,10 @@ public class ProductDTO implements Serializable {
     private Boolean isSale;
 
     @Schema(description = "Product tags")
-    private Set<TagDTO> tags;
+    private Set<TagDto> tags;
 
     @Schema(description = "Product images")
-    private Set<ProductImageDTO> images;
+    private Set<ProductImageDto> images;
 
     @Schema(description = "Product is deleted")
     @NotNull

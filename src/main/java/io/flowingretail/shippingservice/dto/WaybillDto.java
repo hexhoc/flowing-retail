@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "Waybill data transfer object. Used for request and response")
-public class WaybillDTO implements Serializable {
+public class WaybillDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

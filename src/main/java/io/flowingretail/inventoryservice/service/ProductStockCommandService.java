@@ -1,8 +1,8 @@
 package io.flowingretail.inventoryservice.service;
 
-import io.flowingretail.common.dto.InventoryItemDTO;
-import io.flowingretail.inventoryservice.dto.PickOrderDTO;
-import io.flowingretail.inventoryservice.dto.ProductStockDTO;
+import io.flowingretail.common.dto.InventoryItemDto;
+import io.flowingretail.inventoryservice.dto.PickOrderDto;
+import io.flowingretail.inventoryservice.dto.ProductStockDto;
 import io.flowingretail.inventoryservice.dto.mapper.ProductStockMapper;
 import io.flowingretail.inventoryservice.repository.ProductStockCommandRepository;
 import java.time.LocalDateTime;
@@ -31,7 +31,7 @@ public class ProductStockCommandService {
      * @param expirationDate Date until when the goods are reserved, afterwards the reservation is removed
      * @return if reservation could be done successfully
      */
-    public boolean reserveGoods(List<InventoryItemDTO> items, String reason, String refId, LocalDateTime expirationDate) {
+    public boolean reserveGoods(List<InventoryItemDto> items, String reason, String refId, LocalDateTime expirationDate) {
         // TODO: Implement
         return true;
     }
@@ -49,9 +49,9 @@ public class ProductStockCommandService {
      * @param refId Reference id fitting to the reason of the pick (e.g. "order id"). Used to determine which reservations can be used.
      * @return a unique pick ID
      */
-    public String pickItems(Set<InventoryItemDTO> items, String reason, String refId) {
+    public String pickItems(Set<InventoryItemDto> items, String reason, String refId) {
 
-        var productIds = items.stream().map(InventoryItemDTO::getProductId).toList();
+        var productIds = items.stream().map(InventoryItemDto::getProductId).toList();
         var productStockList = productStockCommandRepository.findAllForPickUp(productIds, 1);
         var productStockMap = productStockList.stream()
                 .collect(Collectors.toMap(p -> p.getProductStockId().getProductId(), p -> p));
@@ -64,14 +64,7 @@ public class ProductStockCommandService {
 
         productStockCommandRepository.saveAll(productStockList);
 
-        // Long operation
-        try {
-            Thread.sleep(5_000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        PickOrderDTO pickOrderDTO = new PickOrderDTO(items);
+        PickOrderDto pickOrderDTO = new PickOrderDto(items);
         log.info("# Items picked: " + pickOrderDTO);
 
         return pickOrderDTO.getId();
@@ -81,7 +74,7 @@ public class ProductStockCommandService {
      * Delete all record by id
      * @param dtoList list of products stock
      */
-    public void batchDelete(List<ProductStockDTO> dtoList) {
+    public void batchDelete(List<ProductStockDto> dtoList) {
         var ids = dtoList.stream()
                 .map(dto -> ProductStockMapper.toEntity(dto).getProductStockId())
                 .toList();
@@ -92,7 +85,7 @@ public class ProductStockCommandService {
      * Update already exist or add new if not found
      * @param dtoList list of products stock
      */
-    public void batchUpdate(List<ProductStockDTO> dtoList) {
+    public void batchUpdate(List<ProductStockDto> dtoList) {
         var productStockList = dtoList.stream()
                 .map(ProductStockMapper::toEntity)
                 .toList();

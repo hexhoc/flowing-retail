@@ -1,6 +1,6 @@
 package io.flowingretail.shippingservice.service;
 
-import io.flowingretail.shippingservice.dto.WaybillDTO;
+import io.flowingretail.shippingservice.dto.WaybillDto;
 import io.flowingretail.shippingservice.dto.mapper.WaybillMapper;
 import io.flowingretail.shippingservice.entity.Waybill;
 import io.flowingretail.shippingservice.repository.ShippingRepository;
@@ -47,14 +47,14 @@ public class ShippingService {
         shippingRepository.deleteById(id);
     }
 
-    public void update(Integer id, WaybillDTO dto) {
+    public void update(Integer id, WaybillDto dto) {
         Waybill entity = requireOne(id);
         Waybill updatedEntity = WaybillMapper.toEntity(dto);
         BeanUtils.copyProperties(updatedEntity, entity, "id");
         shippingRepository.save(entity);
     }
 
-    public Page<WaybillDTO> getAll(Integer orderId, Integer page, Integer size) {
+    public Page<WaybillDto> getAll(Integer orderId, Integer page, Integer size) {
         Pageable pageRequest = PageRequest.of(page, size);
 
         Page<Waybill> entityPage;
@@ -64,14 +64,14 @@ public class ShippingService {
             entityPage = shippingRepository.findAll(pageRequest);
         }
 
-        List<WaybillDTO> dtoList = entityPage.stream()
+        List<WaybillDto> dtoList = entityPage.stream()
                 .map(WaybillMapper::toDto)
                 .toList();
 
         return new PageImpl<>(dtoList);
     }
 
-    public WaybillDTO getById(Integer id) {
+    public WaybillDto getById(Integer id) {
         return WaybillMapper.toDto(requireOne(id));
     }
 

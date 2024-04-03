@@ -7,14 +7,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.flowingretail.common.config.KafkaConfig;
-import io.flowingretail.common.dto.InventoryItemDTO;
+import io.flowingretail.common.dto.InventoryItemDto;
 import io.flowingretail.common.messages.Message;
 import io.flowingretail.common.messages.MessageSender;
 import io.flowingretail.common.messages.command.FetchGoodsCommandPayload;
 import io.flowingretail.common.messages.event.PaymentReceivedEvent;
 import io.flowingretail.common.messages.event.PaymentReceivedEventPayload;
 import io.flowingretail.common.service.IncomingEventService;
-import io.flowingretail.orderservice.dto.OrderDTO;
+import io.flowingretail.orderservice.dto.OrderDto;
 import io.flowingretail.orderservice.service.OrderService;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -57,11 +57,11 @@ public class PaymentReceivedEventHandler {
         log.info("Correlated " + message);
     }
 
-    private void sendResponse(Message<?> message, OrderDTO orderDto) {
+    private void sendResponse(Message<?> message, OrderDto orderDto) {
         var fetchGoodsCommandPayload = new FetchGoodsCommandPayload()
             .setRefId(orderDto.getId())
             .setItems(orderDto.getOrderItems().stream()
-                .map(i -> new InventoryItemDTO(i.getProductId(), i.getQuantity()))
+                .map(i -> new InventoryItemDto(i.getProductId(), i.getQuantity()))
                 .collect(Collectors.toSet()));
 
         var responseMessage = Message.builder()

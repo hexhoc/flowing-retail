@@ -34,7 +34,7 @@ public class RetrievePaymentCommandHandler {
     @EventListener
     @Transactional
     public void on(RetrievePaymentCommand event) throws JsonProcessingException, InterruptedException {
-        log.info("RetrievePaymentCommand");
+        log.info("1/3 RetrievePaymentCommand");
 
         Message<RetrievePaymentCommandPayload> message = objectMapper.readValue(event.getPayload(), new TypeReference<>(){});
         if (incomingEventService.alreadyExist(UUID.fromString(message.getCorrelationid()))){

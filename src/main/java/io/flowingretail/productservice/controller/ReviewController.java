@@ -1,6 +1,6 @@
 package io.flowingretail.productservice.controller;
 
-import io.flowingretail.productservice.dto.ReviewDTO;
+import io.flowingretail.productservice.dto.ReviewDto;
 import io.flowingretail.productservice.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,20 +36,20 @@ public class ReviewController {
 
     @GetMapping
     @Operation(summary = "Get a list")
-    public ResponseEntity<Page<ReviewDTO>> getList(@RequestParam(name = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<Page<ReviewDto>> getList(@RequestParam(name = "page", defaultValue = "0") Integer page,
                                                    @RequestParam(name = "size", defaultValue = "10") Integer size) {
         return ResponseEntity.ok(reviewService.getAll(page, size));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get the review by id")
-    public ResponseEntity<ReviewDTO> getById(@Valid @NotNull @PathVariable("id") Integer id) {
+    public ResponseEntity<ReviewDto> getById(@Valid @NotNull @PathVariable("id") Integer id) {
         return ResponseEntity.ok(reviewService.getById(id));
     }
 
     @PostMapping
     @Operation(summary = "Create a new review")
-    public ResponseEntity<String> save(@Valid @RequestBody ReviewDTO dto) {
+    public ResponseEntity<String> save(@Valid @RequestBody ReviewDto dto) {
         return ResponseEntity.ok(reviewService.save(dto).toString());
     }
 
@@ -62,7 +62,7 @@ public class ReviewController {
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing review by id")
     public void update(@Valid @NotNull @PathVariable("id") Integer id,
-                       @Valid @RequestBody ReviewDTO dto) {
+                       @Valid @RequestBody ReviewDto dto) {
         reviewService.update(id, dto);
     }
 

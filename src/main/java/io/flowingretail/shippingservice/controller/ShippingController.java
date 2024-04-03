@@ -1,6 +1,6 @@
 package io.flowingretail.shippingservice.controller;
 
-import io.flowingretail.shippingservice.dto.WaybillDTO;
+import io.flowingretail.shippingservice.dto.WaybillDto;
 import io.flowingretail.shippingservice.service.ShippingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,7 +35,7 @@ public class ShippingController {
 
     @GetMapping
     @Operation(summary = "Get a list")
-    public ResponseEntity<Page<WaybillDTO>> getList(@RequestParam(name = "orderId", required = false) Integer orderId,
+    public ResponseEntity<Page<WaybillDto>> getList(@RequestParam(name = "orderId", required = false) Integer orderId,
                                                     @RequestParam(name = "page", defaultValue = "0") Integer page,
                                                     @RequestParam(name = "size", defaultValue = "10") Integer size) {
         return ResponseEntity.ok(shippingService.getAll(orderId, page, size));
@@ -43,7 +43,7 @@ public class ShippingController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get by id")
-    public ResponseEntity<WaybillDTO> getById(@Valid @NotNull @PathVariable(name = "id") Integer id) {
+    public ResponseEntity<WaybillDto> getById(@Valid @NotNull @PathVariable(name = "id") Integer id) {
         return ResponseEntity.ok(shippingService.getById(id));
     }
 
@@ -57,7 +57,7 @@ public class ShippingController {
     @PutMapping("/{id}")
     @Operation(summary = "Update")
     public void update(@Valid @NotNull @PathVariable("id") Integer id,
-                       @Valid @RequestBody WaybillDTO dto) {
+                       @Valid @RequestBody WaybillDto dto) {
         shippingService.update(id, dto);
     }
 

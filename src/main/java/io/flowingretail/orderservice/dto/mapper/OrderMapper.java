@@ -1,6 +1,6 @@
 package io.flowingretail.orderservice.dto.mapper;
 
-import io.flowingretail.orderservice.dto.OrderDTO;
+import io.flowingretail.orderservice.dto.OrderDto;
 import io.flowingretail.orderservice.entity.Order;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,8 @@ public class OrderMapper {
      * @param entity order entity
      * @return order dto
      */
-    public OrderDTO toDTO(Order entity) {
-        var dto = new OrderDTO();
+    public OrderDto toDTO(Order entity) {
+        var dto = new OrderDto();
         BeanUtils.copyProperties(entity, dto);
         dto.setId(entity.getId());
         dto.setOrderItems(entity.getOrderItems().stream().map(orderItemMapper::toDto).collect(Collectors.toSet()));
@@ -33,7 +33,7 @@ public class OrderMapper {
      * @param dto order dto
      * @return order entity
      */
-    public Order toEntity(OrderDTO dto) {
+    public Order toEntity(OrderDto dto) {
         var entity = new Order();
         BeanUtils.copyProperties(dto, entity, "version","createdDate","modifiedDate");
 //        entity.setStatus(OrderStatusEnum.valueOf(dto.getStatus()));

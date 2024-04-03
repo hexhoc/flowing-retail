@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "Order's items information")
-public class OrderItemDTO implements Serializable {
+public class OrderItemDto implements Serializable {
   @Serial
   private static final long serialVersionUID = 1L;
 

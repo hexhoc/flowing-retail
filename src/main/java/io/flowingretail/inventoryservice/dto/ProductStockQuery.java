@@ -7,5 +7,5 @@ import org.springframework.data.domain.Page;
 @Data
 @AllArgsConstructor
 public class ProductStockQuery {
-    private Page<ProductStockDTO> stocks;
+    private Page<ProductStockDto> stocks;
 }

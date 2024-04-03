@@ -1,6 +1,5 @@
 package io.flowingretail.orderservice.messages.handler;
 
-import static io.flowingretail.common.constants.EventTypeConstants.FETCH_GOODS_COMMAND;
 import static io.flowingretail.common.constants.EventTypeConstants.SHIP_GOODS_COMMAND;
 import static io.flowingretail.common.constants.ServiceNameConstants.ORDER_SERVICE;
 
@@ -8,21 +7,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.flowingretail.common.config.KafkaConfig;
-import io.flowingretail.common.dto.InventoryItemDTO;
 import io.flowingretail.common.messages.Message;
 import io.flowingretail.common.messages.MessageSender;
-import io.flowingretail.common.messages.command.FetchGoodsCommandPayload;
 import io.flowingretail.common.messages.command.ShipGoodsCommandPayload;
 import io.flowingretail.common.messages.event.GoodsFetchedEvent;
 import io.flowingretail.common.messages.event.GoodsFetchedEventPayload;
 import io.flowingretail.common.service.IncomingEventService;
 import io.flowingretail.orderservice.adapter.CustomerRestClient;
 import io.flowingretail.orderservice.dto.CustomerDto;
-import io.flowingretail.orderservice.dto.OrderDTO;
+import io.flowingretail.orderservice.dto.OrderDto;
 import io.flowingretail.orderservice.service.OrderService;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -55,7 +51,7 @@ public class GoodsFetchedEventHandler {
         GoodsFetchedEventPayload goodsFetchedEventPayload = message.getData();
         orderService.changeStatus(goodsFetchedEventPayload.getRefId());
 
-        OrderDTO orderDto = orderService.findById(goodsFetchedEventPayload.getRefId());
+        OrderDto orderDto = orderService.findById(goodsFetchedEventPayload.getRefId());
         CustomerDto customerDto = customerRestClient.getCustomerById(orderDto.getCustomerId());
 
         sendResponse(message, orderDto, customerDto);
@@ -64,7 +60,7 @@ public class GoodsFetchedEventHandler {
         log.info("Correlated " + message);
     }
 
-    private void sendResponse(Message<?> message, OrderDTO orderDto, CustomerDto customerDto) {
+    private void sendResponse(Message<?> message, OrderDto orderDto, CustomerDto customerDto) {
         var shipGoodsCommandPayload = new ShipGoodsCommandPayload()
             .setRefId(orderDto.getId())
             .setRecipientName(String.format("%s %s", customerDto.getFirstName(), customerDto.getLastName()))

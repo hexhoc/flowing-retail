@@ -1,6 +1,6 @@
 package io.flowingretail.paymentservice.controller;
 
-import io.flowingretail.paymentservice.dto.PaymentDTO;
+import io.flowingretail.paymentservice.dto.PaymentDto;
 import io.flowingretail.paymentservice.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,7 +35,7 @@ public class PaymentController {
 
     @GetMapping
     @Operation(summary = "Get a list")
-    public ResponseEntity<Page<PaymentDTO>> getList(@RequestParam(name = "orderId", required = false) Integer orderId,
+    public ResponseEntity<Page<PaymentDto>> getList(@RequestParam(name = "orderId", required = false) Integer orderId,
                                                     @RequestParam(name = "customerId", required = false) Integer customerId,
                                                     @RequestParam(name = "page", defaultValue = "0") Integer page,
                                                     @RequestParam(name = "size", defaultValue = "10") Integer size) {
@@ -44,7 +44,7 @@ public class PaymentController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a list")
-    public ResponseEntity<PaymentDTO> getById(@Valid @NotNull @PathVariable(name = "id") Integer id) {
+    public ResponseEntity<PaymentDto> getById(@Valid @NotNull @PathVariable(name = "id") Integer id) {
         return ResponseEntity.ok(paymentService.getById(id));
     }
 
@@ -58,7 +58,7 @@ public class PaymentController {
     @PutMapping("/{id}")
     @Operation(summary = "Update payments")
     public void update(@Valid @NotNull @PathVariable("id") Integer id,
-                       @Valid @RequestBody PaymentDTO dto) {
+                       @Valid @RequestBody PaymentDto dto) {
         paymentService.update(id, dto);
     }
 

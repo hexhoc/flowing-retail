@@ -7,5 +7,5 @@ import lombok.Data;
 @Data
 public class ProductStockCommand {
     @Size(min=1, max=100, message = "лимит пакета 100 записей на обновление")
-    private List<ProductStockDTO> stocks;
+    private List<ProductStockDto> stocks;
 }

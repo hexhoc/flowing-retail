@@ -1,6 +1,6 @@
 package io.flowingretail.common.messages.command;
 
-import io.flowingretail.common.dto.InventoryItemDTO;
+import io.flowingretail.common.dto.InventoryItemDto;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -8,7 +8,7 @@ public class FetchGoodsCommandPayload {
   
   private String refId;
   private String reason = "CustomerOrder";
-  private Set<InventoryItemDTO> items = new LinkedHashSet<>();
+  private Set<InventoryItemDto> items = new LinkedHashSet<>();
   
   public String getRefId() {
     return refId;
@@ -25,10 +25,10 @@ public class FetchGoodsCommandPayload {
     this.reason = reason;
     return this;
   }
-  public Set<InventoryItemDTO> getItems() {
+  public Set<InventoryItemDto> getItems() {
     return items;
   }
-  public FetchGoodsCommandPayload setItems(Set<InventoryItemDTO> items) {
+  public FetchGoodsCommandPayload setItems(Set<InventoryItemDto> items) {
     this.items = items;
     return this;
   }

@@ -1,6 +1,6 @@
 package io.flowingretail.productservice.service;
 
-import io.flowingretail.productservice.dto.ProductDTO;
+import io.flowingretail.productservice.dto.ProductDto;
 import io.flowingretail.productservice.dto.mapper.ProductMapper;
 import io.flowingretail.productservice.entity.Product;
 import io.flowingretail.productservice.repository.ProductRepository;
@@ -20,13 +20,13 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public Integer save(ProductDTO dto) {
+    public Integer save(ProductDto dto) {
         Product entity = ProductMapper.toEntity(dto);
         entity = productRepository.save(entity);
         return entity.getId();
     }
 
-    public void saveBatch(List<ProductDTO> dtoList) {
+    public void saveBatch(List<ProductDto> dtoList) {
         List<Product> entityList = dtoList.stream().map(ProductMapper::toEntity).toList();
         productRepository.saveAll(entityList);
     }
@@ -35,22 +35,22 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public void update(Integer id, ProductDTO dto) {
+    public void update(Integer id, ProductDto dto) {
         Product entity = requireOne(id);
         Product updatedEntity = ProductMapper.toEntity(dto);
         BeanUtils.copyProperties(updatedEntity, entity,"id", "version","createdDate","modifiedDate");
         productRepository.save(entity);
     }
 
-    public ProductDTO getById(Integer id) {
+    public ProductDto getById(Integer id) {
         Product entity = requireOne(id);
         return ProductMapper.toDto(entity);
     }
 
-    public Page<ProductDTO> getAll(Integer page, Integer size) {
+    public Page<ProductDto> getAll(Integer page, Integer size) {
         Pageable pageRequest = PageRequest.of(page, size);
         Page<Product> entityPage = productRepository.findAll(pageRequest);
-        List<ProductDTO> dtoList = entityPage.stream()
+        List<ProductDto> dtoList = entityPage.stream()
                 .map(ProductMapper::toDto)
                 .toList();
 

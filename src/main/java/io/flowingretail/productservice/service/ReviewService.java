@@ -1,6 +1,6 @@
 package io.flowingretail.productservice.service;
 
-import io.flowingretail.productservice.dto.ReviewDTO;
+import io.flowingretail.productservice.dto.ReviewDto;
 import io.flowingretail.productservice.dto.mapper.ReviewMapper;
 import io.flowingretail.productservice.entity.Review;
 import io.flowingretail.productservice.repository.ReviewRepository;
@@ -20,7 +20,7 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    public Integer save(ReviewDTO dto) {
+    public Integer save(ReviewDto dto) {
         Review entity = ReviewMapper.toEntity(dto);
         entity = reviewRepository.save(entity);
         return entity.getId();
@@ -30,22 +30,22 @@ public class ReviewService {
         reviewRepository.deleteById(id);
     }
 
-    public void update(Integer id, ReviewDTO dto) {
+    public void update(Integer id, ReviewDto dto) {
         Review entity = requireOne(id);
         Review updatedEntity = ReviewMapper.toEntity(dto);
         BeanUtils.copyProperties(updatedEntity, entity);
         reviewRepository.save(entity);
     }
 
-    public ReviewDTO getById(Integer id) {
+    public ReviewDto getById(Integer id) {
         Review entity = requireOne(id);
         return ReviewMapper.toDto(entity);
     }
 
-    public Page<ReviewDTO> getAll(Integer page, Integer size) {
+    public Page<ReviewDto> getAll(Integer page, Integer size) {
         Pageable pageRequest = PageRequest.of(page, size);
         Page<Review> entityPage = reviewRepository.findAll(pageRequest);
-        List<ReviewDTO> dtoList = entityPage.stream()
+        List<ReviewDto> dtoList = entityPage.stream()
                 .map(ReviewMapper::toDto)
                 .toList();
 

@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "Product image DTO")
-public class ProductImageDTO implements Serializable {
+public class ProductImageDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

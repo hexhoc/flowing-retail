@@ -1,6 +1,6 @@
 package io.flowingretail.productservice.service;
 
-import io.flowingretail.productservice.dto.ProductImageDTO;
+import io.flowingretail.productservice.dto.ProductImageDto;
 import io.flowingretail.productservice.dto.mapper.ProductImageMapper;
 import io.flowingretail.productservice.entity.ProductImage;
 import io.flowingretail.productservice.repository.ProductImageRepository;
@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProductImageService {
     private final ProductImageRepository productImageRepository;
 
-    public List<ProductImageDTO> getAllByProductId(Integer productId) {
+    public List<ProductImageDto> getAllByProductId(Integer productId) {
         List<ProductImage> imagesList = productImageRepository.findAllByProductId(productId);
         return imagesList.stream().map(ProductImageMapper::toDto).toList();
     }

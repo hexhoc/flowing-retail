@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 @Data
-public class ReviewDTO implements Serializable {
+public class ReviewDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

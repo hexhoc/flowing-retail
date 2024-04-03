@@ -7,7 +7,7 @@ import io.flowingretail.common.config.KafkaConfig;
 import io.flowingretail.common.messages.Message;
 import io.flowingretail.common.messages.MessageSender;
 import io.flowingretail.common.messages.command.RetrievePaymentCommandPayload;
-import io.flowingretail.orderservice.dto.OrderDTO;
+import io.flowingretail.orderservice.dto.OrderDto;
 import io.flowingretail.orderservice.dto.mapper.OrderMapper;
 import io.flowingretail.orderservice.entity.Order;
 import io.flowingretail.orderservice.entity.enums.OrderStatusEnum;
@@ -36,7 +36,7 @@ public class OrderService {
     private final MessageSender messageSender;
 
     @Transactional
-    public OrderDTO createOrder(OrderDTO orderDto) {
+    public OrderDto createOrder(OrderDto orderDto) {
         // persist domain entity
         // (if we want to do this "transactional" this could be a step in the workflow)
         Order entity = orderMapper.toEntity(orderDto);
@@ -52,16 +52,10 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderDTO updateOrder(String id, OrderDTO orderDto) {
+    public OrderDto updateOrder(String id, OrderDto orderDto) {
         var orderOptional = orderRepository.findById(UUID.fromString(id));
         if (orderOptional.isPresent()) {
-//            var currentEntity = orderOptional.get();
             var updatedEntity = orderMapper.toEntity(orderDto);
-//            //TODO: Возможно и не нужно заполнять эти поля
-//            updatedEntity.setVersion(currentEntity.getVersion());
-//            updatedEntity.setCreatedDate(currentEntity.getCreatedDate());
-//            updatedEntity.setModifiedDate(currentEntity.getModifiedDate());
-
             return orderMapper.toDTO(orderRepository.save(updatedEntity));
         } else {
             throw new NoSuchElementException("Resource not found: " + id);
@@ -86,13 +80,11 @@ public class OrderService {
         Order order = orderRepository.findById(UUID.fromString(id))
                                      .orElseThrow(() -> new NoSuchElementException("Resource not found: " + id));
         orderStatusUpdater.changeStatus(order, order.getStatus().nextState());
-
-//        @Transactional save entity automatically
-//        orderRepository.save(order);
+        orderRepository.save(order);
     }
 
 
-    public Page<OrderDTO> findAll(Integer customerId, Integer page, Integer size) {
+    public Page<OrderDto> findAll(Integer customerId, Integer page, Integer size) {
         Pageable pageRequest = PageRequest.of(page, size);
 
         Page<Order> entityPage;
@@ -102,14 +94,14 @@ public class OrderService {
             entityPage = orderRepository.findAll(pageRequest);
         }
 
-        List<OrderDTO> dtoList = entityPage.stream()
+        List<OrderDto> dtoList = entityPage.stream()
                                                 .map(orderMapper::toDTO)
                                                 .toList();
 
         return new PageImpl<>(dtoList);
     }
 
-    public OrderDTO findById(String id) {
+    public OrderDto findById(String id) {
         return orderMapper.toDTO(requireOne(id));
     }
 

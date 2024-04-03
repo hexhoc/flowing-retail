@@ -1,6 +1,6 @@
 package io.flowingretail.inventoryservice.service;
 
-import io.flowingretail.inventoryservice.dto.ProductStockDTO;
+import io.flowingretail.inventoryservice.dto.ProductStockDto;
 import io.flowingretail.inventoryservice.dto.mapper.ProductStockMapper;
 import io.flowingretail.inventoryservice.entity.ProductStock;
 import io.flowingretail.inventoryservice.repository.ProductStockQueryRepository;
@@ -28,7 +28,7 @@ public class ProductStockQueryService {
      * Get all stock by criteria
      * @return List of products stock
      */
-    public Page<ProductStockDTO> getAll(Integer productId, Integer warehouseId, Integer page, Integer size) {
+    public Page<ProductStockDto> getAll(Integer productId, Integer warehouseId, Integer page, Integer size) {
         Pageable pageRequest = PageRequest.of(page, size);
 
         // TODO: Use JpaRepository criteria instead
@@ -43,7 +43,7 @@ public class ProductStockQueryService {
             entityPage = productStockQueryRepository.findAll(pageRequest);
         }
 
-        List<ProductStockDTO> dtoList = entityPage.stream()
+        List<ProductStockDto> dtoList = entityPage.stream()
                 .map(ProductStockMapper::toDto)
                 .toList();
 

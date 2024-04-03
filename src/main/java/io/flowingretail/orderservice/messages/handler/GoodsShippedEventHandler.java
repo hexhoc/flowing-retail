@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.flowingretail.common.messages.Message;
 import io.flowingretail.common.messages.event.GoodsShippedEvent;
 import io.flowingretail.common.messages.event.GoodsShippedEventPayload;
+import io.flowingretail.common.service.IncomingEventService;
 import io.flowingretail.orderservice.service.OrderService;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -19,12 +21,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class GoodsShippedEventHandler {
     private final ObjectMapper objectMapper;
     private final OrderService orderService;
+    private final IncomingEventService incomingEventService;
 
     @EventListener
     @Transactional
     public void on(GoodsShippedEvent event) throws JsonProcessingException {
         log.info("GoodsShippedEvent");
         Message<GoodsShippedEventPayload> message = objectMapper.readValue(event.getPayload(), new TypeReference<>() {});
+        if (incomingEventService.alreadyExist(UUID.fromString(message.getCorrelationid()))){
+            log.warn("Message with trace id %s already exist".formatted(message.getTraceid()));
+            return;
+        }
+
+        incomingEventService.createEvent(message, event.getPayload());
 
         // TODO: Check. Shipment success or not
         GoodsShippedEventPayload goodsShippedEventPayload = message.getData();

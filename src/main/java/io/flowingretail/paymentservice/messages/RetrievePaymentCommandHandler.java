@@ -1,5 +1,8 @@
 package io.flowingretail.paymentservice.messages;
 
+import static io.flowingretail.common.constants.EventTypeConstants.PAYMENT_RECEIVED_EVENT;
+import static io.flowingretail.common.constants.ServiceNameConstants.PAYMENT_SERVICE;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,6 +12,7 @@ import io.flowingretail.common.messages.MessageSender;
 import io.flowingretail.common.messages.command.RetrievePaymentCommand;
 import io.flowingretail.common.messages.command.RetrievePaymentCommandPayload;
 import io.flowingretail.common.messages.event.PaymentReceivedEventPayload;
+import io.flowingretail.common.service.IncomingEventService;
 import io.flowingretail.paymentservice.service.PaymentService;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -25,6 +29,7 @@ public class RetrievePaymentCommandHandler {
     private final MessageSender messageSender;
     private final ObjectMapper objectMapper;
     private final PaymentService paymentService;
+    private final IncomingEventService incomingEventService;
 
     @EventListener
     @Transactional
@@ -32,6 +37,13 @@ public class RetrievePaymentCommandHandler {
         log.info("RetrievePaymentCommand");
 
         Message<RetrievePaymentCommandPayload> message = objectMapper.readValue(event.getPayload(), new TypeReference<>(){});
+        if (incomingEventService.alreadyExist(UUID.fromString(message.getCorrelationid()))){
+            log.warn("Message with trace id %s already exist".formatted(message.getTraceid()));
+            return;
+        }
+
+        incomingEventService.createEvent(message, event.getPayload());
+
         RetrievePaymentCommandPayload retrievePaymentCommand = message.getData();
 
         log.info("Retrieve payment: " + retrievePaymentCommand.getAmount() + " for " + retrievePaymentCommand.getRefId());
@@ -41,12 +53,12 @@ public class RetrievePaymentCommandHandler {
 
         var responseMessage = Message.builder()
             .id(UUID.randomUUID().toString())
-            .type("PaymentReceivedEvent")
+            .type(PAYMENT_RECEIVED_EVENT)
             .data(new PaymentReceivedEventPayload(retrievePaymentCommand.getRefId(), paymentId))
-            .source("payment-service")
+            .source(PAYMENT_SERVICE)
             .time(LocalDateTime.now())
             .traceid(message.getTraceid())
-            .correlationid(message.getCorrelationid())
+            .correlationid(UUID.randomUUID().toString())
             .build();
 
         messageSender.send(responseMessage, KafkaConfig.ORDER_TOPIC);

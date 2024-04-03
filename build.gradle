@@ -40,6 +40,7 @@ dependencies {
 	implementation "com.h2database:h2:${h2Version}"
 	implementation "org.postgresql:postgresql"
 	implementation 'org.flywaydb:flyway-core'
+	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.3'
 
 	// HELPER
 	compileOnly 'org.projectlombok:lombok'

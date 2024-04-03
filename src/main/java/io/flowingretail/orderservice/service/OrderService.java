@@ -1,10 +1,18 @@
 package io.flowingretail.orderservice.service;
 
+import static io.flowingretail.common.constants.EventTypeConstants.RETRIEVE_PAYMENT_COMMAND;
+import static io.flowingretail.common.constants.ServiceNameConstants.ORDER_SERVICE;
+
+import io.flowingretail.common.config.KafkaConfig;
+import io.flowingretail.common.messages.Message;
+import io.flowingretail.common.messages.MessageSender;
+import io.flowingretail.common.messages.command.RetrievePaymentCommandPayload;
 import io.flowingretail.orderservice.dto.OrderDTO;
 import io.flowingretail.orderservice.dto.mapper.OrderMapper;
 import io.flowingretail.orderservice.entity.Order;
 import io.flowingretail.orderservice.entity.enums.OrderStatusEnum;
 import io.flowingretail.orderservice.repository.OrderRepository;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -25,7 +33,9 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderStatusUpdater orderStatusUpdater;
     private final OrderMapper orderMapper;
+    private final MessageSender messageSender;
 
+    @Transactional
     public OrderDTO createOrder(OrderDTO orderDto) {
         // persist domain entity
         // (if we want to do this "transactional" this could be a step in the workflow)
@@ -35,6 +45,8 @@ public class OrderService {
         log.info("Save order " + entity.getId());
 
         orderStatusUpdater.changeStatus(entity, entity.getStatus().nextState());
+
+        sendRetrievePaymentCommand(entity);
 
         return orderMapper.toDTO(entity);
     }
@@ -104,6 +116,32 @@ public class OrderService {
     private Order requireOne(String id) {
         return orderRepository.findById(UUID.fromString(id))
                                    .orElseThrow(() -> new NoSuchElementException("Resource not found: " + id));
+    }
+
+    private void sendRetrievePaymentCommand(Order order) {
+        String traceId = order.getId();
+        // generate an UUID for this communication
+        String correlationId = UUID.randomUUID().toString();
+
+        var retrievePaymentCommand = new RetrievePaymentCommandPayload()
+            .setRefId(order.getId())
+            .setCustomerId(order.getCustomerId())
+            .setReason("order")
+            // TODO: amount is empty
+            .setAmount(order.getTotalSum().doubleValue());
+
+        var responseMessage = Message.builder()
+            .id(UUID.randomUUID().toString())
+            .type(RETRIEVE_PAYMENT_COMMAND)
+            .data(retrievePaymentCommand)
+            .source(ORDER_SERVICE)
+            .time(LocalDateTime.now())
+            .traceid(traceId)
+            .correlationid(correlationId)
+            .build();
+
+        messageSender.send(responseMessage, KafkaConfig.PAYMENT_TOPIC);
+
     }
 
 }

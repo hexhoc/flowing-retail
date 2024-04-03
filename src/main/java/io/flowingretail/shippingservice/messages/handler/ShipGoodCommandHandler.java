@@ -1,4 +1,7 @@
-package io.flowingretail.shippingservice.messages;
+package io.flowingretail.shippingservice.messages.handler;
+
+import static io.flowingretail.common.constants.EventTypeConstants.GOODS_SHIPPED_EVENT;
+import static io.flowingretail.common.constants.ServiceNameConstants.SHIPPING_SERVICE;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -12,6 +15,7 @@ import io.flowingretail.common.messages.command.ShipGoodsCommand;
 import io.flowingretail.common.messages.command.ShipGoodsCommandPayload;
 import io.flowingretail.common.messages.event.GoodsShippedEventPayload;
 import io.flowingretail.common.messages.event.PaymentReceivedEventPayload;
+import io.flowingretail.common.service.IncomingEventService;
 import io.flowingretail.paymentservice.service.PaymentService;
 import io.flowingretail.shippingservice.service.ShippingService;
 import java.time.LocalDateTime;
@@ -29,14 +33,20 @@ public class ShipGoodCommandHandler {
     private final MessageSender messageSender;
     private final ObjectMapper objectMapper;
     private final ShippingService shippingService;
+    private final IncomingEventService incomingEventService;
 
     @EventListener
     @Transactional
     public void on(ShipGoodsCommand event) throws JsonProcessingException, InterruptedException {
         log.info("ShipGoodsCommand");
 
-        Message<ShipGoodsCommandPayload> message = objectMapper.readValue(event.getPayload(), new TypeReference<>() {
-        });
+        Message<ShipGoodsCommandPayload> message = objectMapper.readValue(event.getPayload(), new TypeReference<>() {});
+        if (incomingEventService.alreadyExist(UUID.fromString(message.getCorrelationid()))){
+            log.warn("Message with trace id %s already exist".formatted(message.getTraceid()));
+            return;
+        }
+
+        incomingEventService.createEvent(message, event.getPayload());
 
         String shipmentId = shippingService.createShipment(
             message.getData().getRefId(),
@@ -48,12 +58,12 @@ public class ShipGoodCommandHandler {
 
         var responseMessage = Message.builder()
             .id(UUID.randomUUID().toString())
-            .type("GoodsShippedEvent")
+            .type(GOODS_SHIPPED_EVENT)
             .data(new GoodsShippedEventPayload(message.getData().getRefId(), shipmentId))
-            .source("shipping-service")
+            .source(SHIPPING_SERVICE)
             .time(LocalDateTime.now())
             .traceid(message.getTraceid())
-            .correlationid(message.getCorrelationid())
+            .correlationid(UUID.randomUUID().toString())
             .build();
 
         messageSender.send(responseMessage, KafkaConfig.ORDER_TOPIC);

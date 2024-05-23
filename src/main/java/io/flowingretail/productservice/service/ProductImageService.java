@@ -2,8 +2,8 @@ package io.flowingretail.productservice.service;
 
 import io.flowingretail.productservice.dto.ProductImageDto;
 import io.flowingretail.productservice.dto.mapper.ProductImageMapper;
-import io.flowingretail.productservice.entity.ProductImage;
-import io.flowingretail.productservice.repository.ProductImageRepository;
+import io.flowingretail.productservice.adapter.out.jpa.ProductImage;
+import io.flowingretail.productservice.adapter.out.jpa.ProductImageRepository;
 import jakarta.transaction.Transactional;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

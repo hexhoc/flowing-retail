@@ -2,8 +2,8 @@ package io.flowingretail.productservice.service;
 
 import io.flowingretail.productservice.dto.ProductDto;
 import io.flowingretail.productservice.dto.mapper.ProductMapper;
-import io.flowingretail.productservice.entity.Product;
-import io.flowingretail.productservice.repository.ProductRepository;
+import io.flowingretail.productservice.adapter.out.jpa.Product;
+import io.flowingretail.productservice.adapter.out.jpa.ProductRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;

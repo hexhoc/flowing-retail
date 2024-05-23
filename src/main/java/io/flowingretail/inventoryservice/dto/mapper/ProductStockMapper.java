@@ -1,7 +1,7 @@
 package io.flowingretail.inventoryservice.dto.mapper;
 
 import io.flowingretail.inventoryservice.dto.ProductStockDto;
-import io.flowingretail.inventoryservice.entity.ProductStock;
+import io.flowingretail.inventoryservice.adapter.out.jpa.ProductStock;
 
 public class ProductStockMapper {
     public static ProductStockDto toDto(ProductStock entity) {

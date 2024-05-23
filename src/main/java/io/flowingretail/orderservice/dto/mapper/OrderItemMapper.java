@@ -1,7 +1,7 @@
 package io.flowingretail.orderservice.dto.mapper;
 
 import io.flowingretail.orderservice.dto.OrderItemDto;
-import io.flowingretail.orderservice.entity.OrderItem;
+import io.flowingretail.orderservice.adapter.out.jpa.OrderItem;
 import java.util.Objects;
 import java.util.UUID;
 import org.springframework.beans.BeanUtils;

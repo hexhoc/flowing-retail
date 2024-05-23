@@ -1,7 +1,7 @@
 package io.flowingretail.productservice.dto.mapper;
 
 import io.flowingretail.productservice.dto.ProductDto;
-import io.flowingretail.productservice.entity.Product;
+import io.flowingretail.productservice.adapter.out.jpa.Product;
 import io.flowingretail.productservice.utils.Memoizer;
 import java.util.stream.Collectors;
 import org.springframework.beans.BeanUtils;

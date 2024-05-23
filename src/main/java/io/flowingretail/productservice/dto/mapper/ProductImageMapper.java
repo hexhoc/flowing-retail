@@ -1,7 +1,7 @@
 package io.flowingretail.productservice.dto.mapper;
 
 import io.flowingretail.productservice.dto.ProductImageDto;
-import io.flowingretail.productservice.entity.ProductImage;
+import io.flowingretail.productservice.adapter.out.jpa.ProductImage;
 import org.springframework.beans.BeanUtils;
 
 public class ProductImageMapper {

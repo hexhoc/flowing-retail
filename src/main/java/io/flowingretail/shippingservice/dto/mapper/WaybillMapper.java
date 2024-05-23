@@ -1,7 +1,7 @@
 package io.flowingretail.shippingservice.dto.mapper;
 
 import io.flowingretail.shippingservice.dto.WaybillDto;
-import io.flowingretail.shippingservice.entity.Waybill;
+import io.flowingretail.shippingservice.adapter.out.jpa.Waybill;
 import java.util.UUID;
 import org.springframework.beans.BeanUtils;
 

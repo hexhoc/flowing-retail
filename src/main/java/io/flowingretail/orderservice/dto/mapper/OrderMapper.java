@@ -1,7 +1,7 @@
 package io.flowingretail.orderservice.dto.mapper;
 
 import io.flowingretail.orderservice.dto.OrderDto;
-import io.flowingretail.orderservice.entity.Order;
+import io.flowingretail.orderservice.adapter.out.jpa.Order;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;

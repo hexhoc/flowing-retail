@@ -1,7 +1,7 @@
 package io.flowingretail.productservice.dto.mapper;
 
 import io.flowingretail.productservice.dto.ReviewDto;
-import io.flowingretail.productservice.entity.Review;
+import io.flowingretail.productservice.adapter.out.jpa.Review;
 import org.springframework.beans.BeanUtils;
 
 public class ReviewMapper {

@@ -1,7 +1,7 @@
 package io.flowingretail.paymentservice.dto.mapper;
 
 import io.flowingretail.paymentservice.dto.PaymentDto;
-import io.flowingretail.paymentservice.entity.Payment;
+import io.flowingretail.paymentservice.adapter.out.jpa.Payment;
 import java.util.UUID;
 import org.springframework.beans.BeanUtils;
 

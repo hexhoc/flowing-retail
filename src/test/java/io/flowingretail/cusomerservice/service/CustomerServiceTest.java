@@ -10,8 +10,8 @@ import static org.mockito.Mockito.verify;
 
 import io.flowingretail.customerservice.dto.CustomerDto;
 import io.flowingretail.customerservice.dto.mapper.CustomerMapper;
-import io.flowingretail.customerservice.entity.Customer;
-import io.flowingretail.customerservice.repository.CustomerRepository;
+import io.flowingretail.customerservice.adapter.out.jpa.Customer;
+import io.flowingretail.customerservice.adapter.out.jpa.CustomerRepository;
 import io.flowingretail.customerservice.service.CustomerService;
 import java.util.Collections;
 import java.util.List;

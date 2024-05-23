@@ -1,7 +1,7 @@
 package io.flowingretail.productservice.dto.mapper;
 
 import io.flowingretail.productservice.dto.TagDto;
-import io.flowingretail.productservice.entity.Tag;
+import io.flowingretail.productservice.adapter.out.jpa.Tag;
 import org.springframework.beans.BeanUtils;
 
 public class TagMapper {

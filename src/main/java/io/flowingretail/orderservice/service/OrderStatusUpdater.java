@@ -1,7 +1,7 @@
 package io.flowingretail.orderservice.service;
 
-import io.flowingretail.orderservice.entity.Order;
-import io.flowingretail.orderservice.entity.enums.OrderStatusEnum;
+import io.flowingretail.orderservice.adapter.out.jpa.Order;
+import io.flowingretail.orderservice.adapter.out.jpa.enums.OrderStatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -1,11 +1,11 @@
 package io.flowingretail.paymentservice.service;
 
-import io.flowingretail.common.messages.command.RetrievePaymentCommandPayload;
+import io.flowingretail.paymentservice.adapter.in.kafka.command.RetrievePaymentCommandPayload;
 import io.flowingretail.paymentservice.dto.PaymentDto;
 import io.flowingretail.paymentservice.dto.mapper.PaymentMapper;
-import io.flowingretail.paymentservice.entity.Payment;
+import io.flowingretail.paymentservice.adapter.out.jpa.Payment;
 import io.flowingretail.paymentservice.enums.PaymentType;
-import io.flowingretail.paymentservice.repository.PaymentRepository;
+import io.flowingretail.paymentservice.adapter.out.jpa.PaymentRepository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;

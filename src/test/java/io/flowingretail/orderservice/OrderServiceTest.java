@@ -6,10 +6,10 @@ import static org.mockito.BDDMockito.given;
 
 import io.flowingretail.orderservice.dto.mapper.OrderItemMapper;
 import io.flowingretail.orderservice.dto.mapper.OrderMapper;
-import io.flowingretail.orderservice.entity.Order;
-import io.flowingretail.orderservice.entity.OrderItem;
-import io.flowingretail.orderservice.entity.enums.OrderStatusEnum;
-import io.flowingretail.orderservice.repository.OrderRepository;
+import io.flowingretail.orderservice.adapter.out.jpa.Order;
+import io.flowingretail.orderservice.adapter.out.jpa.OrderItem;
+import io.flowingretail.orderservice.adapter.out.jpa.enums.OrderStatusEnum;
+import io.flowingretail.orderservice.adapter.out.jpa.OrderRepository;
 import io.flowingretail.orderservice.service.OrderService;
 import java.math.BigDecimal;
 import java.util.Collections;

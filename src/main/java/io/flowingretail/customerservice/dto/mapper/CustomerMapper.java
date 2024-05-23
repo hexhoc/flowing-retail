@@ -1,7 +1,7 @@
 package io.flowingretail.customerservice.dto.mapper;
 
 import io.flowingretail.customerservice.dto.CustomerDto;
-import io.flowingretail.customerservice.entity.Customer;
+import io.flowingretail.customerservice.adapter.out.jpa.Customer;
 import org.springframework.beans.BeanUtils;
 
 public class CustomerMapper {

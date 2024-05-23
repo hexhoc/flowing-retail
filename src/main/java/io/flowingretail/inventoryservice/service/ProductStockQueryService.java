@@ -2,8 +2,8 @@ package io.flowingretail.inventoryservice.service;
 
 import io.flowingretail.inventoryservice.dto.ProductStockDto;
 import io.flowingretail.inventoryservice.dto.mapper.ProductStockMapper;
-import io.flowingretail.inventoryservice.entity.ProductStock;
-import io.flowingretail.inventoryservice.repository.ProductStockQueryRepository;
+import io.flowingretail.inventoryservice.adapter.out.jpa.ProductStock;
+import io.flowingretail.inventoryservice.adapter.out.jpa.ProductStockQueryRepository;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;

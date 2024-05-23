@@ -2,8 +2,8 @@ package io.flowingretail.shippingservice.service;
 
 import io.flowingretail.shippingservice.dto.WaybillDto;
 import io.flowingretail.shippingservice.dto.mapper.WaybillMapper;
-import io.flowingretail.shippingservice.entity.Waybill;
-import io.flowingretail.shippingservice.repository.ShippingRepository;
+import io.flowingretail.shippingservice.adapter.out.jpa.Waybill;
+import io.flowingretail.shippingservice.adapter.out.jpa.ShippingRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;

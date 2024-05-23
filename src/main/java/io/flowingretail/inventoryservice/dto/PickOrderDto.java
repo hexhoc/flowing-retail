@@ -1,6 +1,5 @@
 package io.flowingretail.inventoryservice.dto;
 
-import io.flowingretail.common.dto.InventoryItemDto;
 import java.util.Set;
 import java.util.UUID;
 import lombok.Data;

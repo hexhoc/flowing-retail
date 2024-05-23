@@ -2,8 +2,8 @@ package io.flowingretail.productservice.service;
 
 import io.flowingretail.productservice.dto.ReviewDto;
 import io.flowingretail.productservice.dto.mapper.ReviewMapper;
-import io.flowingretail.productservice.entity.Review;
-import io.flowingretail.productservice.repository.ReviewRepository;
+import io.flowingretail.productservice.adapter.out.jpa.Review;
+import io.flowingretail.productservice.adapter.out.jpa.ReviewRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package io.flowingretail.productservice.dto.mapper;
 
 import io.flowingretail.productservice.dto.CategoryDto;
-import io.flowingretail.productservice.entity.Category;
+import io.flowingretail.productservice.adapter.out.jpa.Category;
 import org.springframework.beans.BeanUtils;
 
 public class CategoryMapper {

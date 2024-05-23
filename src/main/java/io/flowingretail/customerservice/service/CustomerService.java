@@ -2,8 +2,8 @@ package io.flowingretail.customerservice.service;
 
 import io.flowingretail.customerservice.dto.CustomerDto;
 import io.flowingretail.customerservice.dto.mapper.CustomerMapper;
-import io.flowingretail.customerservice.entity.Customer;
-import io.flowingretail.customerservice.repository.CustomerRepository;
+import io.flowingretail.customerservice.adapter.out.jpa.Customer;
+import io.flowingretail.customerservice.adapter.out.jpa.CustomerRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;

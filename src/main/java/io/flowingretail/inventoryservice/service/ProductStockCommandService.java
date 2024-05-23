@@ -1,10 +1,10 @@
 package io.flowingretail.inventoryservice.service;
 
-import io.flowingretail.common.dto.InventoryItemDto;
+import io.flowingretail.inventoryservice.adapter.out.jpa.ProductStockCommandRepository;
+import io.flowingretail.inventoryservice.dto.InventoryItemDto;
 import io.flowingretail.inventoryservice.dto.PickOrderDto;
 import io.flowingretail.inventoryservice.dto.ProductStockDto;
 import io.flowingretail.inventoryservice.dto.mapper.ProductStockMapper;
-import io.flowingretail.inventoryservice.repository.ProductStockCommandRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
